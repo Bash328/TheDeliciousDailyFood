@@ -343,11 +343,6 @@ a { color: inherit; text-decoration: none; }
   align-items: start;
 }
 
-@media (max-width: 760px) {
-  .recipe-body { grid-template-columns: 1fr; }
-  .ingredients { position: static; }
-}
-
 .ingredients h2,
 .method h2 {
   font-family: 'Cormorant Garamond', serif;
@@ -429,6 +424,11 @@ a { color: inherit; text-decoration: none; }
   text-transform: uppercase;
   color: var(--accent);
   margin-bottom: 8px;
+}
+
+@media (max-width: 760px) {
+  .recipe-body { grid-template-columns: 1fr; }
+  .ingredients { position: static; }
 }
 
 /* ---------- Footer ---------- */
