@@ -345,6 +345,7 @@ a { color: inherit; text-decoration: none; }
 
 @media (max-width: 760px) {
   .recipe-body { grid-template-columns: 1fr; }
+  .ingredients { position: static; }
 }
 
 .ingredients h2,
