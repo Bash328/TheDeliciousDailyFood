@@ -1,4 +1,4 @@
-# The Pinned Kitchen
+# The Delicious Daily
 
 A recipe blog built for Pinterest: a home page of pinnable recipe cards, each linking
 to a full recipe page with proper `Recipe` structured data so Pinterest can pull in
