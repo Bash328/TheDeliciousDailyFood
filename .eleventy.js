@@ -1,3 +1,5 @@
+const site = require("./_data/site.js");
+
 module.exports = function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy("images");
   eleventyConfig.addPassthroughCopy("style.css");
@@ -20,6 +22,15 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addFilter("byCategories", (recipes, categories) =>
     (recipes || []).filter((r) => categories.includes(r.data.category))
   );
+
+  // Decap's image widget writes the full public_folder-prefixed path
+  // (e.g. "/TheDeliciousDailyFood/images/x.jpg"); older recipes migrated by
+  // hand just store the bare filename (e.g. "x.jpg"). Handle both.
+  eleventyConfig.addFilter("imageUrl", (image) => {
+    if (!image) return "";
+    if (image.startsWith("/")) return site.url + image;
+    return `${site.url}${site.baseUrl}/images/${image}`;
+  });
 
   eleventyConfig.addCollection("recipes", (collectionApi) =>
     collectionApi.getFilteredByGlob("_recipes/*.md").sort(

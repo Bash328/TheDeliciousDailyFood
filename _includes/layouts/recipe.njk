@@ -1,5 +1,5 @@
 {%- set pageUrl = site.url + site.baseUrl + page.url -%}
-{%- set imageUrl = image and (site.url + site.baseUrl + "/images/" + image) -%}
+{%- set imageUrl = image | imageUrl -%}
 {%- set totalMinutes = (prepTimeMinutes or 0) + (cookTimeMinutes or 0) -%}
 <!DOCTYPE html>
 <html lang="en">
