@@ -2,7 +2,7 @@ backend:
   name: github
   repo: Bash328/TheDeliciousDailyFood
   branch: main
-  base_url: "decap-oauth.cwakiku.workers.dev"
+  base_url: "https://decap-oauth.cwakiku.workers.dev"
 
 media_folder: "images"
 public_folder: "/TheDeliciousDailyFood/images"
