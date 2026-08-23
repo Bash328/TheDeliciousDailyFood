@@ -55,7 +55,7 @@ permalink: index.html
       <span class="cat">{{ recipe.data.category }}</span>
       <h3>{{ recipe.data.title }}</h3>
       <p class="excerpt">{{ recipe.data.description }}</p>
-      <span class="meta">{{ (recipe.data.prepTimeMinutes + recipe.data.cookTimeMinutes) | minutesLabel }} · {{ recipe.data.servingsNumber }} {{ recipe.data.servingsUnit | lower }}</span>
+      <span class="meta">{{ (recipe.data.recipeContent.prepTimeMinutes + recipe.data.recipeContent.cookTimeMinutes) | minutesLabel }} · {{ recipe.data.recipeContent.servingsNumber }} {{ recipe.data.recipeContent.servingsUnit | lower }}</span>
     </a>
     {% endfor %}
   </div>

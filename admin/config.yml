@@ -27,18 +27,8 @@ collections:
       - { label: "Tag (short, optional — shown next to the category, e.g. \"One Skillet\", \"Weeknight\")", name: "tag", widget: "string", required: false }
       - { label: "Short description", name: "description", widget: "text", hint: "Used as the card blurb, the page intro, and the search/Pinterest description. 1-2 sentences." }
       - { label: "Photo", name: "image", widget: "image", media_library: { config: { multiple: false } }, required: false, hint: "Leave blank to use a plain placeholder until you have a photo." }
-      - { label: "Prep time (minutes)", name: "prepTimeMinutes", widget: "number", value_type: "int" }
-      - { label: "Cook time (minutes)", name: "cookTimeMinutes", widget: "number", value_type: "int" }
-      - { label: "Servings number (e.g. 4, or 12 for muffins/cookies)", name: "servingsNumber", widget: "number", value_type: "int" }
-      - { label: "Servings unit (e.g. Servings, Muffins, Cookies, Slices, Loaf)", name: "servingsUnit", widget: "string", default: "Servings" }
-      - label: "Ingredients"
-        name: "ingredients"
-        widget: "list"
-        fields:
-          - { label: "Amount", name: "amount", widget: "string", required: false, hint: "e.g. 2 cups, 1 tbsp, 3 — leave blank for items like \"Salt, to taste\"" }
-          - { label: "Ingredient", name: "item", widget: "string" }
-      - label: "Steps"
-        name: "steps"
-        widget: "list"
-        field: { label: "Step", name: "step", widget: "text" }
+      - label: "Recipe content (ingredients, steps, times, servings)"
+        name: "recipeContent"
+        widget: "quickpaste"
+        default: { servingsUnit: "Servings", ingredients: [], steps: [] }
       - { label: "Note (optional tip shown at the end of the method)", name: "note", widget: "text", required: false }

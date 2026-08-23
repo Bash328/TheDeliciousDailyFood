@@ -40,11 +40,52 @@ the live site on the next rebuild.
 | Tag | Optional short word/phrase shown next to the category on the recipe page (e.g. "One Skillet", "Weeknight"). Leave blank if you don't want one. |
 | Short description | Used as the card blurb on the homepage, the intro line on the recipe page, the browser/search description, and the Pinterest pin description. One or two sentences. |
 | Photo | Upload an image here — it's saved into the `images/` folder automatically and used everywhere the recipe's photo appears. Leave blank and the recipe shows a plain placeholder until you add one. |
-| Prep time / Cook time | In minutes. Used for the stat strip and the recipe's structured data (what lets Pinterest/Google show rich recipe cards). |
-| Servings number / unit | E.g. "4" + "Servings", or "12" + "Muffins", or "1" + "Loaf" — whatever fits the recipe. |
-| Ingredients | One row per ingredient: an **Amount** (e.g. "2 cups", "1 tbsp" — leave blank for things like "Salt, to taste") and the **Ingredient** itself. Click "Add ingredient" to add rows. |
-| Steps | One row per numbered step. Click "Add step" to add more. |
+| Recipe content | Prep/cook time, servings, ingredients, and steps, all in one field — see **Quick Paste** below, it's the fast way to fill this in. |
 | Note | Optional tip shown in a highlighted box at the end of the method. Leave blank to omit it. |
+
+## Quick Paste — auto-fill from a pasted recipe
+
+The **Recipe content** field has a **Quick Paste** box at the top. Paste in an
+old recipe as raw text and click **Parse & Fill** — it reads the text and
+fills in prep time, cook time, servings, ingredients, and steps below, so you
+review/adjust instead of retyping everything by hand.
+
+**Expected format** (labels are flexible, see variants below):
+```
+Prep time: 15 minutes
+Cook time: 30 minutes
+Serves: 4
+
+Ingredients:
+- 2 cups flour
+- 1 tsp salt
+- ...
+
+Instructions:
+1. Preheat oven to 350°F
+2. Mix dry ingredients
+3. ...
+```
+
+**Variants it understands:**
+- "Servings"/"Yield" instead of "Serves"; "Prep"/"Prepping" instead of "Prep
+  time"; "Cook"/"Cooking time"/"Bake time"/"Baking time" instead of "Cook time".
+- All three on one line: `Prep: 15 min | Cook: 30 min | Serves: 4` (works with
+  commas too).
+- Ingredients as plain lines with no leading `-`/`*`/`•` — one per line either
+  way.
+- Steps with no numbers — one per line. If some lines *are* numbered, wrapped
+  text on the following line(s) is treated as part of that same step until the
+  next number.
+
+**If something doesn't parse right:** Quick Paste only fills in what it's
+confident about — a missed field is just left as-is rather than guessing
+wrong. Fix it the same way you always would: edit that field directly (add/
+remove an ingredient row, retype a step, adjust the amount/item split). The
+Quick Paste text itself is never saved — it's just scratch space to seed the
+other fields, so there's nothing to clean up afterward. You can also click
+**Parse & Fill** again after editing the pasted text; it re-fills based on
+whatever's in the box at that moment.
 
 ## What each file does (for future reference — you shouldn't need to touch these)
 
@@ -63,6 +104,9 @@ the live site on the next rebuild.
   ever want to add/remove/rename a field, this is the one file to edit (and it's
   a good one to hand to Claude Code with a plain-English request rather than
   editing by hand).
+- **`admin/quickpaste-widget.js`** — the Quick Paste box and its parsing logic
+  (the "Recipe content" field in `/admin`). Runs entirely in your browser, no
+  server involved.
 - **`.github/workflows/deploy.yml`** — the GitHub Action that rebuilds and
   republishes the site every time a commit lands on `main` (i.e., every time you
   hit Publish in the CMS, or anyone pushes a code change).

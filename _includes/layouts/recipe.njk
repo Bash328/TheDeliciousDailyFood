@@ -1,6 +1,6 @@
 {%- set pageUrl = site.url + site.baseUrl + page.url -%}
 {%- set imageUrl = image | imageUrl -%}
-{%- set totalMinutes = (prepTimeMinutes or 0) + (cookTimeMinutes or 0) -%}
+{%- set totalMinutes = (recipeContent.prepTimeMinutes or 0) + (recipeContent.cookTimeMinutes or 0) -%}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,18 +20,18 @@
   "name": {{ title | dump | safe }},
   {% if imageUrl %}"image": [{{ imageUrl | dump | safe }}],{% endif %}
   "description": {{ description | dump | safe }},
-  "prepTime": "{{ prepTimeMinutes | isoDuration }}",
-  "cookTime": "{{ cookTimeMinutes | isoDuration }}",
+  "prepTime": "{{ recipeContent.prepTimeMinutes | isoDuration }}",
+  "cookTime": "{{ recipeContent.cookTimeMinutes | isoDuration }}",
   "totalTime": "{{ totalMinutes | isoDuration }}",
-  "recipeYield": {{ (servingsNumber ~ " " ~ servingsUnit) | dump | safe }},
+  "recipeYield": {{ (recipeContent.servingsNumber ~ " " ~ recipeContent.servingsUnit) | dump | safe }},
   "recipeCategory": {{ category | dump | safe }},
   "recipeCuisine": "American",
   "recipeIngredient": [
-    {% for ing in ingredients %}{{ (ing.amount + " " + ing.item if ing.amount else ing.item) | trim | dump | safe }}{% if not loop.last %},{% endif %}
+    {% for ing in recipeContent.ingredients %}{{ (ing.amount + " " + ing.item if ing.amount else ing.item) | trim | dump | safe }}{% if not loop.last %},{% endif %}
     {% endfor %}
   ],
   "recipeInstructions": [
-    {% for step in steps %}{ "@type": "HowToStep", "text": {{ step | dump | safe }} }{% if not loop.last %},{% endif %}
+    {% for step in recipeContent.steps %}{ "@type": "HowToStep", "text": {{ step | dump | safe }} }{% if not loop.last %},{% endif %}
     {% endfor %}
   ]
 }
@@ -61,17 +61,17 @@
   </div>
 
   <div class="stat-strip">
-    <div class="stat"><span class="num">{{ prepTimeMinutes }}m</span><span class="label">Prep</span></div>
-    <div class="stat"><span class="num">{{ cookTimeMinutes }}m</span><span class="label">Cook</span></div>
+    <div class="stat"><span class="num">{{ recipeContent.prepTimeMinutes }}m</span><span class="label">Prep</span></div>
+    <div class="stat"><span class="num">{{ recipeContent.cookTimeMinutes }}m</span><span class="label">Cook</span></div>
     <div class="stat"><span class="num">{{ totalMinutes }}m</span><span class="label">Total</span></div>
-    <div class="stat"><span class="num">{{ servingsNumber }}</span><span class="label">{{ servingsUnit }}</span></div>
+    <div class="stat"><span class="num">{{ recipeContent.servingsNumber }}</span><span class="label">{{ recipeContent.servingsUnit }}</span></div>
   </div>
 
   <div class="recipe-body">
     <aside class="ingredients">
       <h2>Ingredients</h2>
       <ul>
-        {% for ing in ingredients %}
+        {% for ing in recipeContent.ingredients %}
         <li><span class="amt">{{ ing.amount }}</span> {{ ing.item }}</li>
         {% endfor %}
       </ul>
@@ -80,7 +80,7 @@
     <section class="method">
       <h2>Method</h2>
       <ol>
-        {% for step in steps %}
+        {% for step in recipeContent.steps %}
         <li><p>{{ step }}</p></li>
         {% endfor %}
       </ol>
