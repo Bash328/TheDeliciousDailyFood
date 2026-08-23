@@ -1,0 +1,11 @@
+{%- macro photo(recipe, site) -%}
+  {%- if recipe.data.image -%}
+    <div class="photo" style="background-image: url('{{ site.url }}{{ site.baseUrl }}/images/{{ recipe.data.image }}'); background-size: cover; background-position: center;"></div>
+  {%- else -%}
+    <div class="photo"></div>
+  {%- endif -%}
+{%- endmacro -%}
+
+{%- macro recipeHref(recipe) -%}
+recipes/{{ recipe.data.slug }}.html
+{%- endmacro -%}

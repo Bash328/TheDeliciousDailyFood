@@ -1,0 +1,41 @@
+module.exports = function (eleventyConfig) {
+  eleventyConfig.addPassthroughCopy("images");
+  eleventyConfig.addPassthroughCopy("style.css");
+  eleventyConfig.addPassthroughCopy("admin");
+
+  eleventyConfig.addFilter("urlencode", (str) => encodeURIComponent(str || ""));
+
+  // "35" -> "35 min", "185" -> "3 hr" (matches the site's existing hand-written labels)
+  eleventyConfig.addFilter("minutesLabel", (minutes) => {
+    const n = Number(minutes) || 0;
+    if (n < 60) return `${n} min`;
+    return `${Math.floor(n / 60)} hr`;
+  });
+
+  eleventyConfig.addFilter("isoDuration", (minutes) => {
+    const n = Number(minutes) || 0;
+    return `PT${n}M`;
+  });
+
+  eleventyConfig.addFilter("byCategories", (recipes, categories) =>
+    (recipes || []).filter((r) => categories.includes(r.data.category))
+  );
+
+  eleventyConfig.addCollection("recipes", (collectionApi) =>
+    collectionApi.getFilteredByGlob("_recipes/*.md").sort(
+      (a, b) => b.date - a.date
+    )
+  );
+
+  return {
+    dir: {
+      input: ".",
+      includes: "_includes",
+      data: "_data",
+      output: "_site",
+    },
+    markdownTemplateEngine: "njk",
+    htmlTemplateEngine: "njk",
+    templateFormats: ["njk", "md", "html"],
+  };
+};

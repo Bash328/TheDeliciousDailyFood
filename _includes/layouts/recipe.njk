@@ -1,0 +1,94 @@
+{%- set pageUrl = site.url + site.baseUrl + page.url -%}
+{%- set imageUrl = image and (site.url + site.baseUrl + "/images/" + image) -%}
+{%- set totalMinutes = (prepTimeMinutes or 0) + (cookTimeMinutes or 0) -%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{ title }} — {{ site.title }}</title>
+<meta name="description" content="{{ description }}">
+<meta property="og:title" content="{{ title }}">
+<meta property="og:description" content="{{ description }}">
+<meta property="og:type" content="article">
+{% if imageUrl %}<meta property="og:image" content="{{ imageUrl }}">{% endif %}
+<link rel="stylesheet" href="../style.css?v=2">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org/",
+  "@type": "Recipe",
+  "name": {{ title | dump | safe }},
+  {% if imageUrl %}"image": [{{ imageUrl | dump | safe }}],{% endif %}
+  "description": {{ description | dump | safe }},
+  "prepTime": "{{ prepTimeMinutes | isoDuration }}",
+  "cookTime": "{{ cookTimeMinutes | isoDuration }}",
+  "totalTime": "{{ totalMinutes | isoDuration }}",
+  "recipeYield": {{ (servingsNumber ~ " " ~ servingsUnit) | dump | safe }},
+  "recipeCategory": {{ category | dump | safe }},
+  "recipeCuisine": "American",
+  "recipeIngredient": [
+    {% for ing in ingredients %}{{ (ing.amount + " " + ing.item if ing.amount else ing.item) | trim | dump | safe }}{% if not loop.last %},{% endif %}
+    {% endfor %}
+  ],
+  "recipeInstructions": [
+    {% for step in steps %}{ "@type": "HowToStep", "text": {{ step | dump | safe }} }{% if not loop.last %},{% endif %}
+    {% endfor %}
+  ]
+}
+</script>
+</head>
+<body>
+
+<div class="wrap recipe-header">
+  <a class="back-link" href="../index.html">&larr; {{ site.title }}</a>
+  <span class="eyebrow">{{ category }}{% if tag %} · {{ tag }}{% endif %}</span>
+  <h1>{{ title }}</h1>
+  <p class="lede">{{ description }}</p>
+</div>
+
+<div class="wrap">
+  {% if imageUrl %}
+  <img class="hero-photo" src="{{ imageUrl }}" alt="{{ title }}" style="width:100%; object-fit:cover;">
+  {% else %}
+  <div class="hero-photo"></div>
+  {% endif %}
+
+  <div class="pin-save-row">
+    <a class="btn-line" data-pin-do="buttonPin" data-pin-custom="true"
+       href="https://www.pinterest.com/pin/create/button/?url={{ pageUrl | urlencode }}&media={{ imageUrl | urlencode }}&description={{ description | urlencode }}">
+      Save to Pinterest
+    </a>
+  </div>
+
+  <div class="stat-strip">
+    <div class="stat"><span class="num">{{ prepTimeMinutes }}m</span><span class="label">Prep</span></div>
+    <div class="stat"><span class="num">{{ cookTimeMinutes }}m</span><span class="label">Cook</span></div>
+    <div class="stat"><span class="num">{{ totalMinutes }}m</span><span class="label">Total</span></div>
+    <div class="stat"><span class="num">{{ servingsNumber }}</span><span class="label">{{ servingsUnit }}</span></div>
+  </div>
+
+  <div class="recipe-body">
+    <aside class="ingredients">
+      <h2>Ingredients</h2>
+      <ul>
+        {% for ing in ingredients %}
+        <li><span class="amt">{{ ing.amount }}</span> {{ ing.item }}</li>
+        {% endfor %}
+      </ul>
+    </aside>
+
+    <section class="method">
+      <h2>Method</h2>
+      <ol>
+        {% for step in steps %}
+        <li><p>{{ step }}</p></li>
+        {% endfor %}
+      </ol>
+      {% if note %}<div class="note-box">{{ note }}</div>{% endif %}
+    </section>
+  </div>
+</div>
+
+{% include "partials/footer.njk" %}
+</body>
+</html>

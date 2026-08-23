@@ -1,0 +1,69 @@
+---
+permalink: index.html
+---
+{%- from "partials/card.njk" import photo, recipeHref -%}
+{%- set latest = collections.recipes | first -%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{ site.title }} — Recipes worth saving</title>
+<meta name="description" content="Seasonal recipes, tested and photographed for pinning. Weeknight dinners, quiet bakes, and things worth saving.">
+<link rel="stylesheet" href="style.css?v=2">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <span class="mark">&amp;</span>
+    <h1>{{ site.title }}</h1>
+    <p class="sub">{{ site.tagline }}</p>
+  </div>
+  <nav class="site-nav wrap">
+    {% for section in sections %}<a href="#{{ section.id }}">{{ section.heading }}</a>{% endfor %}
+  </nav>
+</header>
+
+<main class="wrap">
+
+  <p class="intro">A small, well-tested collection of recipes worth pinning — nothing fussy, nothing you'll scroll past three times looking for the actual ingredients.</p>
+
+  {% if latest %}
+  <a class="hero-post" href="{{ recipeHref(latest) }}">
+    {{ photo(latest, site) }}
+    <div>
+      <span class="eyebrow">Latest · {{ latest.data.category }}</span>
+      <h1>{{ latest.data.title }}</h1>
+      <p class="excerpt">{{ latest.data.description }}</p>
+      <span class="btn-line">Read the recipe</span>
+    </div>
+  </a>
+  {% endif %}
+
+  {% for section in sections %}
+  {%- set items = collections.recipes | byCategories(section.categories) -%}
+  {% if items.length %}
+  <div class="section-head" id="{{ section.id }}">
+    <h2>{{ section.heading }}</h2>
+    <hr class="rule" style="flex:1; margin: 0 20px;">
+  </div>
+  <div class="grid">
+    {% for recipe in items %}
+    <a class="card" href="{{ recipeHref(recipe) }}">
+      {{ photo(recipe, site) }}
+      <span class="cat">{{ recipe.data.category }}</span>
+      <h3>{{ recipe.data.title }}</h3>
+      <p class="excerpt">{{ recipe.data.description }}</p>
+      <span class="meta">{{ (recipe.data.prepTimeMinutes + recipe.data.cookTimeMinutes) | minutesLabel }} · {{ recipe.data.servingsNumber }} {{ recipe.data.servingsUnit | lower }}</span>
+    </a>
+    {% endfor %}
+  </div>
+  {% endif %}
+  {% endfor %}
+
+</main>
+
+{% include "partials/footer.njk" %}
+</body>
+</html>

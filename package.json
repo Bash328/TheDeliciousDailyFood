@@ -1,0 +1,13 @@
+{
+  "name": "the-delicious-daily",
+  "private": true,
+  "version": "1.0.0",
+  "description": "The Delicious Daily — Eleventy + Decap CMS recipe site",
+  "scripts": {
+    "build": "eleventy",
+    "start": "eleventy --serve"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "^3.0.0"
+  }
+}

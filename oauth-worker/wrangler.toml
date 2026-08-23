@@ -1,0 +1,8 @@
+name = "delicious-daily-cms-oauth"
+main = "worker.js"
+compatibility_date = "2024-01-01"
+
+# Secrets (set these after deploying, via the Cloudflare dashboard
+# or `wrangler secret put NAME` if you use the CLI instead):
+#   GITHUB_CLIENT_ID
+#   GITHUB_CLIENT_SECRET
