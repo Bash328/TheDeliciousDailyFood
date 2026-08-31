@@ -4,7 +4,7 @@
 // moment it's filled in. Leave a field blank to keep that integration off.
 module.exports = {
   // Google Analytics 4 measurement ID, e.g. "G-XXXXXXXXXX"
-  googleAnalyticsId: "",
+  googleAnalyticsId: "G-87F9T22WSH",
 
   // Google AdSense publisher/client ID, e.g. "ca-pub-XXXXXXXXXXXXXXXX"
   googleAdsenseClientId: "",
