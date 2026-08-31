@@ -15,7 +15,7 @@ module.exports = {
 
   // Pinterest domain verification — just the content value, e.g. from
   // <meta name="p:domain_verify" content="THIS_PART">
-  pinterestVerification: "",
+  pinterestVerification: "1680edb395cd9d30913752c8aa8350b5",
 
   // Amazon Associates tracking ID, e.g. "thedeliciousd-20"
   // Filling this in turns on the "Shop this recipe" box on every recipe page.
