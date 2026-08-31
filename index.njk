@@ -35,7 +35,7 @@ permalink: index.html
 
   {% if latest %}
   <a class="hero-post" href="{{ recipeHref(latest) }}">
-    {{ photo(latest) }}
+    {{ photo(latest, "(max-width: 800px) 100vw, 600px", true) }}
     <div>
       <span class="eyebrow">Latest · {{ latest.data.category }}</span>
       <h1>{{ latest.data.title }}</h1>

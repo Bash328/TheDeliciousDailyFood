@@ -1,6 +1,22 @@
 const site = require("./_data/site.js");
+const { eleventyImageTransformPlugin } = require("@11ty/eleventy-img");
 
 module.exports = function (eleventyConfig) {
+  // Rewrites every built-in <img> tag at build time into a responsive,
+  // lazy-loaded <picture> (AVIF/WebP/JPEG) sized off its actual "sizes"
+  // attribute — this is what keeps photo pages fast without hand-resizing
+  // anything uploaded through /admin.
+  eleventyConfig.addPlugin(eleventyImageTransformPlugin, {
+    formats: ["avif", "webp", "jpeg"],
+    widths: [400, 800, 1200, 1600],
+    htmlOptions: {
+      imgAttributes: {
+        loading: "lazy",
+        decoding: "async",
+      },
+    },
+  });
+
   eleventyConfig.addPassthroughCopy("images");
   eleventyConfig.addPassthroughCopy("style.css");
   eleventyConfig.addPassthroughCopy("admin");
@@ -39,6 +55,16 @@ module.exports = function (eleventyConfig) {
     if (!image) return "";
     if (image.startsWith("/")) return site.url + image;
     return `${site.url}${site.baseUrl}/images/${image}`;
+  });
+
+  // Root-relative path for in-page <img src> — this is what the image
+  // transform plugin above actually optimizes. (imageUrl, above, stays a
+  // full URL for contexts read by outside services: og:image, JSON-LD,
+  // the Pinterest share link.)
+  eleventyConfig.addFilter("imageSrc", (image) => {
+    if (!image) return "";
+    if (image.startsWith("/")) return image;
+    return `/images/${image}`;
   });
 
   eleventyConfig.addCollection("recipes", (collectionApi) =>
