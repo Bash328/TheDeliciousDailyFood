@@ -12,7 +12,10 @@
 <meta property="og:description" content="{{ description }}">
 <meta property="og:type" content="article">
 {% if imageUrl %}<meta property="og:image" content="{{ imageUrl }}">{% endif %}
+<link rel="canonical" href="{{ pageUrl }}">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="stylesheet" href="../style.css?v=2">
+{% include "partials/tracking.njk" %}
 <script type="application/ld+json">
 {
   "@context": "https://schema.org/",
@@ -75,6 +78,8 @@
         <li><span class="amt">{{ ing.amount }}</span> {{ ing.item }}</li>
         {% endfor %}
       </ul>
+      <button type="button" class="btn-line grocery-add-btn" id="grocery-add-btn" data-ingredients="{{ recipeContent.ingredients | dump | escape }}">+ Add ingredients to Grocery List</button>
+      <p class="grocery-add-confirm" id="grocery-add-confirm" hidden>Added — <a href="/tools/grocery-list.html">view your list</a></p>
     </aside>
 
     <section class="method">
@@ -87,8 +92,38 @@
       {% if note %}<div class="note-box">{{ note }}</div>{% endif %}
     </section>
   </div>
+
+  {% if tracking.amazonAssociateTag %}
+  <div class="shop-recipe">
+    <h2>Shop this recipe</h2>
+    <p class="shop-note">As an Amazon Associate, {{ site.title }} earns from qualifying purchases.</p>
+    <ul class="shop-links">
+      {% for ing in recipeContent.ingredients %}
+      <li><a href="https://www.amazon.com/s?k={{ ing.item | urlencode }}&tag={{ tracking.amazonAssociateTag | urlencode }}" target="_blank" rel="nofollow sponsored noopener">{{ ing.item }}</a></li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endif %}
 </div>
 
 {% include "partials/footer.njk" %}
+
+<script src="/grocery-list.js"></script>
+<script>
+(function () {
+  var btn = document.getElementById("grocery-add-btn");
+  if (!btn) return;
+  btn.addEventListener("click", function () {
+    var ingredients = [];
+    try { ingredients = JSON.parse(btn.getAttribute("data-ingredients") || "[]"); } catch (e) {}
+    var lines = ingredients.map(function (i) {
+      return [i.amount, i.item].filter(Boolean).join(" ").trim();
+    });
+    window.DDGroceryList.addItems(lines);
+    var confirm = document.getElementById("grocery-add-confirm");
+    if (confirm) confirm.hidden = false;
+  });
+})();
+</script>
 </body>
 </html>

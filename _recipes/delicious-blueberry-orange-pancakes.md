@@ -6,7 +6,7 @@ category: Breakfast
 description: Fluffy, golden pancakes bursting with juicy blueberries and bright
   orange zest, finished with a drizzle of maple syrup for a sweet and refreshing
   breakfast.
-image: /TheDeliciousDailyFood/images/blueberry-pancakes.jpg
+image: /images/blueberry-pancakes.jpg
 recipeContent:
   prepTimeMinutes: 10
   cookTimeMinutes: 15

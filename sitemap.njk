@@ -1,0 +1,20 @@
+---
+permalink: sitemap.xml
+eleventyExcludeFromCollections: true
+---
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>{{ site.url }}/index.html</loc></url>
+  <url><loc>{{ site.url }}/about.html</loc></url>
+  <url><loc>{{ site.url }}/privacy-policy.html</loc></url>
+  <url><loc>{{ site.url }}/contact.html</loc></url>
+  <url><loc>{{ site.url }}/tools/grocery-list.html</loc></url>
+  {%- for recipe in collections.recipes %}
+  <url>
+    <loc>{{ site.url }}{{ recipe.url }}</loc>
+    {%- if recipe.date %}
+    <lastmod>{{ recipe.date | isoDate }}</lastmod>
+    {%- endif %}
+  </url>
+  {%- endfor %}
+</urlset>

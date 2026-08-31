@@ -5,7 +5,7 @@ backend:
   base_url: "https://decap-oauth.cwakiku.workers.dev"
 
 media_folder: "images"
-public_folder: "/TheDeliciousDailyFood/images"
+public_folder: "/images"
 
 publish_mode: simple
 

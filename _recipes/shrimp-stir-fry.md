@@ -6,7 +6,7 @@ category: Lunch
 description: Juicy shrimp and crisp, colourful vegetables tossed in a glossy
   sweet-and-savoury sauce, creating a quick, flavour-packed stir fry that’s
   perfect over fluffy rice.
-image: /TheDeliciousDailyFood/images/img_8130.jpeg
+image: /images/img_8130.jpeg
 recipeContent:
   prepTimeMinutes: 15
   cookTimeMinutes: 10

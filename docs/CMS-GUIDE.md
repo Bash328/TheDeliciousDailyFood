@@ -6,7 +6,7 @@ no code, nothing to touch by hand.
 
 ## Day-to-day: logging in and publishing
 
-1. Go to `https://bash328.github.io/TheDeliciousDailyFood/admin/`.
+1. Go to `https://thedeliciousdaily.com/admin/`.
 2. Click **Login with GitHub** and authorize the app (first time only).
 3. You'll see a **Recipes** collection listing every recipe on the site.
 
@@ -127,7 +127,7 @@ Cloudflare accounts, before `/admin` could work:
    dashboard's Quick Edit — no install needed) → note its `*.workers.dev` URL.
 3. **Create a GitHub OAuth App** at github.com/settings/developers → New OAuth
    App:
-   - Homepage URL: `https://bash328.github.io/TheDeliciousDailyFood/admin/`
+   - Homepage URL: `https://thedeliciousdaily.com/admin/`
    - Authorization callback URL: `<your-worker-url>/callback`
    - Copy the **Client ID**, generate and copy a **Client Secret**.
 4. **Add those two values to the Worker** as secrets named `GITHUB_CLIENT_ID`

@@ -1,0 +1,124 @@
+---
+title: "Grocery List Maker"
+description: "A free grocery list tool — add ingredients from any recipe with one click, check them off as you shop, and print when you're ready."
+permalink: tools/grocery-list.html
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{ title }} — {{ site.title }}</title>
+<meta name="description" content="{{ description }}">
+<link rel="canonical" href="{{ site.url }}/tools/grocery-list.html">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="stylesheet" href="/style.css?v=2">
+{% include "partials/tracking.njk" %}
+</head>
+<body>
+
+<div class="wrap recipe-header">
+  <a class="back-link" href="/index.html">&larr; {{ site.title }}</a>
+  <span class="eyebrow">Free Tool</span>
+  <h1>{{ title }}</h1>
+  <p class="lede">Ingredients you add from any recipe land here automatically. Check things off as you shop, add your own items, and print the list before you head out.</p>
+</div>
+
+<div class="wrap grocery-tool">
+  <form id="grocery-add-form" class="grocery-add-form">
+    <input type="text" id="grocery-add-input" placeholder="Add an item…" autocomplete="off">
+    <button type="submit" class="btn-line">Add</button>
+  </form>
+
+  <ul id="grocery-list" class="grocery-list"></ul>
+
+  <p id="grocery-empty" class="grocery-empty" hidden>Your list is empty. Add an item above, or open any recipe and use "Add ingredients to Grocery List".</p>
+
+  <div class="grocery-actions">
+    <button type="button" id="grocery-clear-checked" class="btn-line">Clear checked</button>
+    <button type="button" id="grocery-clear-all" class="btn-line">Clear all</button>
+    <button type="button" id="grocery-print" class="btn-line">Print list</button>
+  </div>
+</div>
+
+{% include "partials/footer.njk" %}
+
+<script src="/grocery-list.js"></script>
+<script>
+(function () {
+  var listEl = document.getElementById("grocery-list");
+  var emptyEl = document.getElementById("grocery-empty");
+  var form = document.getElementById("grocery-add-form");
+  var input = document.getElementById("grocery-add-input");
+
+  function render() {
+    var items = window.DDGroceryList.readList();
+    listEl.innerHTML = "";
+    emptyEl.hidden = items.length > 0;
+    items.forEach(function (item, index) {
+      var li = document.createElement("li");
+      li.className = "grocery-item" + (item.checked ? " checked" : "");
+
+      var label = document.createElement("label");
+      var checkbox = document.createElement("input");
+      checkbox.type = "checkbox";
+      checkbox.checked = !!item.checked;
+      checkbox.addEventListener("change", function () {
+        var current = window.DDGroceryList.readList();
+        current[index].checked = checkbox.checked;
+        window.DDGroceryList.writeList(current);
+        render();
+      });
+      var span = document.createElement("span");
+      span.textContent = item.text;
+      label.appendChild(checkbox);
+      label.appendChild(span);
+
+      var removeBtn = document.createElement("button");
+      removeBtn.type = "button";
+      removeBtn.className = "grocery-remove";
+      removeBtn.setAttribute("aria-label", "Remove " + item.text);
+      removeBtn.textContent = "×";
+      removeBtn.addEventListener("click", function () {
+        var current = window.DDGroceryList.readList();
+        current.splice(index, 1);
+        window.DDGroceryList.writeList(current);
+        render();
+      });
+
+      li.appendChild(label);
+      li.appendChild(removeBtn);
+      listEl.appendChild(li);
+    });
+  }
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var value = input.value.trim();
+    if (!value) return;
+    window.DDGroceryList.addItems([value]);
+    input.value = "";
+    render();
+  });
+
+  document.getElementById("grocery-clear-checked").addEventListener("click", function () {
+    var current = window.DDGroceryList.readList().filter(function (i) { return !i.checked; });
+    window.DDGroceryList.writeList(current);
+    render();
+  });
+
+  document.getElementById("grocery-clear-all").addEventListener("click", function () {
+    if (!confirm("Clear your entire grocery list?")) return;
+    window.DDGroceryList.writeList([]);
+    render();
+  });
+
+  document.getElementById("grocery-print").addEventListener("click", function () {
+    window.print();
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>

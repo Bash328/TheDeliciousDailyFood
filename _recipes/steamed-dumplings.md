@@ -7,7 +7,7 @@ description: Discover the art of making perfect homemade dumplings with this
   easy recipe. Enjoy the savory fillings wrapped in tender dough, topped with
   sesame seeds for a delicious touch. Perfect for family dinners or party
   appetizers.
-image: /TheDeliciousDailyFood/images/de7ef189-f518-4d5d-ad4d-c50b6db02e95.jpeg
+image: /images/de7ef189-f518-4d5d-ad4d-c50b6db02e95.jpeg
 recipeContent:
   prepTimeMinutes: 30
   cookTimeMinutes: 20

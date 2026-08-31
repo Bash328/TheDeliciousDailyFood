@@ -6,7 +6,7 @@ category: Soup
 description: A creamy, comforting pumpkin soup made with tender pumpkin,
   aromatic garlic and onion, warming spices, and a touch of cream. Perfect for a
   cozy lunch or dinner.
-image: /TheDeliciousDailyFood/images/f51d0cdf-0454-4e1a-aee7-2c13aad754db.jpeg
+image: /images/f51d0cdf-0454-4e1a-aee7-2c13aad754db.jpeg
 recipeContent:
   prepTimeMinutes: 15
   cookTimeMinutes: 30

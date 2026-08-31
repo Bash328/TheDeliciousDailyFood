@@ -1,0 +1,18 @@
+{%- if tracking.googleSiteVerification %}
+<meta name="google-site-verification" content="{{ tracking.googleSiteVerification }}">
+{%- endif %}
+{%- if tracking.pinterestVerification %}
+<meta name="p:domain_verify" content="{{ tracking.pinterestVerification }}">
+{%- endif %}
+{%- if tracking.googleAnalyticsId %}
+<script async src="https://www.googletagmanager.com/gtag/js?id={{ tracking.googleAnalyticsId }}"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', '{{ tracking.googleAnalyticsId }}');
+</script>
+{%- endif %}
+{%- if tracking.googleAdsenseClientId %}
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ tracking.googleAdsenseClientId }}" crossorigin="anonymous"></script>
+{%- endif %}

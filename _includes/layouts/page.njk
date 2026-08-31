@@ -1,0 +1,27 @@
+{%- set pageUrl = site.url + page.url -%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{ title }} — {{ site.title }}</title>
+<meta name="description" content="{{ description }}">
+<link rel="canonical" href="{{ pageUrl }}">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="stylesheet" href="/style.css?v=2">
+{% include "partials/tracking.njk" %}
+</head>
+<body>
+
+<div class="wrap recipe-header">
+  <a class="back-link" href="/index.html">&larr; {{ site.title }}</a>
+  <h1>{{ title }}</h1>
+</div>
+
+<div class="wrap page-content">
+{{ content | safe }}
+</div>
+
+{% include "partials/footer.njk" %}
+</body>
+</html>

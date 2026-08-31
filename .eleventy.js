@@ -4,6 +4,9 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy("images");
   eleventyConfig.addPassthroughCopy("style.css");
   eleventyConfig.addPassthroughCopy("admin");
+  eleventyConfig.addPassthroughCopy("CNAME");
+  eleventyConfig.addPassthroughCopy("favicon.svg");
+  eleventyConfig.addPassthroughCopy("grocery-list.js");
 
   eleventyConfig.addFilter("urlencode", (str) => encodeURIComponent(str || ""));
 
@@ -17,6 +20,12 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addFilter("isoDuration", (minutes) => {
     const n = Number(minutes) || 0;
     return `PT${n}M`;
+  });
+
+  // Used for <lastmod> dates in sitemap.xml
+  eleventyConfig.addFilter("isoDate", (date) => {
+    if (!date) return "";
+    return new Date(date).toISOString().slice(0, 10);
   });
 
   eleventyConfig.addFilter("byCategories", (recipes, categories) =>

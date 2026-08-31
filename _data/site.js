@@ -1,6 +1,6 @@
 module.exports = {
   title: "The Delicious Daily",
-  url: "https://bash328.github.io",
-  baseUrl: "/TheDeliciousDailyFood",
+  url: "https://thedeliciousdaily.com",
+  baseUrl: "",
   tagline: "A daily dose of deliciousness, upgrade your everyday.",
 };
