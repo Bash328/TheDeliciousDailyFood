@@ -9,12 +9,35 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addPlugin(eleventyImageTransformPlugin, {
     formats: ["avif", "webp", "jpeg"],
     widths: [400, 800, 1200, 1600],
+    // Sharp's JPEG/WebP defaults (quality 80) run heavier than this content
+    // needs — photos read the same at 75 and the JPEG/WebP fallback tiers
+    // (what non-AVIF browsers actually download) shrink meaningfully.
+    // Progressive JPEG also paints a low-res pass immediately instead of
+    // top-to-bottom, so it *feels* faster on a slow connection even at the
+    // same byte count.
+    sharpJpegOptions: { quality: 75, progressive: true },
+    sharpWebpOptions: { quality: 75 },
     htmlOptions: {
       imgAttributes: {
         loading: "lazy",
         decoding: "async",
       },
     },
+  });
+
+  // Strips whitespace/comments from every rendered .html page at build time.
+  eleventyConfig.addTransform("htmlmin", async function (content, outputPath) {
+    if (outputPath && outputPath.endsWith(".html")) {
+      const { minify } = await import("html-minifier-terser");
+      return minify(content, {
+        collapseWhitespace: true,
+        removeComments: true,
+        collapseBooleanAttributes: true,
+        minifyCSS: true,
+        minifyJS: true,
+      });
+    }
+    return content;
   });
 
   eleventyConfig.addPassthroughCopy("images");
