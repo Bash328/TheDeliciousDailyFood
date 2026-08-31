@@ -3,9 +3,7 @@
    Quiet, editorial, photography-led.
    ============================================ */
 
-/* Fonts are loaded via <link> in each page's <head> (partials/fonts.njk),
-   not @import here — @import serializes behind this stylesheet's own
-   download, adding a needless round trip before text can render. */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Jost:wght@400;500;600&display=swap');
 
 :root {
   --bg: #fffdfa;

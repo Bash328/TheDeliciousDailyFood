@@ -14,7 +14,6 @@
 {% if imageUrl %}<meta property="og:image" content="{{ imageUrl }}">{% endif %}
 <link rel="canonical" href="{{ pageUrl }}">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-{% include "partials/fonts.njk" %}
 <link rel="stylesheet" href="../style.css?v=2">
 {% include "partials/tracking.njk" %}
 <script type="application/ld+json">
@@ -52,7 +51,7 @@
 
 <div class="wrap">
   {% if imageUrl %}
-  <img class="hero-photo" src="{{ image | imageSrc }}" alt="{{ title }}" style="width:100%; object-fit:cover;" sizes="(max-width: 900px) 100vw, 900px" loading="eager" fetchpriority="high">
+  <img class="hero-photo" src="{{ imageUrl }}" alt="{{ title }}" style="width:100%; object-fit:cover;">
   {% else %}
   <div class="hero-photo"></div>
   {% endif %}
