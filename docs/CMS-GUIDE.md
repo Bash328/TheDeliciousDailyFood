@@ -34,7 +34,7 @@ the live site on the next rebuild.
 | Field | What it does |
 |---|---|
 | Title | The recipe name shown everywhere. |
-| URL slug | Sets the page address (`recipes/<slug>.html`). Only change on new recipes, never after publishing. |
+| URL slug | Sets the page address (`recipes/<slug>/`). Only change on new recipes, never after publishing. |
 | Publish date | Controls sort order and which recipe is the homepage "Latest" feature — the most recent date wins. |
 | Category | Which of the 5 homepage sections (Dinner, Lunch, Baking & Dessert, Breakfast, Soup) it appears under. |
 | Tag | Optional short word/phrase shown next to the category on the recipe page (e.g. "One Skillet", "Weeknight"). Leave blank if you don't want one. |

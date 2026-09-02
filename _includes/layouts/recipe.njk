@@ -16,7 +16,7 @@
 <link rel="icon" type="image/png" href="/favicon-light.png">
 <link rel="icon" type="image/png" href="/favicon-dark.png" media="(prefers-color-scheme: dark)">
 {% include "partials/fonts.njk" %}
-<link rel="stylesheet" href="../style.css?v=2">
+<link rel="stylesheet" href="../../style.css?v=2">
 {% include "partials/tracking.njk" %}
 <script type="application/ld+json">
 {
@@ -45,7 +45,7 @@
 <body>
 
 <div class="wrap recipe-header">
-  <a class="back-link" href="../index.html">&larr; {{ site.title }}</a>
+  <a class="back-link" href="../../">&larr; {{ site.title }}</a>
   <span class="eyebrow">{{ category }}{% if tag %} · {{ tag }}{% endif %}</span>
   <h1>{{ title }}</h1>
   <p class="lede">{{ description }}</p>
@@ -81,7 +81,7 @@
         {% endfor %}
       </ul>
       <button type="button" class="btn-line grocery-add-btn" id="grocery-add-btn" data-ingredients="{{ recipeContent.ingredients | dump | escape }}">+ Add ingredients to Grocery List</button>
-      <p class="grocery-add-confirm" id="grocery-add-confirm" hidden>Added — <a href="/tools/grocery-list.html">view your list</a></p>
+      <p class="grocery-add-confirm" id="grocery-add-confirm" hidden>Added — <a href="/tools/grocery-list/">view your list</a></p>
     </aside>
 
     <section class="method">

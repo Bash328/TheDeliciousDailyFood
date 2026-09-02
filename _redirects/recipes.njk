@@ -1,0 +1,10 @@
+---
+pagination:
+  data: collections.recipes
+  size: 1
+  alias: recipe
+permalink: "recipes/{{ recipe.data.slug }}.html"
+eleventyExcludeFromCollections: true
+---
+{%- from "partials/redirect-stub.njk" import stub -%}
+{{ stub(recipe.url, recipe.data.title, site.url, site.title) }}

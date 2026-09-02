@@ -10,7 +10,7 @@ permalink: index.html
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{{ site.title }} — Recipes worth saving</title>
 <meta name="description" content="Seasonal recipes, tested and photographed for pinning. Weeknight dinners, quiet bakes, and things worth saving.">
-<link rel="canonical" href="{{ site.url }}/index.html">
+<link rel="canonical" href="{{ site.url }}/">
 <link rel="icon" type="image/png" href="/favicon-light.png">
 <link rel="icon" type="image/png" href="/favicon-dark.png" media="(prefers-color-scheme: dark)">
 {% include "partials/fonts.njk" %}
@@ -27,7 +27,7 @@ permalink: index.html
   </div>
   <nav class="site-nav wrap">
     {% for section in sections %}<a href="#{{ section.id }}">{{ section.heading }}</a>{% endfor %}
-    <a href="/tools/grocery-list.html">Grocery List</a>
+    <a href="/tools/grocery-list/">Grocery List</a>
   </nav>
 </header>
 

@@ -2,7 +2,7 @@
 layout: layouts/page.njk
 title: Contact & Disclosure
 description: "How to get in touch with The Delicious Daily, and how this site earns money from the links on it."
-permalink: contact.html
+permalink: contact/
 ---
 
 ## Contact
@@ -28,5 +28,5 @@ visiting [Google's Ads Settings](https://adssettings.google.com/).
 Product recommendations and reviews reflect genuine opinion — affiliate
 relationships never determine which recipes or products are featured.
 
-See the [Privacy Policy](/privacy-policy.html) for details on cookies and
+See the [Privacy Policy](/privacy-policy/) for details on cookies and
 data collection.

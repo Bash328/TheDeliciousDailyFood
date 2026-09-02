@@ -2,7 +2,7 @@
 layout: layouts/page.njk
 title: Privacy Policy
 description: "How The Delicious Daily collects, uses, and protects information from visitors."
-permalink: privacy-policy.html
+permalink: privacy-policy/
 ---
 
 *Last updated: August 31, 2026*
@@ -26,7 +26,7 @@ third-party services embedded on the site, including:
 - **Pinterest widgets** (the "Save" button) may set cookies from
   pinterest.com when used.
 - **Grocery list data** you build on the [Grocery List
-  tool](/tools/grocery-list.html) is stored only in your own browser's
+  tool](/tools/grocery-list/) is stored only in your own browser's
   local storage — it is never sent to us or to any server.
 
 ## Cookies
@@ -52,7 +52,7 @@ and other websites. You may opt out of personalized advertising by visiting
 
 Some links on this site are affiliate links, including links to Amazon
 through the Amazon Associates program. See the [Contact & Disclosure
-page](/contact.html) for details. Clicking an affiliate link may set a
+page](/contact/) for details. Clicking an affiliate link may set a
 tracking cookie used to attribute a purchase; it does not affect the price
 you pay.
 
@@ -69,4 +69,4 @@ this page with a revised "last updated" date.
 ## Contact
 
 Questions about this policy can be sent through the [Contact
-page](/contact.html).
+page](/contact/).
