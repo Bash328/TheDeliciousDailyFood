@@ -13,6 +13,7 @@ permalink: index.html
 <link rel="canonical" href="{{ site.url }}/index.html">
 <link rel="icon" type="image/png" href="/favicon-light.png">
 <link rel="icon" type="image/png" href="/favicon-dark.png" media="(prefers-color-scheme: dark)">
+{% include "partials/fonts.njk" %}
 <link rel="stylesheet" href="style.css?v=2">
 {% include "partials/tracking.njk" %}
 </head>
@@ -20,7 +21,7 @@ permalink: index.html
 
 <header class="site-header">
   <div class="wrap">
-    <img class="mark" src="/images/logo-mark.png" alt="" width="40" height="40">
+    <img class="mark" src="/images/logo-mark.png" alt="" width="40" height="40" eleventy:ignore>
     <h1>{{ site.title }}</h1>
     <p class="sub">{{ site.tagline }}</p>
   </div>
@@ -36,7 +37,7 @@ permalink: index.html
 
   {% if latest %}
   <a class="hero-post" href="{{ recipeHref(latest) }}">
-    {{ photo(latest) }}
+    {{ photo(latest, "(max-width: 800px) 100vw, 600px", true) }}
     <div>
       <span class="eyebrow">Latest · {{ latest.data.category }}</span>
       <h1>{{ latest.data.title }}</h1>

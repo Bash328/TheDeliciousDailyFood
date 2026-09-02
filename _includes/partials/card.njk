@@ -1,6 +1,6 @@
-{%- macro photo(recipe) -%}
+{%- macro photo(recipe, sizes="(max-width: 560px) 100vw, (max-width: 860px) 50vw, 360px", eager=false) -%}
   {%- if recipe.data.image -%}
-    <div class="photo" style="background-image: url('{{ recipe.data.image | imageUrl }}'); background-size: cover; background-position: center;"></div>
+    <div class="photo"><img src="{{ recipe.data.image | imageSrc }}" alt="{{ recipe.data.title }}" sizes="{{ sizes }}"{% if eager %} loading="eager" fetchpriority="high"{% endif %}></div>
   {%- else -%}
     <div class="photo"></div>
   {%- endif -%}
