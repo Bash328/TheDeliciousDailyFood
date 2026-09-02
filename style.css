@@ -284,6 +284,11 @@ a { color: inherit; text-decoration: none; }
 
 .hero-photo {
   aspect-ratio: 16 / 10;
+  /* The <img> now carries real width/height attributes (added by the image
+     transform plugin, to prevent layout shift). Those give it a definite
+     intrinsic height, which blocks aspect-ratio from computing one of its
+     own unless height is explicitly reopened to auto here. */
+  height: auto;
   border-radius: 2px;
   margin: 34px 0 14px;
   display: flex;
