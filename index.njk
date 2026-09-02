@@ -11,7 +11,8 @@ permalink: index.html
 <title>{{ site.title }} — Recipes worth saving</title>
 <meta name="description" content="Seasonal recipes, tested and photographed for pinning. Weeknight dinners, quiet bakes, and things worth saving.">
 <link rel="canonical" href="{{ site.url }}/index.html">
-<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="icon" type="image/png" href="/favicon-light.png">
+<link rel="icon" type="image/png" href="/favicon-dark.png" media="(prefers-color-scheme: dark)">
 <link rel="stylesheet" href="style.css?v=2">
 {% include "partials/tracking.njk" %}
 </head>
@@ -19,7 +20,7 @@ permalink: index.html
 
 <header class="site-header">
   <div class="wrap">
-    <span class="mark">&amp;</span>
+    <img class="mark" src="/images/logo-mark.png" alt="" width="40" height="40">
     <h1>{{ site.title }}</h1>
     <p class="sub">{{ site.tagline }}</p>
   </div>

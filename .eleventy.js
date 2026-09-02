@@ -5,7 +5,8 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy("style.css");
   eleventyConfig.addPassthroughCopy("admin");
   eleventyConfig.addPassthroughCopy("CNAME");
-  eleventyConfig.addPassthroughCopy("favicon.svg");
+  eleventyConfig.addPassthroughCopy("favicon-light.png");
+  eleventyConfig.addPassthroughCopy("favicon-dark.png");
   eleventyConfig.addPassthroughCopy("grocery-list.js");
 
   eleventyConfig.addFilter("urlencode", (str) => encodeURIComponent(str || ""));
