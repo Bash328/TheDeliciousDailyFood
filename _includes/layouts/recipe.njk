@@ -94,18 +94,6 @@
       {% if note %}<div class="note-box">{{ note }}</div>{% endif %}
     </section>
   </div>
-
-  {% if tracking.amazonAssociateTag %}
-  <div class="shop-recipe">
-    <h2>Shop this recipe</h2>
-    <p class="shop-note">As an Amazon Associate, {{ site.title }} earns from qualifying purchases.</p>
-    <ul class="shop-links">
-      {% for ing in recipeContent.ingredients %}
-      <li><a href="https://www.amazon.com/s?k={{ ing.item | urlencode }}&tag={{ tracking.amazonAssociateTag | urlencode }}" target="_blank" rel="nofollow sponsored noopener">{{ ing.item }}</a></li>
-      {% endfor %}
-    </ul>
-  </div>
-  {% endif %}
 </div>
 
 {% include "partials/footer.njk" %}

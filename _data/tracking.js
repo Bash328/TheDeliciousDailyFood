@@ -6,9 +6,6 @@ module.exports = {
   // Google Analytics 4 measurement ID, e.g. "G-XXXXXXXXXX"
   googleAnalyticsId: "G-87F9T22WSH",
 
-  // Google AdSense publisher/client ID, e.g. "ca-pub-XXXXXXXXXXXXXXXX"
-  googleAdsenseClientId: "",
-
   // Google Search Console "HTML tag" verification — just the content value,
   // e.g. from <meta name="google-site-verification" content="THIS_PART">
   googleSiteVerification: "",
@@ -16,8 +13,4 @@ module.exports = {
   // Pinterest domain verification — just the content value, e.g. from
   // <meta name="p:domain_verify" content="THIS_PART">
   pinterestVerification: "1680edb395cd9d30913752c8aa8350b5",
-
-  // Amazon Associates tracking ID, e.g. "thedeliciousd-20"
-  // Filling this in turns on the "Shop this recipe" box on every recipe page.
-  amazonAssociateTag: "",
 };
