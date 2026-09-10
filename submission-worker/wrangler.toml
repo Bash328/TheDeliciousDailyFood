@@ -1,0 +1,24 @@
+name = "delicious-daily-submissions"
+main = "worker.js"
+compatibility_date = "2024-01-01"
+
+[vars]
+GITHUB_OWNER = "Bash328"
+GITHUB_REPO = "TheDeliciousDailyFood"
+GITHUB_BRANCH = "main"
+ALLOWED_ORIGIN = "https://thedeliciousdaily.com"
+
+# Per-IP rate limit: at most 3 submissions a minute. A person sending one
+# recipe never notices it; a script trying to open pull requests in a loop hits
+# it immediately. namespace_id is just a local identifier for this counter —
+# any number, as long as it stays the same between deploys.
+[[unsafe.bindings]]
+name = "SUBMIT_RATE_LIMIT"
+type = "ratelimit"
+namespace_id = "1001"
+simple = { limit = 3, period = 60 }
+
+# Secrets — set these after deploying, with `wrangler secret put NAME` or from
+# the Cloudflare dashboard. Never put them in this file; it's in git.
+#   GITHUB_TOKEN          — fine-grained PAT: Contents + Pull requests, read/write
+#   TURNSTILE_SECRET_KEY  — optional, only if you're using the Turnstile widget

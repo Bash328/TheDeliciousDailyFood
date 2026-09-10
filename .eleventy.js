@@ -1,7 +1,37 @@
+const fs = require("fs");
 const site = require("./_data/site.js");
 const { eleventyImageTransformPlugin } = require("@11ty/eleventy-img");
 
+// The two CMS logins (/admin/ with GitHub, /admin/collaborator/ with an email
+// and password) each need their own config.yml, because each names a different
+// backend — but they must offer the same fields, or a recipe saved from one
+// login loses whatever the other one knows about. Nothing enforces that, so
+// this compares the two files' collections blocks and says so at build time if
+// they've drifted. A warning only: a mismatch shouldn't stop the site shipping.
+function warnIfCmsConfigsDiverge() {
+  const collectionsBlock = (file) => {
+    const text = fs.readFileSync(file, "utf8");
+    const start = text.indexOf("collections:");
+    return start === -1 ? null : text.slice(start).trim();
+  };
+  try {
+    const a = collectionsBlock("admin/config.yml");
+    const b = collectionsBlock("admin/collaborator/config.yml");
+    if (a && b && a !== b) {
+      console.warn(
+        "[cms] admin/config.yml and admin/collaborator/config.yml define " +
+          "different fields. Whichever one you edited, copy the collections " +
+          "block into the other so both logins stay in sync."
+      );
+    }
+  } catch (err) {
+    console.warn("[cms] couldn't compare the two admin configs: " + err.message);
+  }
+}
+
 module.exports = function (eleventyConfig) {
+  warnIfCmsConfigsDiverge();
+
   // Rewrites every built-in <img> tag at build time into a responsive,
   // lazy-loaded <picture> (AVIF/WebP/JPEG) sized off its actual "sizes"
   // attribute — this is what keeps photo pages fast without hand-resizing
@@ -32,10 +62,15 @@ module.exports = function (eleventyConfig) {
   });
 
   // Strips whitespace/comments from every rendered .html page at build time.
+  // The import is resolved once and shared, rather than awaited inside every
+  // one of the ~50 page transforms.
+  let minifyHtml;
   eleventyConfig.addTransform("htmlmin", async function (content, outputPath) {
     if (outputPath && outputPath.endsWith(".html")) {
-      const { minify } = await import("html-minifier-terser");
-      return minify(content, {
+      if (!minifyHtml) {
+        minifyHtml = (await import("html-minifier-terser")).minify;
+      }
+      return minifyHtml(content, {
         collapseWhitespace: true,
         removeComments: true,
         collapseBooleanAttributes: true,
@@ -47,12 +82,25 @@ module.exports = function (eleventyConfig) {
   });
 
   eleventyConfig.addPassthroughCopy("images");
+  eleventyConfig.addPassthroughCopy("fonts");
   eleventyConfig.addPassthroughCopy("style.css");
   eleventyConfig.addPassthroughCopy("admin");
   eleventyConfig.addPassthroughCopy("CNAME");
   eleventyConfig.addPassthroughCopy("favicon-light.png");
   eleventyConfig.addPassthroughCopy("favicon-dark.png");
   eleventyConfig.addPassthroughCopy("grocery-list.js");
+
+  // The submission form checks a recipe before sending it, and the worker
+  // checks it again on arrival. Both read the same file: this inlines
+  // submission-worker/validate.js into the page, minus its `export` line
+  // (which a plain <script> can't take), so the rules and the wording a
+  // visitor sees can't drift apart from the ones actually enforced.
+  eleventyConfig.addWatchTarget("submission-worker/validate.js");
+  eleventyConfig.addShortcode("submissionValidator", () =>
+    fs
+      .readFileSync("submission-worker/validate.js", "utf8")
+      .replace(/^export\s*\{[^}]*\};?\s*$/m, "")
+  );
 
   eleventyConfig.addFilter("urlencode", (str) => encodeURIComponent(str || ""));
 
@@ -98,9 +146,15 @@ module.exports = function (eleventyConfig) {
   });
 
   eleventyConfig.addCollection("recipes", (collectionApi) =>
-    collectionApi.getFilteredByGlob("_recipes/*.md").sort(
-      (a, b) => b.date - a.date
-    )
+    collectionApi
+      .getFilteredByGlob("_recipes/*.md")
+      // A recipe with `draft: true` still builds its own page (so a reviewer
+      // can open the link and check it), but is left out of every listing
+      // driven by this collection — the homepage sections and sitemap.xml —
+      // until the draft flag comes off. This is what keeps a recipe merged
+      // from the public-submission PR flow off the live site until it's ready.
+      .filter((recipe) => !recipe.data.draft)
+      .sort((a, b) => b.date - a.date)
   );
 
   return {

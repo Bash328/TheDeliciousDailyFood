@@ -1,0 +1,318 @@
+---
+layout: layouts/page.njk
+title: Submit a Recipe
+description: "Send in a recipe for The Delicious Daily to consider."
+permalink: submit-recipe/
+---
+
+{%- if not site.submitEndpoint %}
+
+<p>Recipe submissions aren't open just yet — check back soon, or
+<a href="/contact/">get in touch</a> in the meantime.</p>
+
+<!-- The form below appears once `submitEndpoint` is filled in in _data/site.js
+     with the deployed submission worker's URL. See
+     docs/COLLABORATOR-AND-SUBMISSIONS-SETUP.md. -->
+
+{%- else %}
+
+<p>Have a recipe you think belongs here? Send it in below. Nothing gets
+published automatically — it arrives as a draft for review, and only goes live
+if it's picked up and edited in.</p>
+
+<p class="submit-hint">Two things are needed for a recipe to be considered: a
+<strong>photo of the finished dish</strong>, and the <strong>full recipe</strong>
+— ingredients with their amounts, and the steps to make it. Anything short of
+that can't be sent.</p>
+
+<form id="submit-form" class="submit-form" novalidate>
+
+  <!-- Honeypot: real visitors never see or fill this in; bots that fill every
+       field on a page do, and the worker silently drops those. -->
+  <div class="submit-hp" aria-hidden="true">
+    <label for="website">Leave this field blank</label>
+    <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+  </div>
+
+  <label for="title">Recipe title *</label>
+  <input type="text" id="title" name="title" required maxlength="120">
+
+  <label for="category">Category *</label>
+  <select id="category" name="category" required>
+    <option value="" disabled selected>Choose one</option>
+    <option>Dinner</option>
+    <option>Lunch</option>
+    <option>Dessert</option>
+    <option>Breakfast</option>
+    <option>Soup</option>
+  </select>
+
+  <label for="description">Short description *</label>
+  <textarea id="description" name="description" rows="2" required maxlength="280" placeholder="One or two sentences — what it is and why it's worth making."></textarea>
+
+  <label for="raw">The recipe itself *</label>
+  <p class="submit-hint">Paste it in as plain text — prep and cook time,
+  servings, ingredients, and steps. Any format is fine, for example:</p>
+  <pre class="submit-example">Prep time: 15 minutes
+Cook time: 30 minutes
+Serves: 4
+
+Ingredients:
+- 2 cups flour
+- 1 tsp salt
+
+Instructions:
+1. Preheat oven to 350°F
+2. Mix dry ingredients</pre>
+  <textarea id="raw" name="raw" rows="12" required maxlength="6000"></textarea>
+
+  <label for="photo">A photo of the finished dish *</label>
+  <p class="submit-hint">Required — one photo of the dish as you made it, not a
+  picture from somewhere else. Landscape works best. Big files are fine: your
+  browser shrinks the photo before it's sent, so nothing slow is uploaded.
+  JPEG, PNG or WebP (if you're on an iPhone and it won't take the file, it's
+  probably HEIC — save or share it as a JPEG first).</p>
+  <input type="file" id="photo" name="photo" accept="image/jpeg,image/png,image/webp,image/*" required>
+  <div id="photo-preview" class="submit-photo-preview" hidden>
+    <img id="photo-preview-img" alt="Preview of the photo you selected">
+    <button type="button" id="photo-remove" class="submit-photo-remove">Remove photo</button>
+  </div>
+  <p id="photo-status" class="submit-hint" role="status"></p>
+
+  <label for="submitterName">Your name (optional)</label>
+  <input type="text" id="submitterName" name="submitterName" maxlength="80">
+
+  <label for="submitterEmail">Your email (optional, in case there's a question)</label>
+  <input type="email" id="submitterEmail" name="submitterEmail" maxlength="120">
+
+  {%- if site.turnstileSiteKey %}
+  <!-- Cloudflare Turnstile spam check — free, and usually invisible to the
+       visitor. Loaded only when a site key is configured in _data/site.js. -->
+  <div class="cf-turnstile" data-sitekey="{{ site.turnstileSiteKey }}"></div>
+  {%- endif %}
+
+  <button type="submit" id="submit-btn">Send recipe</button>
+
+  <p id="submit-status" role="status"></p>
+</form>
+
+<p class="submit-hint">By sending a recipe you're confirming it's yours to
+share, photo included. Your email is only used if there's a question about the
+recipe — it's never published or passed on.</p>
+
+{%- if site.turnstileSiteKey %}
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+{%- endif %}
+<script>
+// The rules below are inlined verbatim from submission-worker/validate.js at
+// build time — the same file the worker enforces on arrival. Edit them there,
+// never here. (See the submissionValidator shortcode in .eleventy.js.)
+{% submissionValidator %}
+</script>
+<script>
+(function () {
+  var ENDPOINT = "{{ site.submitEndpoint }}";
+
+  // The photo is resized in the browser before it's sent. Three reasons:
+  // a phone photo is 5-10 MB and this keeps the request small, re-encoding
+  // through a canvas drops the EXIF block (so nobody accidentally submits the
+  // GPS coordinates of their kitchen), and 1600px is the widest size the
+  // site's image pipeline actually builds, so nothing larger is any use.
+  var MAX_EDGE = 1600;
+  var JPEG_QUALITY = 0.82;
+  var MAX_ENCODED_BYTES = 4 * 1024 * 1024;
+
+  var form = document.getElementById("submit-form");
+  var statusEl = document.getElementById("submit-status");
+  var btn = document.getElementById("submit-btn");
+  var photoInput = document.getElementById("photo");
+  var photoStatus = document.getElementById("photo-status");
+  var photoPreview = document.getElementById("photo-preview");
+  var photoPreviewImg = document.getElementById("photo-preview-img");
+  var photoRemove = document.getElementById("photo-remove");
+
+  // The prepared photo: { data: base64, type: "image/jpeg" }, or null.
+  var photo = null;
+
+  // Says what's wrong, and puts the cursor on the thing that's wrong — on a
+  // long form, a message alone leaves people hunting for the field.
+  function fail(field, message) {
+    statusEl.textContent = message;
+    statusEl.classList.add("submit-status-error");
+    var el = document.getElementById(field);
+    if (el) {
+      el.setAttribute("aria-invalid", "true");
+      el.focus();
+      if (el.scrollIntoView) el.scrollIntoView({ block: "center", behavior: "smooth" });
+    }
+  }
+
+  function clearFailure() {
+    statusEl.textContent = "";
+    statusEl.classList.remove("submit-status-error");
+    var marked = form.querySelectorAll("[aria-invalid]");
+    for (var i = 0; i < marked.length; i++) {
+      marked[i].removeAttribute("aria-invalid");
+    }
+  }
+
+  form.addEventListener("input", clearFailure);
+
+  function clearPhoto() {
+    photo = null;
+    photoInput.value = "";
+    photoPreview.hidden = true;
+    if (photoPreviewImg.src) photoPreviewImg.removeAttribute("src");
+    photoStatus.textContent = "";
+  }
+
+  function readAsDataUrl(file) {
+    return new Promise(function (resolve, reject) {
+      var reader = new FileReader();
+      reader.onload = function () { resolve(reader.result); };
+      reader.onerror = function () { reject(new Error("unreadable")); };
+      reader.readAsDataURL(file);
+    });
+  }
+
+  function loadImage(dataUrl) {
+    return new Promise(function (resolve, reject) {
+      var img = new Image();
+      img.onload = function () { resolve(img); };
+      img.onerror = function () { reject(new Error("undecodable")); };
+      img.src = dataUrl;
+    });
+  }
+
+  function shrink(img) {
+    var scale = Math.min(1, MAX_EDGE / Math.max(img.width, img.height));
+    var canvas = document.createElement("canvas");
+    canvas.width = Math.round(img.width * scale);
+    canvas.height = Math.round(img.height * scale);
+    var ctx = canvas.getContext("2d");
+    // White behind it, so a PNG with transparency doesn't come out black once
+    // it's flattened into a JPEG.
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+    return canvas.toDataURL("image/jpeg", JPEG_QUALITY);
+  }
+
+  photoInput.addEventListener("change", function () {
+    var file = photoInput.files && photoInput.files[0];
+    if (!file) { clearPhoto(); return; }
+
+    photoStatus.textContent = "Preparing photo…";
+    photoPreview.hidden = true;
+
+    readAsDataUrl(file)
+      .then(loadImage)
+      .then(function (img) {
+        var dataUrl = shrink(img);
+        var base64 = dataUrl.slice(dataUrl.indexOf(",") + 1);
+        var bytes = Math.round(base64.length * 0.75);
+        if (bytes > MAX_ENCODED_BYTES) {
+          clearPhoto();
+          photoStatus.textContent =
+            "That photo is still too large after resizing. Try a smaller one.";
+          return;
+        }
+        photo = { data: base64, type: "image/jpeg" };
+        photoPreviewImg.src = dataUrl;
+        photoPreview.hidden = false;
+        photoStatus.textContent =
+          "Ready — " + img.width + "×" + img.height + " photo, sent at " +
+          Math.round(bytes / 1024) + " KB.";
+      })
+      .catch(function () {
+        clearPhoto();
+        // Most often an iPhone HEIC, which most browsers can't decode.
+        photoStatus.textContent =
+          "That file couldn't be read as an image. A JPEG or PNG works best.";
+      });
+  });
+
+  photoRemove.addEventListener("click", clearPhoto);
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    if (form.website.value) return; // honeypot tripped, do nothing
+
+    var turnstileToken = "";
+    if (window.turnstile && form.querySelector(".cf-turnstile")) {
+      turnstileToken = window.turnstile.getResponse() || "";
+    }
+
+    var payload = {
+      title: form.title.value.trim(),
+      category: form.category.value,
+      description: form.description.value.trim(),
+      raw: form.raw.value.trim(),
+      submitterName: form.submitterName.value.trim(),
+      submitterEmail: form.submitterEmail.value.trim(),
+      turnstileToken: turnstileToken,
+      image: photo
+    };
+
+    if (photoInput.files && photoInput.files[0] && !photo) {
+      fail("photo", "The photo you picked couldn't be used. Choose another one.");
+      return;
+    }
+
+    var problem = validateSubmission({
+      title: payload.title,
+      category: payload.category,
+      description: payload.description,
+      raw: payload.raw,
+      hasImage: !!photo
+    });
+    if (problem) {
+      fail(problem.field, problem.message);
+      return;
+    }
+
+    btn.disabled = true;
+    clearFailure();
+    statusEl.textContent = "Sending…";
+
+    fetch(ENDPOINT, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    })
+      .then(function (res) {
+        // The worker checks the same rules again. If it turned this down, it
+        // says why in plain words — show that rather than a generic failure.
+        if (!res.ok) {
+          return res.json().then(
+            function (body) { throw body || {}; },
+            function () { throw {}; }
+          );
+        }
+        return res.json();
+      })
+      .then(function () {
+        statusEl.textContent = "Thanks — it's been sent in for review.";
+        form.reset();
+        clearPhoto();
+        btn.disabled = false;
+        // A Turnstile token is single-use; clear it so a second submission
+        // from the same page doesn't get rejected as a replay.
+        if (window.turnstile) window.turnstile.reset();
+      })
+      .catch(function (err) {
+        if (err && err.message) {
+          fail(err.field, err.message);
+        } else {
+          statusEl.textContent =
+            "Something went wrong sending that. Please try again in a moment.";
+        }
+        btn.disabled = false;
+        if (window.turnstile) window.turnstile.reset();
+      });
+  });
+})();
+</script>
+
+{%- endif %}

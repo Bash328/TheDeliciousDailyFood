@@ -9,6 +9,9 @@ eleventyExcludeFromCollections: true
   <url><loc>{{ site.url }}/privacy-policy/</loc></url>
   <url><loc>{{ site.url }}/contact/</loc></url>
   <url><loc>{{ site.url }}/tools/grocery-list/</loc></url>
+  {%- if site.submitEndpoint %}
+  <url><loc>{{ site.url }}/submit-recipe/</loc></url>
+  {%- endif %}
   {%- for recipe in collections.recipes %}
   <url>
     <loc>{{ site.url }}{{ recipe.url }}</loc>

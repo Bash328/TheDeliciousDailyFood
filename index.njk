@@ -11,21 +11,27 @@ permalink: index.html
 <title>{{ site.title }} — Recipes worth saving</title>
 <meta name="description" content="Seasonal recipes, tested and photographed for pinning. Weeknight dinners, quiet bakes, and things worth saving.">
 <link rel="canonical" href="{{ site.url }}/">
+<meta property="og:title" content="{{ site.title }} — Recipes worth saving">
+<meta property="og:description" content="Seasonal recipes, tested and photographed for pinning. Weeknight dinners, quiet bakes, and things worth saving.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="{{ site.url }}/">
+<meta property="og:site_name" content="{{ site.title }}">
+<meta name="twitter:card" content="summary">
 <link rel="icon" type="image/png" href="/favicon-light.png">
 <link rel="icon" type="image/png" href="/favicon-dark.png" media="(prefers-color-scheme: dark)">
 {% include "partials/fonts.njk" %}
-<link rel="stylesheet" href="style.css?v=2">
+<link rel="stylesheet" href="style.css?v={{ site.assetVersion }}">
 {% include "partials/tracking.njk" %}
 </head>
 <body>
 
 <header class="site-header">
   <div class="wrap">
-    <img class="mark" src="/images/logo-mark.png" alt="" width="40" height="40" eleventy:ignore>
+    <img class="mark" src="/images/logo-mark-96.png" alt="" width="40" height="40" eleventy:ignore>
     <h1>{{ site.title }}</h1>
     <p class="sub">{{ site.tagline }}</p>
   </div>
-  <nav class="site-nav wrap">
+  <nav class="site-nav wrap" aria-label="Recipe categories">
     {% for section in sections %}<a href="#{{ section.id }}">{{ section.heading }}</a>{% endfor %}
     <a href="/tools/grocery-list/">Grocery List</a>
   </nav>
@@ -71,5 +77,6 @@ permalink: index.html
 </main>
 
 {% include "partials/footer.njk" %}
+{% include "partials/identity-redirect.njk" %}
 </body>
 </html>

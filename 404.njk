@@ -1,0 +1,23 @@
+---
+layout: layouts/page.njk
+title: Page not found
+description: "That page isn't here — but the recipes are."
+permalink: 404.html
+eleventyExcludeFromCollections: true
+---
+
+{#- GitHub Pages serves /404.html for any address it can't find, including the
+    old .html recipe links that predate the redirect stubs. Without this file
+    a visitor gets GitHub's own grey error page, with no way back to the site. -#}
+
+<p>That address doesn't exist — most likely a recipe that's been renamed, or a
+link with a typo in it.</p>
+
+<p>Here's the way back:</p>
+
+<ul>
+  <li><a href="/">All the recipes</a></li>
+  <li><a href="/tools/grocery-list/">Your grocery list</a></li>
+  <li><a href="/about/">About the site</a></li>
+  <li><a href="/contact/">Tell me the link was broken</a></li>
+</ul>

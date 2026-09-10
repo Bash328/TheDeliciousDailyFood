@@ -14,7 +14,15 @@
   }
 
   function writeList(list) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+    // Reading already tolerates a broken store; writing has to as well.
+    // localStorage throws outright in Safari's private mode and when a device
+    // is out of quota, and an uncaught throw here would take the whole
+    // "Add ingredients" click down with it.
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+    } catch (e) {
+      /* list stays in memory for this page; nothing else to do */
+    }
   }
 
   function addItems(texts) {

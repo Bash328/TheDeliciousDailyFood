@@ -6,3 +6,8 @@ compatibility_date = "2024-01-01"
 # or `wrangler secret put NAME` if you use the CLI instead):
 #   GITHUB_CLIENT_ID
 #   GITHUB_CLIENT_SECRET
+
+[vars]
+# Where the CMS lives. The callback page will only hand the GitHub token to a
+# window on this origin, so keep it in step with the real site.
+ALLOWED_ORIGIN = "https://thedeliciousdaily.com"

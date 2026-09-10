@@ -4,6 +4,13 @@ This site now builds itself. You add, edit, or delete a recipe through a form at
 `/admin`, and the live site updates automatically within about a minute — no HTML,
 no code, nothing to touch by hand.
 
+**No longer the only way in:** a second person can log in at
+`/admin/collaborator/` with just an email and password (no GitHub account),
+and anyone can suggest a recipe at `/submit-recipe/` with no login at all —
+submissions arrive as a pull request for you to review, and never publish
+themselves. Both need a one-time setup first; see
+`docs/COLLABORATOR-AND-SUBMISSIONS-SETUP.md`.
+
 ## Day-to-day: logging in and publishing
 
 1. Go to `https://thedeliciousdaily.com/admin/`.
@@ -42,6 +49,7 @@ the live site on the next rebuild.
 | Photo | Upload an image here — it's saved into the `images/` folder automatically and used everywhere the recipe's photo appears. Leave blank and the recipe shows a plain placeholder until you add one. |
 | Recipe content | Prep/cook time, servings, ingredients, and steps, all in one field — see **Quick Paste** below, it's the fast way to fill this in. |
 | Note | Optional tip shown in a highlighted box at the end of the method. Leave blank to omit it. |
+| Keep hidden from the live site (draft) | While this is on, the recipe stays off the homepage and out of the sitemap — its page still exists at its own URL, just unlinked and marked not-to-be-indexed. Useful while you're still working on one, and it's how recipes arrive from the public submission form. Switch it off when it's ready to go live. |
 
 ## Quick Paste — auto-fill from a pasted recipe
 

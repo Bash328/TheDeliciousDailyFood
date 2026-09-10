@@ -1,10 +1,10 @@
-# The main content manager, at /admin/ — signs in with a GitHub account
-# through the OAuth relay worker in ../oauth-worker.
+# The second content manager, at /admin/collaborator/ — signs in with an
+# email and password through Netlify Identity instead of a GitHub account,
+# and writes to this same repo through Git Gateway. Setup instructions:
+# ../../docs/COLLABORATOR-AND-SUBMISSIONS-SETUP.md
 backend:
-  name: github
-  repo: Bash328/TheDeliciousDailyFood
+  name: git-gateway
   branch: main
-  base_url: "https://decap-oauth.cwakiku.workers.dev"
 
 logo_url: "https://thedeliciousdaily.com/images/logo-mark.png"
 site_url: "https://thedeliciousdaily.com"

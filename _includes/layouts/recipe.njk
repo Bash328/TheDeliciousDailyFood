@@ -12,11 +12,15 @@
 <meta property="og:description" content="{{ description }}">
 <meta property="og:type" content="article">
 {% if imageUrl %}<meta property="og:image" content="{{ imageUrl }}">{% endif %}
+<meta property="og:url" content="{{ pageUrl }}">
+<meta property="og:site_name" content="{{ site.title }}">
+<meta name="twitter:card" content="{% if imageUrl %}summary_large_image{% else %}summary{% endif %}">
 <link rel="canonical" href="{{ pageUrl }}">
+{% if draft %}<meta name="robots" content="noindex">{% endif %}
 <link rel="icon" type="image/png" href="/favicon-light.png">
 <link rel="icon" type="image/png" href="/favicon-dark.png" media="(prefers-color-scheme: dark)">
 {% include "partials/fonts.njk" %}
-<link rel="stylesheet" href="../../style.css?v=2">
+<link rel="stylesheet" href="../../style.css?v={{ site.assetVersion }}">
 {% include "partials/tracking.njk" %}
 <script type="application/ld+json">
 {
@@ -25,6 +29,8 @@
   "name": {{ title | dump | safe }},
   {% if imageUrl %}"image": [{{ imageUrl | dump | safe }}],{% endif %}
   "description": {{ description | dump | safe }},
+  "author": { "@type": "Organization", "name": {{ site.title | dump | safe }}, "url": {{ site.url | dump | safe }} },
+  {% if page.date %}"datePublished": "{{ page.date | isoDate }}",{% endif %}
   "prepTime": "{{ recipeContent.prepTimeMinutes | isoDuration }}",
   "cookTime": "{{ recipeContent.cookTimeMinutes | isoDuration }}",
   "totalTime": "{{ totalMinutes | isoDuration }}",
@@ -44,6 +50,7 @@
 </head>
 <body>
 
+<main>
 <div class="wrap recipe-header">
   <a class="back-link" href="../../">&larr; {{ site.title }}</a>
   <span class="eyebrow">{{ category }}{% if tag %} · {{ tag }}{% endif %}</span>
@@ -96,7 +103,13 @@
   </div>
 </div>
 
+</main>
+
 {% include "partials/footer.njk" %}
+
+{#- Pinterest's script, loaded only here: it exists to upgrade the Pin button
+    above into a real save widget, and no other page has that button. -#}
+<script async defer src="//assets.pinterest.com/js/pinit.js"></script>
 
 <script src="/grocery-list.js"></script>
 <script>

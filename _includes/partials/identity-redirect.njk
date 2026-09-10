@@ -1,0 +1,15 @@
+<!-- Only relevant once Netlify Identity is set up for the second CMS editor
+     (see docs/COLLABORATOR-AND-SUBMISSIONS-SETUP.md). Netlify's invite and
+     password-reset emails link to this site's homepage with a token in the
+     URL fragment; this catches that and forwards the person — token and all —
+     to the collaborator login, instead of leaving them on a homepage that
+     looks like nothing happened. Every other visitor runs one regex and
+     loads nothing extra. -->
+<script>
+  (function () {
+    var frag = window.location.hash;
+    if (/(invite_token|recovery_token|confirmation_token|email_change_token)=/.test(frag)) {
+      window.location.replace("/admin/collaborator/" + frag);
+    }
+  })();
+</script>
