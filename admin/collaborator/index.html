@@ -18,6 +18,13 @@
        screen, and hand-rolled open()/redirect-on-login handlers on the admin
        page itself just fight with it. -->
   <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+  <script>
+    if (window.netlifyIdentity) {
+      window.netlifyIdentity.init({
+        APIUrl: "https://visionary-blini-2fe999.netlify.app/.netlify/identity"
+      });
+    }
+      </script>
 </head>
 <body>
   <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
