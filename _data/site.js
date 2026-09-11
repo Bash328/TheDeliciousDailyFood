@@ -13,7 +13,8 @@ module.exports = {
   // Until submitEndpoint is filled in with the deployed submission worker's
   // URL, /submit-recipe/ builds as a short "not open for submissions" note
   // instead of a form that can't send anywhere, and nothing links to it.
-  submitEndpoint: "",
+  submitEndpoint:
+    "https://delicious-daily-submissions.cwakiku.workers.dev/submit",
   // Optional Cloudflare Turnstile site key for spam filtering on that form.
   // Leave empty to skip it — the widget isn't loaded at all when it's blank,
   // rather than rendering an error box with a placeholder key.
