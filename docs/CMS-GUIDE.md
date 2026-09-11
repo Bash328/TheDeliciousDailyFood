@@ -50,6 +50,8 @@ the live site on the next rebuild.
 | Recipe content | Prep/cook time, servings, ingredients, and steps, all in one field — see **Quick Paste** below, it's the fast way to fill this in. |
 | Note | Optional tip shown in a highlighted box at the end of the method. Leave blank to omit it. |
 | Keep hidden from the live site (draft) | While this is on, the recipe stays off the homepage and out of the sitemap — its page still exists at its own URL, just unlinked and marked not-to-be-indexed. Useful while you're still working on one, and it's how recipes arrive from the public submission form. Switch it off when it's ready to go live. |
+| Credit — name / Instagram | Who sent the recipe in, shown as a line under the description on the recipe page, and named as the author in the page's structured data. Filled in from the submission form; clear either one to drop it. The Instagram link is marked nofollow, so it passes no search ranking. |
+| Came in through the public submission form | Set automatically on recipes sent in at /submit-recipe/. It is what puts them in the **Submitted** list in the sidebar; switch it off once you've finished with one to clear it from that list. |
 
 ## Quick Paste — auto-fill from a pasted recipe
 

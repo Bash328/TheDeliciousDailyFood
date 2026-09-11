@@ -29,7 +29,12 @@
   "name": {{ title | dump | safe }},
   {% if imageUrl %}"image": [{{ imageUrl | dump | safe }}],{% endif %}
   "description": {{ description | dump | safe }},
+  {% if creditName or creditInstagram -%}
+  "author": { "@type": "Person", "name": {{ (creditName or ("@" + creditInstagram)) | dump | safe }}{% if creditInstagram %}, "sameAs": {{ ("https://www.instagram.com/" + creditInstagram + "/") | dump | safe }}{% endif %} },
+  "publisher": { "@type": "Organization", "name": {{ site.title | dump | safe }}, "url": {{ site.url | dump | safe }} },
+  {%- else -%}
   "author": { "@type": "Organization", "name": {{ site.title | dump | safe }}, "url": {{ site.url | dump | safe }} },
+  {%- endif %}
   {% if page.date %}"datePublished": "{{ page.date | isoDate }}",{% endif %}
   "prepTime": "{{ recipeContent.prepTimeMinutes | isoDuration }}",
   "cookTime": "{{ recipeContent.cookTimeMinutes | isoDuration }}",
@@ -56,6 +61,17 @@
   <span class="eyebrow">{{ category }}{% if tag %} · {{ tag }}{% endif %}</span>
   <h1>{{ title }}</h1>
   <p class="lede">{{ description }}</p>
+  {%- if creditName or creditInstagram %}
+  {#- rel="nofollow ugc noopener": the handle is text a stranger typed into a
+      public form, so the link is marked user-generated and carries no search
+      ranking. That's what keeps the field from being worth abusing. -#}
+  <p class="recipe-credit">Sent in by
+    {%- if creditName %} <span class="credit-name">{{ creditName }}</span>{% endif %}
+    {%- if creditInstagram %}
+    <a class="credit-instagram" href="https://www.instagram.com/{{ creditInstagram }}/" rel="nofollow ugc noopener" target="_blank">&#64;{{ creditInstagram }}</a>
+    {%- endif %}
+  </p>
+  {%- endif %}
 </div>
 
 <div class="wrap">

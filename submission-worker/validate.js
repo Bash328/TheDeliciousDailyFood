@@ -22,6 +22,9 @@ var SUBMISSION_LIMITS = {
   descriptionMax: 280,
   rawMin: 120,
   rawMax: 6000,
+  // Characters typed into the recipe box beyond the blank outline the form
+  // starts them with.
+  minTypedCharacters: 60,
   minIngredientLines: 3,
   minSteps: 2,
   maxLinksInRecipe: 2,
@@ -40,6 +43,24 @@ var HAS_AMOUNT =
   /(\d|[¼-¾⅐-⅞]|\b(cups?|tbsps?|tablespoons?|tsps?|teaspoons?|grams?|kgs?|kilos?|kilograms?|ml|millilitres?|milliliters?|l|litres?|liters?|oz|ounces?|lbs?|pounds?|cloves?|pinch(?:es)?|cans?|jars?|slices?|sprigs?|sticks?|handfuls?|packets?|packs?|bunch(?:es)?|quarts?|pints?|gallons?|dash(?:es)?|knobs?|splash(?:es)?)\b)/i;
 
 var LINK_PATTERN = /(https?:\/\/|www\.)\S+/gi;
+
+// Instagram handles are the one piece of a submitter's own text that ends up
+// linked from the site, so this is deliberately narrow: what comes back is
+// always a bare handle that Instagram's own rules allow (letters, digits,
+// dots, underscores, up to 30). A full profile URL is accepted and reduced to
+// its handle; anything pointing anywhere else is refused rather than cleaned
+// up, so the field can't be turned into a link to an arbitrary site.
+var INSTAGRAM_HANDLE = /^[A-Za-z0-9._]{1,30}$/;
+var INSTAGRAM_URL = /^(?:https?:\/\/)?(?:www\.)?instagram\.com\/([A-Za-z0-9._]{1,30})\/?$/i;
+
+function normalizeInstagram(value) {
+  var raw = String(value == null ? "" : value).trim();
+  if (!raw) return "";
+  var asUrl = raw.match(INSTAGRAM_URL);
+  if (asUrl) return asUrl[1];
+  var bare = raw.replace(/^@/, "");
+  return INSTAGRAM_HANDLE.test(bare) ? bare : null; // null means "not usable"
+}
 
 function countLinks(text) {
   var found = text.match(LINK_PATTERN);
@@ -91,6 +112,23 @@ function wordCount(text) {
   return text.split(/\s+/).filter(Boolean).length;
 }
 
+// The form hands people a skeleton to fill in (Prep time: / Ingredients: /
+// Instructions:), which means "they sent the empty skeleton back" is now a
+// thing that can happen. This strips the scaffold — the labels themselves,
+// headings, and bullets or numbers with nothing after them — and reports what
+// the person actually typed. Deliberately not an exact match against the
+// template: someone who deletes a line or two should still be measured on
+// what they wrote.
+function contentBeyondTemplate(text) {
+  return text
+    .replace(/^\s*(?:prep|cook|bak)[a-z]*(?:\s*time)?\s*:/gim, "")
+    .replace(/^\s*(?:serves|servings|yield)\s*:/gim, "")
+    .replace(/^\s*(?:ingredients|instructions|steps|directions|method)\s*:?\s*$/gim, "")
+    .replace(/^\s*[-*•]\s*$/gm, "")
+    .replace(/^\s*\d+[.)]\s*$/gm, "")
+    .replace(/\s+/g, "");
+}
+
 // Returns null when the submission is fine, or { field, message } for the
 // first problem found. Fields are checked in the order they appear on the
 // form, so the message always points at the earliest thing to fix.
@@ -134,6 +172,16 @@ function validateSubmission(submission) {
     };
   }
 
+  // Checked before the length rule, so someone who sends the skeleton back
+  // untouched is told that, rather than being told their recipe is "too short".
+  if (contentBeyondTemplate(raw).length < L.minTypedCharacters) {
+    return {
+      field: "raw",
+      message:
+        "The recipe box is still mostly the blank outline — fill in the times, " +
+        "the ingredients with their amounts, and the steps.",
+    };
+  }
   if (raw.length < L.rawMin) {
     return {
       field: "raw",
@@ -169,7 +217,21 @@ function validateSubmission(submission) {
     };
   }
 
+  if (submission.instagram && normalizeInstagram(submission.instagram) === null) {
+    return {
+      field: "instagram",
+      message:
+        "That doesn't look like an Instagram handle. Use something like " +
+        "@yourname, or leave it blank.",
+    };
+  }
+
   return null;
 }
 
-export { validateSubmission, SUBMISSION_LIMITS, SUBMISSION_CATEGORIES };
+export {
+  validateSubmission,
+  normalizeInstagram,
+  SUBMISSION_LIMITS,
+  SUBMISSION_CATEGORIES,
+};

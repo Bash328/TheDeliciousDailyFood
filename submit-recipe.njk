@@ -51,20 +51,32 @@ that can't be sent.</p>
   <textarea id="description" name="description" rows="2" required maxlength="280" placeholder="One or two sentences — what it is and why it's worth making."></textarea>
 
   <label for="raw">The recipe itself *</label>
-  <p class="submit-hint">Paste it in as plain text — prep and cook time,
-  servings, ingredients, and steps. Any format is fine, for example:</p>
-  <pre class="submit-example">Prep time: 15 minutes
-Cook time: 30 minutes
-Serves: 4
+  <p class="submit-hint">Fill in the outline below — type after each heading and
+  keep the headings as they are. Add or remove ingredient and step lines as you
+  need. (If you'd rather paste a recipe you've already written, replace the
+  whole box with it; just keep the <em>Ingredients:</em> and
+  <em>Instructions:</em> headings on their own lines.)</p>
+  {#- The starting text matches what the CMS's Quick Paste parser reads:
+      "Prep time:", "Cook time:", "Serves:", and Ingredients:/Instructions: as
+      headings on their own lines. Keeping submissions in this shape is what
+      makes Parse & Fill work in one click when the recipe is reviewed.
+      Whitespace inside a <textarea> is content, so this is deliberately flush
+      to the left margin and must stay that way. -#}
+  <textarea id="raw" name="raw" rows="16" required maxlength="6000">Prep time:
+Cook time:
+Serves:
 
 Ingredients:
-- 2 cups flour
-- 1 tsp salt
+-
+-
+-
+-
 
 Instructions:
-1. Preheat oven to 350°F
-2. Mix dry ingredients</pre>
-  <textarea id="raw" name="raw" rows="12" required maxlength="6000"></textarea>
+1.
+2.
+3.
+</textarea>
 
   <label for="photo">A photo of the finished dish *</label>
   <p class="submit-hint">Required — one photo of the dish as you made it, not a
@@ -80,9 +92,18 @@ Instructions:
   <p id="photo-status" class="submit-hint" role="status"></p>
 
   <label for="submitterName">Your name (optional)</label>
+  <p class="submit-hint">Credited on the recipe as the person who sent it in,
+  if it's published. Leave it blank to stay anonymous.</p>
   <input type="text" id="submitterName" name="submitterName" maxlength="80">
 
-  <label for="submitterEmail">Your email (optional, in case there's a question)</label>
+  <label for="submitterInstagram">Your Instagram (optional)</label>
+  <p class="submit-hint">Just the handle — <code>@yourname</code>. Linked from
+  your credit on the recipe, if it's published.</p>
+  <input type="text" id="submitterInstagram" name="submitterInstagram" maxlength="40" placeholder="@yourname" autocapitalize="none" autocorrect="off" spellcheck="false">
+
+  <label for="submitterEmail">Your email (optional)</label>
+  <p class="submit-hint">Never published, and never shown on the site — only
+  used if there's a question about the recipe.</p>
   <input type="email" id="submitterEmail" name="submitterEmail" maxlength="120">
 
   {%- if site.turnstileSiteKey %}
@@ -97,8 +118,8 @@ Instructions:
 </form>
 
 <p class="submit-hint">By sending a recipe you're confirming it's yours to
-share, photo included. Your email is only used if there's a question about the
-recipe — it's never published or passed on.</p>
+share, photo included. If you give a name or an Instagram handle they're shown
+as your credit on the recipe when it's published; your email never is.</p>
 
 {%- if site.turnstileSiteKey %}
 <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
@@ -136,10 +157,15 @@ recipe — it's never published or passed on.</p>
 
   // Says what's wrong, and puts the cursor on the thing that's wrong — on a
   // long form, a message alone leaves people hunting for the field.
+  // The validator names fields in its own terms, which mostly match the input
+  // ids. Anything that doesn't is mapped here rather than bending the shared
+  // rules file to this page's markup.
+  var FIELD_TO_INPUT = { instagram: "submitterInstagram" };
+
   function fail(field, message) {
     statusEl.textContent = message;
     statusEl.classList.add("submit-status-error");
-    var el = document.getElementById(field);
+    var el = document.getElementById(FIELD_TO_INPUT[field] || field);
     if (el) {
       el.setAttribute("aria-invalid", "true");
       el.focus();
@@ -250,6 +276,7 @@ recipe — it's never published or passed on.</p>
       description: form.description.value.trim(),
       raw: form.raw.value.trim(),
       submitterName: form.submitterName.value.trim(),
+      submitterInstagram: form.submitterInstagram.value.trim(),
       submitterEmail: form.submitterEmail.value.trim(),
       turnstileToken: turnstileToken,
       image: photo
@@ -265,6 +292,7 @@ recipe — it's never published or passed on.</p>
       category: payload.category,
       description: payload.description,
       raw: payload.raw,
+      instagram: payload.submitterInstagram,
       hasImage: !!photo
     });
     if (problem) {

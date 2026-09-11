@@ -20,7 +20,7 @@
 //
 // Full walkthrough: ../docs/COLLABORATOR-AND-SUBMISSIONS-SETUP.md
 
-import { validateSubmission } from "./validate.js";
+import { validateSubmission, normalizeInstagram } from "./validate.js";
 
 const GITHUB_API = "https://api.github.com";
 // Generous enough for a 1600px JPEG (the form shrinks photos before sending)
@@ -100,7 +100,15 @@ function yamlString(value) {
   return JSON.stringify(String(value == null ? "" : value));
 }
 
-function buildRecipeFile({ title, slug, category, description, imagePath }) {
+function buildRecipeFile({
+  title,
+  slug,
+  category,
+  description,
+  imagePath,
+  creditName,
+  creditInstagram,
+}) {
   const date = new Date().toISOString().slice(0, 10);
   return [
     "---",
@@ -116,7 +124,16 @@ function buildRecipeFile({ title, slug, category, description, imagePath }) {
     "  ingredients: []",
     "  steps: []",
     `note: ""`,
+    // The public credit. Name and Instagram handle only — the submitter's
+    // email stays in the pull request description and never reaches a file
+    // the site builds from.
+    `creditName: ${yamlString(creditName || "")}`,
+    `creditInstagram: ${yamlString(creditInstagram || "")}`,
     "draft: true",
+    // What puts this in the CMS's "Submitted" list. `draft` keeps it off the
+    // site; this is what marks where it came from, so a reviewer can find the
+    // things sent in without picking through every recipe.
+    "submitted: true",
     "---",
     "",
   ].join("\n");
@@ -262,6 +279,9 @@ async function handleSubmit(request, env) {
   const raw = String(payload.raw || "").trim();
   const submitterName = String(payload.submitterName || "").trim().slice(0, 80);
   const submitterEmail = String(payload.submitterEmail || "").trim().slice(0, 120);
+  // null here means "given, but not a usable handle" — validateSubmission
+  // turns that into a message; "" just means they left it blank.
+  const submitterInstagram = normalizeInstagram(payload.submitterInstagram);
 
   // A photo is required, and it has to be an actual photo — the byte check
   // runs before the rest of the rules so "has an image" means "has one that
@@ -300,6 +320,7 @@ async function handleSubmit(request, env) {
     category,
     description,
     raw,
+    instagram: payload.submitterInstagram,
     hasImage: !!imageExt,
   });
   if (problem) {
@@ -368,7 +389,15 @@ async function handleSubmit(request, env) {
     body: JSON.stringify({
       message: `Recipe submission: ${title}`,
       content: toBase64Utf8(
-        buildRecipeFile({ title, slug, category, description, imagePath })
+        buildRecipeFile({
+          title,
+          slug,
+          category,
+          description,
+          imagePath,
+          creditName: submitterName,
+          creditInstagram: submitterInstagram || "",
+        })
       ),
       branch: branchName,
     }),
@@ -386,6 +415,13 @@ async function handleSubmit(request, env) {
     `**Category:** ${category}`,
     `**Description:** ${description}`,
     `**Photo:** ${imagePath ? "attached, see below" : "none sent"}`,
+    `**Public credit:** ${
+      submitterName || submitterInstagram
+        ? [submitterName, submitterInstagram ? "@" + submitterInstagram : ""]
+            .filter(Boolean)
+            .join(" · ") + " — already set on the recipe, clear it to publish anonymously"
+        : "none given, publishes anonymously"
+    }`,
     "",
     "**Pasted recipe text** — copy this into the Quick Paste box on the",
     "Recipe content field in the CMS and click Parse & Fill:",

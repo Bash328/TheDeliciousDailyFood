@@ -4,12 +4,12 @@
     <p>{{ site.title }} — recipes tested at home, not in a lab</p>
     <nav class="footer-links" aria-label="Site">
       <a href="/about/">About</a>
-      <a href="/tools/grocery-list/">Grocery List</a>
-      {%- if site.submitEndpoint %}
-      <a href="/submit-recipe/">Submit a Recipe</a>
-      {%- endif %}
       <a href="/contact/">Contact</a>
       <a href="/privacy-policy/">Privacy Policy</a>
+      <a class="nav-action" href="/tools/grocery-list/">Grocery List</a>
+      {%- if site.submitEndpoint %}
+      <a class="nav-action is-primary" href="/submit-recipe/">Submit a Recipe</a>
+      {%- endif %}
     </nav>
   </div>
 </footer>

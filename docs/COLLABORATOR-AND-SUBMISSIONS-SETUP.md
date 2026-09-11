@@ -132,18 +132,34 @@ sitting on the live site in the meantime.
 
 ### Reviewing a submission
 
+Merged submissions land in the CMS under **Submitted (from the public form)** —
+a second view onto the same Recipes folder, filtered to the ones that came in
+that way, so you don't have to pick them out of the full list. They also appear
+in **Recipes** like any other, because that's exactly what they are: an ordinary
+recipe file that happens to have `submitted: true` on it. Both logins see both
+views.
+
 1. Open the PR on GitHub and read the description — category, short
    description, submitter contact (if they gave any), their photo, and their
    raw recipe text.
 2. Merge it (or edit the file on that branch first, if you'd rather clean it up
    before merging — normal GitHub PR editing). Their photo is already on the
    branch and already set as the recipe's photo.
-3. Once merged, open `/admin/` and find the new recipe. It's there with **Keep
-   hidden from the live site** switched on, so it isn't on the homepage.
+3. Once merged, open `/admin/` and go to **Submitted (from the public form)**.
+   The new recipe is there with **Keep hidden from the live site** switched on,
+   so it isn't on the homepage.
 4. Paste the submitter's raw text from the PR description into the **Quick
    Paste** box on the Recipe content field, click **Parse & Fill**, adjust as
    usual, swap the photo if you'd rather use your own, switch off **Keep hidden
-   from the live site**, and Publish.
+   from the live site**, and Publish. Turning off **Came in through the public
+   submission form** as well clears it from the Submitted list once you're done
+   — the recipe itself doesn't move.
+
+The form hands people a fixed outline (`Prep time:`, `Cook time:`, `Serves:`,
+then `Ingredients:` and `Instructions:` as headings on their own lines), which
+is the exact shape Quick Paste reads. That's deliberate: a submission that keeps
+the outline parses in one click. Sending the outline back barely filled in is
+refused, with a message saying so.
 
 If you decide not to use a submission, close the PR without merging — nothing
 was ever written to `main`.
@@ -178,6 +194,27 @@ the site *and* redeploy the worker (`wrangler deploy`), since both carry a copy.
 If you find the ingredient-line rule too strict — a recipe written as one flowing
 paragraph rather than a list will be turned away — `minIngredientLines` at the
 top of that file is the number to lower.
+
+### Crediting the person who sent it in
+
+The form asks for a name and an Instagram handle, both optional. If either is
+given, the recipe page carries a line under its description — *"Sent in by Jamie
+O'Brien @jamie.obrien_99"* — and the page's structured data names that person as
+the recipe's author, with the site as publisher.
+
+- **The handle is validated, not just stored.** Only Instagram's own character
+  set is accepted (letters, digits, dots, underscores, up to 30); a full
+  instagram.com profile URL is reduced to its handle, and anything pointing
+  anywhere else is refused with a message. The field can't be turned into a
+  link to another site.
+- **The link is `rel="nofollow ugc noopener"`**, so it passes no search ranking.
+  That's deliberate: a public form offering a followed link is what link
+  spammers look for, and this removes the payoff.
+- **The email is never published.** It stays in the pull request description
+  and is never written into a file the site builds from. Name and handle are
+  the only two things that become public, and the form says so next to each.
+- **You can always overrule it.** Both are ordinary fields on the recipe in the
+  CMS — clear them to publish anonymously, or fix a typo before publishing.
 
 ### Photos
 

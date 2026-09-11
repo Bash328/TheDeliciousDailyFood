@@ -19,6 +19,11 @@ publish_mode: simple
 # Kept byte-identical between admin/config.yml and admin/collaborator/config.yml
 # so both logins edit the same fields. .eleventy.js warns at build time if the
 # two ever drift apart — if you add a field, add it to both.
+#
+# Two views onto the same _recipes folder: everything, and just the ones that
+# came in through the public form. The second is a filter, not a separate
+# place — a submitted recipe is an ordinary recipe file, so publishing it is
+# the same job as publishing any other.
 collections:
   - name: "recipes"
     label: "Recipes"
@@ -26,7 +31,7 @@ collections:
     create: true
     slug: "{{slug}}"
     identifier_field: title
-    fields:
+    fields: &recipe_fields
       - { label: "Title", name: "title", widget: "string" }
       - { label: "URL slug (only set once, changing it later breaks the recipe's link)", name: "slug", widget: "string", hint: "Lowercase, words separated by dashes, e.g. lemon-blueberry-muffins. This becomes part of the web address." }
       - { label: "Publish date", name: "date", widget: "datetime", default: "" }
@@ -42,4 +47,16 @@ collections:
         widget: "quickpaste"
         default: { servingsUnit: "Servings", ingredients: [], steps: [] }
       - { label: "Note (optional tip shown at the end of the method)", name: "note", widget: "text", required: false }
+      - { label: "Credit — name (shown on the recipe as who sent it in)", name: "creditName", widget: "string", required: false, hint: "Filled in from the submission form. Clear it to publish the recipe without a credit." }
+      - { label: "Credit — Instagram handle (no @)", name: "creditInstagram", widget: "string", required: false, hint: "Just the handle, e.g. jamieoliver. Linked from the credit line, marked nofollow so it carries no search ranking. Clear it to drop the link." }
       - { label: "Keep hidden from the live site for now (draft)", name: "draft", widget: "boolean", default: false, required: false, hint: "Leave this on while you're still working on a recipe — the site's build skips anything marked draft, so it stays off the homepage. Recipes sent in through the public form arrive with this on; turn it off when you're happy with it and publish." }
+      - { label: "Came in through the public submission form", name: "submitted", widget: "boolean", default: false, required: false, hint: "Set automatically for recipes sent in at /submit-recipe/, and what puts them in the Submitted list. Turn it off once you've finished with one to clear it from that list — the recipe itself stays exactly where it is." }
+
+  - name: "submitted"
+    label: "Submitted (from the public form)"
+    folder: "_recipes"
+    create: false
+    slug: "{{slug}}"
+    identifier_field: title
+    filter: { field: "submitted", value: true }
+    fields: *recipe_fields

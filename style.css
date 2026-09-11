@@ -171,6 +171,75 @@ a { color: inherit; text-decoration: none; }
 
 .site-nav a:hover { color: var(--accent); }
 
+/* ---------- Highlighted nav actions (Submit a Recipe / Grocery List) ---------- */
+
+/* The two things a visitor can *do*, as opposed to somewhere they can browse.
+   Given a pill so they read as actions in a row of plain links — solid for
+   Submit (the one being invited), outlined for the Grocery List. Sized off the
+   nav's own type, so they sit on the same line in both the header and footer
+   without fighting the letter-spacing. */
+
+.nav-action {
+  display: inline-block;
+  padding: 7px 15px;
+  border: 1px solid var(--accent);
+  border-radius: 2px;
+  color: var(--accent);
+  line-height: 1;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.nav-action:hover {
+  background: var(--accent);
+  color: var(--bg);
+}
+
+.nav-action.is-primary {
+  background: var(--accent);
+  color: #fff;
+}
+
+.nav-action.is-primary:hover {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: #fff;
+}
+
+/* The pills are taller than the plain links beside them, so the row centres on
+   them rather than on the text baseline. */
+.site-nav,
+.footer-links {
+  align-items: center;
+}
+
+/* On a phone the category links plus the two pills wrap to four rows at the
+   desktop 36px gap, pushing the first recipe well below the fold. Tighter
+   gaps pack the same links into fewer rows. */
+@media (max-width: 560px) {
+  .site-nav { gap: 10px 14px; padding: 18px 0; }
+  .nav-action { padding: 6px 12px; }
+}
+
+/* Byline under the recipe lede, for recipes sent in by a reader. */
+.recipe-credit {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.74rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin: 14px 0 0;
+}
+
+.recipe-credit .credit-name { color: var(--ink-soft); }
+
+.recipe-credit .credit-instagram {
+  color: var(--accent);
+  border-bottom: 1px solid currentColor;
+  padding-bottom: 1px;
+}
+
+.recipe-credit .credit-instagram:hover { opacity: 0.75; }
+
 /* ---------- Section headings ---------- */
 
 .section-head {
@@ -717,17 +786,6 @@ a { color: inherit; text-decoration: none; }
   font-size: 0.85rem;
   color: var(--ink-soft);
   margin: 4px 0 8px;
-}
-
-.submit-example {
-  background: var(--card-bg);
-  border: 1px solid var(--rule);
-  border-radius: 2px;
-  padding: 14px 16px;
-  font-size: 0.82rem;
-  color: var(--ink-soft);
-  white-space: pre-wrap;
-  margin: 0 0 10px;
 }
 
 .submit-form button {
