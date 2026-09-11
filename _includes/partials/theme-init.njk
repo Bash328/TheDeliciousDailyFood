@@ -1,0 +1,17 @@
+{#- Goes in <head>, before the stylesheet is applied to anything, and stays
+    inline and blocking on purpose: if a stored "dark" choice were applied any
+    later, the page would paint light first and flash. Only an explicit choice
+    is stored — with nothing in localStorage the OS preference wins, handled
+    in CSS by the prefers-color-scheme block in style.css. -#}
+<script>
+  (function () {
+    try {
+      var stored = localStorage.getItem("dd-theme");
+      if (stored === "dark" || stored === "light") {
+        document.documentElement.setAttribute("data-theme", stored);
+      }
+    } catch (e) {
+      /* Private mode or blocked storage — fall through to the OS preference. */
+    }
+  })();
+</script>

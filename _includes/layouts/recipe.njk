@@ -21,6 +21,7 @@
 <link rel="icon" type="image/png" href="/favicon-dark.png" media="(prefers-color-scheme: dark)">
 {% include "partials/fonts.njk" %}
 <link rel="stylesheet" href="../../style.css?v={{ site.assetVersion }}">
+{% include "partials/theme-init.njk" %}
 {% include "partials/tracking.njk" %}
 <script type="application/ld+json">
 {
@@ -54,6 +55,8 @@
 </script>
 </head>
 <body>
+
+{% include "partials/theme-toggle.njk" %}
 
 <main>
 <div class="wrap recipe-header">

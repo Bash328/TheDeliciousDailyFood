@@ -21,9 +21,12 @@ permalink: index.html
 <link rel="icon" type="image/png" href="/favicon-dark.png" media="(prefers-color-scheme: dark)">
 {% include "partials/fonts.njk" %}
 <link rel="stylesheet" href="style.css?v={{ site.assetVersion }}">
+{% include "partials/theme-init.njk" %}
 {% include "partials/tracking.njk" %}
 </head>
 <body>
+
+{% include "partials/theme-toggle.njk" %}
 
 <header class="site-header">
   <div class="wrap">

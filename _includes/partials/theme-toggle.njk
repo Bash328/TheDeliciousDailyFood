@@ -1,0 +1,37 @@
+{#- Rendered hidden and unhidden by the script below, so a visitor without
+    JavaScript isn't shown a button that can't do anything — their OS
+    preference still picks the theme. -#}
+<button type="button" class="theme-toggle" id="theme-toggle" hidden
+        aria-label="Switch between light and dark mode" title="Light / dark">
+  <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
+       stroke-linecap="round" aria-hidden="true">
+    <circle cx="12" cy="12" r="4.2"></circle>
+    <path d="M12 2.5v2.2M12 19.3v2.2M4.22 4.22l1.56 1.56M18.22 18.22l1.56 1.56M2.5 12h2.2M19.3 12h2.2M4.22 19.78l1.56-1.56M18.22 5.78l1.56-1.56"></path>
+  </svg>
+  <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M20.5 14.3A8.6 8.6 0 0 1 9.7 3.5a8.6 8.6 0 1 0 10.8 10.8z"></path>
+  </svg>
+</button>
+<script>
+  (function () {
+    var btn = document.getElementById("theme-toggle");
+    if (!btn) return;
+    btn.hidden = false;
+
+    var root = document.documentElement;
+    var systemDark = window.matchMedia("(prefers-color-scheme: dark)");
+
+    function current() {
+      var set = root.getAttribute("data-theme");
+      if (set === "dark" || set === "light") return set;
+      return systemDark.matches ? "dark" : "light";
+    }
+
+    btn.addEventListener("click", function () {
+      var next = current() === "dark" ? "light" : "dark";
+      root.setAttribute("data-theme", next);
+      try { localStorage.setItem("dd-theme", next); } catch (e) {}
+    });
+  })();
+</script>
