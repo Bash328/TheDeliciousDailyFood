@@ -798,6 +798,7 @@ a { color: inherit; text-decoration: none; }
 }
 
 @media print {
+  .dd-fx,
   .theme-toggle,
   .site-header, .site-footer, .grocery-add-form, .grocery-actions, .back-link, .eyebrow, .lede {
     display: none !important;
@@ -975,4 +976,75 @@ a:focus-visible, button:focus-visible {
 @media (max-width: 560px) {
   .theme-toggle { top: 10px; right: 10px; width: 34px; height: 34px; }
   .theme-toggle svg { width: 15px; height: 15px; }
+}
+
+/* ---------- Pointer trail & sprinkle burst ---------- */
+
+/* Both effects share one layer. Fixed, so marks are placed in viewport
+   coordinates and nothing has to listen for scroll; pointer-events:none, so
+   it can never swallow a click; and contained, so a particle's paint can't
+   invalidate anything on the page beneath it. See sprinkles.js. */
+
+.dd-fx {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  overflow: hidden;
+  contain: layout paint style;
+  color: var(--accent);
+}
+
+/* The mark's position. Written by JS, never animated. */
+.dd-mark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 20px;
+  height: 20px;
+  margin: -10px 0 0 -10px;   /* centres the mark on the pointer, for free */
+}
+
+/* The mark's artwork. A second element because the animation transforms it,
+   which would otherwise overwrite the position written on .dd-mark.
+
+   The keyframes themselves live in sprinkles.js, built with Element.animate.
+   They were CSS once, reading the drift from a custom property — but a
+   transform animation whose keyframes contain var() can't be composited, and
+   sixteen of those cost 1.35 ms a frame on the main thread. Hence the
+   opacity: 0 here and nothing else: it's what a mark looks like at rest. */
+.dd-mark-art {
+  display: block;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+}
+
+.dd-mark-art svg { display: block; width: 100%; height: 100%; }
+
+/* The burst travels as one box, so firing it is a single transform write
+   however many sprinkles are inside. */
+.dd-burst {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+}
+
+.dd-sprinkle {
+  position: absolute;
+  top: -4.5px;
+  left: -2px;
+  width: 4px;
+  height: 9px;
+  border-radius: 2.5px;
+  opacity: 0;
+}
+
+/* The blanket rule further up kills transitions, not animations, and these
+   are animations. sprinkles.js bails on the same query, so with the
+   preference on no particle is ever built — this is the belt to that braces. */
+@media (prefers-reduced-motion: reduce) {
+  .dd-fx { display: none !important; }
 }

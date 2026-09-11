@@ -1,0 +1,4 @@
+{#- Deferred and external rather than inlined: the trail runs on every page,
+    so one file cached once beats the same bytes re-sent inside every HTML
+    document. Nothing in it touches layout or paint before it runs. -#}
+<script src="/sprinkles.js?v={{ site.assetVersion }}" defer></script>

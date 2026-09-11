@@ -1,4 +1,5 @@
 const fs = require("fs");
+const path = require("path");
 const site = require("./_data/site.js");
 const { eleventyImageTransformPlugin } = require("@11ty/eleventy-img");
 
@@ -89,6 +90,27 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy("favicon-light.png");
   eleventyConfig.addPassthroughCopy("favicon-dark.png");
   eleventyConfig.addPassthroughCopy("grocery-list.js");
+  eleventyConfig.addPassthroughCopy("sprinkles.js");
+
+  // Those two are passthrough copies, so nothing was stripping their comments
+  // — and both are commented heavily, sprinkles.js especially. Measured on it:
+  // 3.5 KB down to 1.7 KB after the gzip GitHub Pages already applies, on a
+  // file every page loads. That's worth a build step in a way minifying
+  // style.css wasn't (docs/PERFORMANCE-NOTES.md explains why not), because
+  // terser is already in the tree for the HTML minifier above — no new
+  // dependency, and the source keeps its comments either way.
+  const PASSTHROUGH_SCRIPTS = ["grocery-list.js", "sprinkles.js"];
+  eleventyConfig.on("eleventy.after", async ({ dir }) => {
+    const { minify } = require("terser");
+    await Promise.all(
+      PASSTHROUGH_SCRIPTS.map(async (name) => {
+        const file = path.join(dir.output, name);
+        if (!fs.existsSync(file)) return;
+        const out = await minify(fs.readFileSync(file, "utf8"));
+        if (out.code) fs.writeFileSync(file, out.code);
+      })
+    );
+  });
 
   // The submission form checks a recipe before sending it, and the worker
   // checks it again on arrival. Both read the same file: this inlines
