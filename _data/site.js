@@ -5,7 +5,7 @@ module.exports = {
 
   // Bumped whenever style.css changes, so returning visitors get the new
   // stylesheet instead of a cached one. Used as style.css?v={{ site.assetVersion }}.
-  assetVersion: 5,
+  assetVersion: 6,
 
   tagline: "A daily dose of deliciousness, upgrade your everyday.",
 

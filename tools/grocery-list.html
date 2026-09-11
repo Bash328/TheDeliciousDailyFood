@@ -33,7 +33,7 @@ permalink: tools/grocery-list/
 <div class="wrap grocery-tool">
   <form id="grocery-add-form" class="grocery-add-form">
     <input type="text" id="grocery-add-input" placeholder="Add an item…" autocomplete="off">
-    <button type="submit" class="btn-line">Add</button>
+    <button type="submit" class="nav-action">Add</button>
   </form>
 
   <ul id="grocery-list" class="grocery-list"></ul>
@@ -41,10 +41,13 @@ permalink: tools/grocery-list/
   <p id="grocery-empty" class="grocery-empty" hidden>Your list is empty. Add an item above, or open any recipe and use "Add ingredients to Grocery List".</p>
 
   <div class="grocery-actions">
-    <button type="button" id="grocery-clear-checked" class="btn-line">Clear checked</button>
-    <button type="button" id="grocery-clear-all" class="btn-line">Clear all</button>
-    <button type="button" id="grocery-print" class="btn-line">Print list</button>
+    <button type="button" id="grocery-share" class="nav-action is-primary">Share list</button>
+    <button type="button" id="grocery-clear-checked" class="nav-action">Clear checked</button>
+    <button type="button" id="grocery-clear-all" class="nav-action">Clear all</button>
+    <button type="button" id="grocery-print" class="nav-action">Print list</button>
   </div>
+
+  <p id="grocery-share-status" class="grocery-share-status" role="status" hidden></p>
 </div>
 
 </main>
@@ -123,6 +126,83 @@ permalink: tools/grocery-list/
 
   document.getElementById("grocery-print").addEventListener("click", function () {
     window.print();
+  });
+
+  // ---- Share ----------------------------------------------------------
+  // One button, two routes. navigator.share opens the phone's own share
+  // sheet, which is where WhatsApp actually lives — along with Messages,
+  // Telegram and mail, so this isn't tied to one app. Desktop browsers
+  // mostly don't have it, and there the list goes to the clipboard instead.
+
+  var shareStatus = document.getElementById("grocery-share-status");
+  var statusTimer;
+
+  function say(message) {
+    shareStatus.textContent = message;
+    shareStatus.hidden = false;
+    clearTimeout(statusTimer);
+    statusTimer = setTimeout(function () {
+      shareStatus.hidden = true;
+    }, 4000);
+  }
+
+  // Everything on the list, with the ticked ones marked rather than dropped —
+  // what arrives should match what's on screen, with no items quietly missing.
+  function listAsText() {
+    return "Grocery list\n" + window.DDGroceryList.readList().map(function (item) {
+      return (item.checked ? "✓ " : "• ") + item.text;
+    }).join("\n");
+  }
+
+  // Pre-Clipboard-API browsers, and any page served over plain http, where
+  // navigator.clipboard is simply absent.
+  function legacyCopy(text) {
+    var field = document.createElement("textarea");
+    field.value = text;
+    field.setAttribute("readonly", "");
+    field.style.position = "fixed";
+    field.style.top = "-1000px";
+    document.body.appendChild(field);
+    field.select();
+    var copied = false;
+    try {
+      copied = document.execCommand("copy");
+    } catch (e) {
+      copied = false;
+    }
+    document.body.removeChild(field);
+    return copied;
+  }
+
+  function copyToClipboard(text) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(
+        function () { say("List copied — paste it wherever you like."); },
+        function () { say(legacyCopy(text) ? "List copied — paste it wherever you like." : "Couldn't copy the list."); }
+      );
+      return;
+    }
+    say(legacyCopy(text) ? "List copied — paste it wherever you like." : "Couldn't copy the list.");
+  }
+
+  document.getElementById("grocery-share").addEventListener("click", function () {
+    if (!window.DDGroceryList.readList().length) {
+      say("Your list is empty — add something first.");
+      return;
+    }
+    var text = listAsText();
+
+    if (navigator.share) {
+      navigator.share({ title: "Grocery list", text: text }).catch(function (err) {
+        // Dismissing the share sheet rejects with AbortError. That's the
+        // visitor saying no, not a failure to fall back from.
+        if (err && err.name === "AbortError") return;
+        copyToClipboard(text);
+      });
+      return;
+    }
+
+    copyToClipboard(text);
   });
 
   render();
