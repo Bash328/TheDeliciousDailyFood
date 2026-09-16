@@ -7,6 +7,7 @@ tag: Weeknight
 description: A loaded steak bowl piled high with crisp veggies, a creamy garlic
   sauce, and a spicy drizzle — a hearty, protein-packed dinner ready in 30
   minutes.
+image: /images/whatsapp-image-2026-09-02-at-09.26.43.jpeg
 recipeContent:
   prepTimeMinutes: 15
   cookTimeMinutes: 15
