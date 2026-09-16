@@ -58,6 +58,6 @@ recipeContent:
     - Top with the cooked steak and chicken.
     - Drizzle with the white sauce and the hot sauce.
     - Serve immediately, tossing everything together at the table.
-draft: true
+draft: false
 submitted: false
 ---
