@@ -1,6 +1,5 @@
-// Light restyle for the Decap CMS admin so it feels like part of the site
-// instead of stock CMS chrome. Shared by both /admin/ (GitHub login) and
-// /admin/collaborator/ (email login).
+// Light restyle for the Decap CMS admin at /admin/ so it feels like part of
+// the site instead of stock CMS chrome.
 //
 // Style: "Index Card" — ruled paper background, monospace headers, a card-
 // catalog red rule line.

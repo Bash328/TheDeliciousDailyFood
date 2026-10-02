@@ -3,36 +3,7 @@ const path = require("path");
 const site = require("./_data/site.js");
 const { eleventyImageTransformPlugin } = require("@11ty/eleventy-img");
 
-// The two CMS logins (/admin/ with GitHub, /admin/collaborator/ with an email
-// and password) each need their own config.yml, because each names a different
-// backend — but they must offer the same fields, or a recipe saved from one
-// login loses whatever the other one knows about. Nothing enforces that, so
-// this compares the two files' collections blocks and says so at build time if
-// they've drifted. A warning only: a mismatch shouldn't stop the site shipping.
-function warnIfCmsConfigsDiverge() {
-  const collectionsBlock = (file) => {
-    const text = fs.readFileSync(file, "utf8");
-    const start = text.indexOf("collections:");
-    return start === -1 ? null : text.slice(start).trim();
-  };
-  try {
-    const a = collectionsBlock("admin/config.yml");
-    const b = collectionsBlock("admin/collaborator/config.yml");
-    if (a && b && a !== b) {
-      console.warn(
-        "[cms] admin/config.yml and admin/collaborator/config.yml define " +
-          "different fields. Whichever one you edited, copy the collections " +
-          "block into the other so both logins stay in sync."
-      );
-    }
-  } catch (err) {
-    console.warn("[cms] couldn't compare the two admin configs: " + err.message);
-  }
-}
-
 module.exports = function (eleventyConfig) {
-  warnIfCmsConfigsDiverge();
-
   // Rewrites every built-in <img> tag at build time into a responsive,
   // lazy-loaded <picture> (AVIF/WebP/JPEG) sized off its actual "sizes"
   // attribute — this is what keeps photo pages fast without hand-resizing

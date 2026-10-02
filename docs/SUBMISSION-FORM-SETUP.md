@@ -1,71 +1,22 @@
-# Adding a collaborator login + a public submission form
+# Setting up the public recipe-submission form
 
-This adds two things on top of the existing GitHub-login CMS at `/admin/`:
+`/submit-recipe/` is a public page anyone can use to send in a recipe. It
+never publishes anything directly; it opens a pull request on the repo with a
+draft recipe file, which you review and merge like any other PR.
 
-1. **`/admin/collaborator/`** — a second content-manager login for one other
-   person, using an email + password instead of a GitHub account.
-2. **`/submit-recipe/`** — a public page anyone can use to send in a recipe.
-   It never publishes anything directly; it opens a pull request on the repo
-   with a draft recipe file, which you review and merge like any other PR.
+It's already wired into the code in this repo. What's left is deploying a
+small Cloudflare Worker and pasting a couple of values into `_data/site.js`.
+None of it moves the site — it stays on GitHub Pages exactly as it is now.
 
-Both are already wired into the code in this repo. What's left is account
-setup on Netlify's and Cloudflare's side, and pasting a couple of values into
-`_data/site.js`. None of it moves the site — it stays on GitHub Pages exactly
-as it is now.
-
-The two halves are independent. You can do Part 1 without Part 2, or the other
-way round.
+(A second CMS login for a collaborator without their own GitHub account used
+to live here too, built on Netlify Identity + Git Gateway. It's gone — the
+collaborator now just has a GitHub account added to the repo with Write
+access and logs in at `/admin/` like anyone else, which is simpler and
+doesn't depend on Netlify at all.)
 
 ---
 
-## Part 1 — Collaborator login (Netlify Identity + Git Gateway)
-
-Netlify Identity is a free user-login service. Git Gateway is what lets Decap
-CMS use that login to read and write your GitHub repo, instead of asking the
-person for a GitHub account of their own. You're not moving the site to
-Netlify — you're using Netlify for this one login service and nothing else.
-
-1. **Create a free Netlify account** at netlify.com if you don't have one.
-   Signing in with GitHub is fine.
-2. **Add a new site** → "Import an existing project" → pick
-   `Bash328/TheDeliciousDailyFood`. Netlify will offer to build and deploy it;
-   that's fine, ignore the `*.netlify.app` URL it gives you, you won't use it.
-   (If you'd rather Netlify never built the repo at all, "Deploy manually" with
-   an empty folder also works — Identity and Git Gateway don't care whether
-   Netlify's own deploy succeeded.)
-3. In that Netlify site's dashboard: **Site configuration → Identity → Enable
-   Identity**.
-4. Still under Identity: **Registration → set to "Invite only"**, so strangers
-   can't sign themselves up.
-5. **Identity → Services → Git Gateway → Enable Git Gateway.** When it asks for
-   a GitHub personal access token, generate one at github.com → Settings →
-   Developer settings → Personal access tokens → Fine-grained tokens, scoped to
-   just this repository, with **Contents: Read and write**. Paste it in.
-6. **Site configuration → General → Site details**, set the site's **Site URL**
-   to `https://thedeliciousdaily.com` — your real domain, not the
-   `*.netlify.app` one. This is what makes invite and password-reset emails
-   link to your real site instead of the throwaway Netlify one.
-7. **Identity → Invite users**, enter your collaborator's email address. They
-   get an email with a link back to `thedeliciousdaily.com`; the homepage has a
-   small script (`_includes/partials/identity-redirect.njk`) that spots the
-   invite token in that link and forwards them straight to
-   `/admin/collaborator/` to set their password.
-8. From then on they log in at
-   `https://thedeliciousdaily.com/admin/collaborator/` with that email and
-   their password. They see the same Recipes form you do, and their edits
-   become ordinary commits on the same repo — nothing about the build changes.
-
-**To remove their access later:** Netlify → Identity → find them → Delete user.
-That's it, no code changes needed.
-
-**If you add or change a field in the CMS**, edit `admin/config.yml` *and*
-`admin/collaborator/config.yml` — each login needs its own config file because
-each names a different backend, but the `collections:` block should stay
-identical between them. The build prints a warning if the two ever drift apart.
-
----
-
-## Part 2 — Public submission form → pull request worker
+## Public submission form → pull request worker
 
 This is a second, separate Cloudflare Worker from the OAuth one in
 `oauth-worker/` — different job, kept apart so a problem in one can't reach the
@@ -136,8 +87,7 @@ Merged submissions land in the CMS under **Submitted (from the public form)** �
 a second view onto the same Recipes folder, filtered to the ones that came in
 that way, so you don't have to pick them out of the full list. They also appear
 in **Recipes** like any other, because that's exactly what they are: an ordinary
-recipe file that happens to have `submitted: true` on it. Both logins see both
-views.
+recipe file that happens to have `submitted: true` on it.
 
 1. Open the PR on GitHub and read the description — category, short
    description, submitter contact (if they gave any), their photo, and their
@@ -250,10 +200,6 @@ One photo of the finished dish is required with every submission.
 
 ## Testing checklist
 
-- [ ] Collaborator can log in at `/admin/collaborator/` with email and password
-      and sees the Recipes collection.
-- [ ] A recipe published by the collaborator appears on the live site like any
-      other.
 - [ ] Submitting the form at `/submit-recipe/` produces a PR with the expected
       content.
 - [ ] A recipe merged with the draft box checked does **not** appear on the
@@ -262,10 +208,10 @@ One photo of the finished dish is required with every submission.
 
 ## A note on the admin restyle
 
-`admin/theme.js` (shared by `/admin/` and `/admin/collaborator/`) gives the CMS
-the site's font, colors and logo. The `logo_url` / `site_url` / `display_url`
-keys in each `config.yml` are official Decap options and will keep working
-across upgrades. The rest of `theme.js` targets Decap's rendered class names,
+`admin/theme.js` gives the CMS at `/admin/` the site's font, colors and logo.
+The `logo_url` / `site_url` / `display_url` keys in `config.yml` are official
+Decap options and will keep working across upgrades. The rest of `theme.js`
+targets Decap's rendered class names,
 which aren't a documented, stable API — it matches the Decap 3.x build in place
 now, but a future Decap upgrade could rename them and make some color overrides
 quietly stop applying. Nothing breaks if that happens; the admin just looks more

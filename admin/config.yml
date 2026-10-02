@@ -15,11 +15,7 @@ public_folder: "/images"
 
 publish_mode: simple
 
-# --- shared collections block ---------------------------------------------
-# Kept byte-identical between admin/config.yml and admin/collaborator/config.yml
-# so both logins edit the same fields. .eleventy.js warns at build time if the
-# two ever drift apart — if you add a field, add it to both.
-#
+# --- collections block ------------------------------------------------------
 # Two views onto the same _recipes folder: everything, and just the ones that
 # came in through the public form. The second is a filter, not a separate
 # place — a submitted recipe is an ordinary recipe file, so publishing it is

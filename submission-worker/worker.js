@@ -18,7 +18,7 @@
 //   ALLOWED_ORIGIN        — e.g. "https://thedeliciousdaily.com"
 //   TURNSTILE_SECRET_KEY  — optional; leave unset to skip the spam check.
 //
-// Full walkthrough: ../docs/COLLABORATOR-AND-SUBMISSIONS-SETUP.md
+// Full walkthrough: ../docs/SUBMISSION-FORM-SETUP.md
 
 import { validateSubmission, normalizeInstagram } from "./validate.js";
 

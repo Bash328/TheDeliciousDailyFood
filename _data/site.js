@@ -9,7 +9,7 @@ module.exports = {
 
   tagline: "A daily dose of deliciousness, upgrade your everyday.",
 
-  // Public recipe submissions — see docs/COLLABORATOR-AND-SUBMISSIONS-SETUP.md.
+  // Public recipe submissions — see docs/SUBMISSION-FORM-SETUP.md.
   // Until submitEndpoint is filled in with the deployed submission worker's
   // URL, /submit-recipe/ builds as a short "not open for submissions" note
   // instead of a form that can't send anywhere, and nothing links to it.

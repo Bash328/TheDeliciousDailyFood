@@ -4,12 +4,14 @@ This site now builds itself. You add, edit, or delete a recipe through a form at
 `/admin`, and the live site updates automatically within about a minute — no HTML,
 no code, nothing to touch by hand.
 
-**No longer the only way in:** a second person can log in at
-`/admin/collaborator/` with just an email and password (no GitHub account),
-and anyone can suggest a recipe at `/submit-recipe/` with no login at all —
+**A collaborator without their own `/admin/` access?** Add their GitHub
+account to the repo (Settings → Collaborators → Add people → Write access) —
+they then log in at `/admin/` exactly like you do, no separate setup needed.
+
+**No login at all:** anyone can suggest a recipe at `/submit-recipe/` —
 submissions arrive as a pull request for you to review, and never publish
-themselves. Both need a one-time setup first; see
-`docs/COLLABORATOR-AND-SUBMISSIONS-SETUP.md`.
+themselves. Needs a one-time setup first; see
+`docs/SUBMISSION-FORM-SETUP.md`.
 
 ## Day-to-day: logging in and publishing
 
