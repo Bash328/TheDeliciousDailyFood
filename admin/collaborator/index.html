@@ -23,6 +23,17 @@
        up fine this way; the widget checks the hash whenever init() runs,
        not only on the very first page script. -->
   <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+  <script>
+    // TEMP DEBUG — remove once the init-call race is confirmed/fixed.
+    window.__initLog = [];
+    if (window.netlifyIdentity) {
+      const origInit = window.netlifyIdentity.init.bind(window.netlifyIdentity);
+      window.netlifyIdentity.init = function(opts) {
+        window.__initLog.push({ t: performance.now(), opts: opts, stack: new Error().stack });
+        return origInit(opts);
+      };
+    }
+  </script>
 </head>
 <body>
   <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
