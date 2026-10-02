@@ -5,6 +5,10 @@
 backend:
   name: git-gateway
   branch: main
+  # Site itself lives on GitHub Pages, not Netlify, so Identity/Git Gateway's
+  # endpoints aren't at this domain — point Decap at the Netlify project that
+  # actually hosts them.
+  base_url: https://visionary-blini-2fe999.netlify.app
 
 logo_url: "https://thedeliciousdaily.com/images/logo-mark.png"
 site_url: "https://thedeliciousdaily.com"
