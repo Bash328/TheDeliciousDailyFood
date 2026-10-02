@@ -10,24 +10,29 @@
        once they're signed in. One-time setup:
        docs/COLLABORATOR-AND-SUBMISSIONS-SETUP.md
 
-       Decap loads this same widget itself for a git-gateway backend; loading
-       it here first is what makes an invite or password-reset link (which
-       arrives as #invite_token=... in the URL) open its "set your password"
-       dialog reliably, before Decap has finished booting. Deliberately no
-       extra JS beyond this: Decap draws its own "Login with Netlify Identity"
-       screen, and hand-rolled open()/redirect-on-login handlers on the admin
-       page itself just fight with it. -->
+       Decap loads this same widget itself for a git-gateway backend, and its
+       own git-gateway module waits up to 2.5s for the widget to fire an
+       "init" event — if it doesn't see one in time, it force-calls
+       netlifyIdentity.init() with NO arguments, silently resetting APIUrl
+       back to the wrong default (this site's own origin, which has no
+       Identity service). So our init({APIUrl}) call below has to run AFTER
+       decap-cms.js has loaded and subscribed to that event, not before —
+       calling it from <head> lets our "init" event fire and get missed
+       long before Decap's listener is even attached. An invite or
+       password-reset link's #invite_token=... in the URL still gets picked
+       up fine this way; the widget checks the hash whenever init() runs,
+       not only on the very first page script. -->
   <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+</head>
+<body>
+  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
   <script>
     if (window.netlifyIdentity) {
       window.netlifyIdentity.init({
         APIUrl: "https://visionary-blini-2fe999.netlify.app/.netlify/identity"
       });
     }
-      </script>
-</head>
-<body>
-  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+  </script>
   <script src="../quickpaste-widget.js"></script>
   <script src="../theme.js"></script>
 </body>
