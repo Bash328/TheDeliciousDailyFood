@@ -7,8 +7,11 @@ backend:
   branch: main
   # Site itself lives on GitHub Pages, not Netlify, so Identity/Git Gateway's
   # endpoints aren't at this domain — point Decap at the Netlify project that
-  # actually hosts them.
-  base_url: https://visionary-blini-2fe999.netlify.app
+  # actually hosts them. (base_url is NOT a real git-gateway config key —
+  # Decap's own backend only reads identity_url/gateway_url; base_url is
+  # silently ignored, which is why that alone didn't fix the login error.)
+  identity_url: https://visionary-blini-2fe999.netlify.app/.netlify/identity
+  gateway_url: https://visionary-blini-2fe999.netlify.app/.netlify/git
 
 logo_url: "https://thedeliciousdaily.com/images/logo-mark.png"
 site_url: "https://thedeliciousdaily.com"
