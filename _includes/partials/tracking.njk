@@ -13,3 +13,6 @@
   gtag('config', '{{ tracking.googleAnalyticsId }}');
 </script>
 {%- endif %}
+{%- if tracking.cloudflareBeaconToken %}
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "{{ tracking.cloudflareBeaconToken }}"}'></script>
+{%- endif %}

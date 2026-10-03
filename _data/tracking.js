@@ -13,4 +13,8 @@ module.exports = {
   // Pinterest domain verification — just the content value, e.g. from
   // <meta name="p:domain_verify" content="THIS_PART">
   pinterestVerification: "1680edb395cd9d30913752c8aa8350b5",
+
+  // Cloudflare Web Analytics beacon token — just the token value, e.g.
+  // from data-cf-beacon='{"token": "THIS_PART"}'
+  cloudflareBeaconToken: "50b266ef93f3416282d125b19fab7dda",
 };
