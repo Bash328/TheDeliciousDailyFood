@@ -132,7 +132,7 @@ as your credit on the recipe when it's published; your email never is.</p>
 </script>
 <script>
 (function () {
-  var ENDPOINT = "{{ site.submitEndpoint }}";
+  var ENDPOINT = {{ site.submitEndpoint | jsonld | safe }};
 
   // The photo is resized in the browser before it's sent. Three reasons:
   // a phone photo is 5-10 MB and this keeps the request small, re-encoding
@@ -163,11 +163,20 @@ as your credit on the recipe when it's published; your email never is.</p>
   var FIELD_TO_INPUT = { instagram: "submitterInstagram" };
 
   function fail(field, message) {
+    clearFailure();
     statusEl.textContent = message;
     statusEl.classList.add("submit-status-error");
     var el = document.getElementById(FIELD_TO_INPUT[field] || field);
     if (el) {
+      // The message also goes right under the field: on a phone the status
+      // line is a long scroll below the field this focuses.
+      var note = document.createElement("p");
+      note.id = el.id + "-error";
+      note.className = "submit-field-error";
+      note.textContent = message;
+      el.insertAdjacentElement("afterend", note);
       el.setAttribute("aria-invalid", "true");
+      el.setAttribute("aria-describedby", note.id);
       el.focus();
       if (el.scrollIntoView) el.scrollIntoView({ block: "center", behavior: "smooth" });
     }
@@ -179,7 +188,10 @@ as your credit on the recipe when it's published; your email never is.</p>
     var marked = form.querySelectorAll("[aria-invalid]");
     for (var i = 0; i < marked.length; i++) {
       marked[i].removeAttribute("aria-invalid");
+      marked[i].removeAttribute("aria-describedby");
     }
+    var notes = form.querySelectorAll(".submit-field-error");
+    for (var j = 0; j < notes.length; j++) notes[j].remove();
   }
 
   form.addEventListener("input", clearFailure);
@@ -330,7 +342,9 @@ as your credit on the recipe when it's published; your email never is.</p>
         if (window.turnstile) window.turnstile.reset();
       })
       .catch(function (err) {
-        if (err && err.message) {
+        // A thrown Error is fetch itself failing (offline, blocked); its
+        // message is browser jargon, so only the worker's own replies are shown.
+        if (err && err.message && !(err instanceof Error)) {
           fail(err.field, err.message);
         } else {
           statusEl.textContent =

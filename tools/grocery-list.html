@@ -11,12 +11,15 @@ permalink: tools/grocery-list/
 <title>{{ title }} — {{ site.title }}</title>
 <meta name="description" content="{{ description }}">
 <link rel="canonical" href="{{ site.url }}/tools/grocery-list/">
-<link rel="icon" type="image/png" href="/favicon-light.png">
-<link rel="icon" type="image/png" href="/favicon-dark.png" media="(prefers-color-scheme: dark)">
-{% include "partials/fonts.njk" %}
-<link rel="stylesheet" href="/style.css?v={{ site.assetVersion }}">
-{% include "partials/theme-init.njk" %}
-{% include "partials/tracking.njk" %}
+<meta property="og:title" content="{{ title }} — {{ site.title }}">
+<meta property="og:description" content="{{ description }}">
+<meta property="og:type" content="website">
+<meta property="og:url" content="{{ site.url }}/tools/grocery-list/">
+<meta property="og:site_name" content="{{ site.title }}">
+<meta property="og:image" content="{{ site.url }}{{ site.defaultOgImage }}">
+<meta property="og:image:alt" content="{{ title }} — {{ site.title }}">
+<meta name="twitter:card" content="summary_large_image">
+{% include "partials/head-common.njk" %}
 </head>
 <body>
 
@@ -32,7 +35,7 @@ permalink: tools/grocery-list/
 
 <div class="wrap grocery-tool">
   <form id="grocery-add-form" class="grocery-add-form">
-    <input type="text" id="grocery-add-input" placeholder="Add an item…" autocomplete="off">
+    <input type="text" id="grocery-add-input" aria-label="Add an item" placeholder="Add an item…" autocomplete="off">
     <button type="submit" class="nav-action">Add</button>
   </form>
 
@@ -62,7 +65,10 @@ permalink: tools/grocery-list/
   var form = document.getElementById("grocery-add-form");
   var input = document.getElementById("grocery-add-input");
 
-  function render() {
+  // render() rebuilds the whole list, which would drop keyboard focus onto
+  // <body>; this puts it back on the same kind of control at the same row
+  // (or the nearest one left, or the input once the list is empty).
+  function render(focus) {
     var items = window.DDGroceryList.readList();
     listEl.innerHTML = "";
     emptyEl.hidden = items.length > 0;
@@ -78,7 +84,7 @@ permalink: tools/grocery-list/
         var current = window.DDGroceryList.readList();
         current[index].checked = checkbox.checked;
         window.DDGroceryList.writeList(current);
-        render();
+        render({ index: index, selector: "input[type=checkbox]" });
       });
       var span = document.createElement("span");
       span.textContent = item.text;
@@ -94,13 +100,20 @@ permalink: tools/grocery-list/
         var current = window.DDGroceryList.readList();
         current.splice(index, 1);
         window.DDGroceryList.writeList(current);
-        render();
+        render({ index: index, selector: ".grocery-remove" });
       });
 
       li.appendChild(label);
       li.appendChild(removeBtn);
       listEl.appendChild(li);
     });
+
+    if (focus) {
+      var rows = listEl.querySelectorAll(".grocery-item");
+      var row = rows[Math.min(focus.index, rows.length - 1)];
+      var target = row ? row.querySelector(focus.selector) : input;
+      if (target) target.focus();
+    }
   }
 
   form.addEventListener("submit", function (e) {

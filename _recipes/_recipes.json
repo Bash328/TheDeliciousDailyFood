@@ -1,4 +1,0 @@
-{
-  "layout": "layouts/recipe.njk",
-  "permalink": "recipes/{{ slug }}/"
-}

@@ -1,12 +1,12 @@
 ---
-title: "Steamed dumplings "
+title: "Steamed Dumplings"
 slug: Steamed-dumpling
 date: 2026-08-23T13:25:00.000+02:00
 category: Lunch
-description: Discover the art of making perfect homemade dumplings with this
-  easy recipe. Enjoy the savory fillings wrapped in tender dough, topped with
-  sesame seeds for a delicious touch. Perfect for family dinners or party
-  appetizers.
+cuisine: "Chinese"
+description: Homemade dumplings with a savoury pork and cabbage filling,
+  wrapped in tender dough and steamed until juicy. Perfect for family dinners
+  or party appetizers.
 image: /images/de7ef189-f518-4d5d-ad4d-c50b6db02e95.jpeg
 recipeContent:
   prepTimeMinutes: 30

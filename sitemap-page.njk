@@ -1,0 +1,37 @@
+---
+layout: layouts/page.njk
+title: Sitemap
+description: "Every recipe and page on The Delicious Daily, in one place."
+permalink: sitemap/
+---
+<p class="intro">Everything on the site, in one place.</p>
+
+{% for section in sections %}
+{%- set items = collections.recipes | byCategories(section.categories) -%}
+{% if items.length %}
+<h2>{{ section.heading }}</h2>
+<ul class="sitemap-list">
+  {% for recipe in items %}
+  <li><a href="{{ recipe.url }}">{{ recipe.data.title }}</a></li>
+  {% endfor %}
+</ul>
+{% endif %}
+{% endfor %}
+
+<h2>Pages</h2>
+<ul class="sitemap-list">
+  <li><a href="/">Home</a></li>
+  <li><a href="/about/">About</a></li>
+  <li><a href="/contact/">Contact</a></li>
+  <li><a href="/tools/grocery-list/">Grocery List</a></li>
+  {%- if site.submitEndpoint %}
+  <li><a href="/submit-recipe/">Submit a Recipe</a></li>
+  {%- endif %}
+  <li><a href="/privacy-policy/">Privacy Policy</a></li>
+</ul>
+
+<h2>Feeds</h2>
+<ul class="sitemap-list">
+  <li><a href="/feed.xml">RSS feed</a></li>
+  <li><a href="/sitemap.xml">XML sitemap</a></li>
+</ul>

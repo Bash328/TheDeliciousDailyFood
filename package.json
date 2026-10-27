@@ -5,13 +5,13 @@
   "description": "The Delicious Daily — Eleventy + Decap CMS recipe site",
   "scripts": {
     "build": "eleventy",
-    "start": "eleventy --serve"
+    "start": "eleventy --serve",
+    "test": "node --test"
   },
   "devDependencies": {
     "@11ty/eleventy": "^3.0.0",
     "@11ty/eleventy-img": "^7.0.0",
     "html-minifier-terser": "^7.2.0",
-    "playwright": "^1.62.1",
     "terser": "^5.51.2"
   }
 }

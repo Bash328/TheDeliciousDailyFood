@@ -1,5 +1,5 @@
 ---
-title: "Ultimate Gourmet Grilled Cheese with Arugula"
+title: "Gourmet Grilled Cheese with Arugula"
 slug: ultimate-gourmet-grilled-cheese-with-arugula
 date: 2026-08-20
 category: Lunch

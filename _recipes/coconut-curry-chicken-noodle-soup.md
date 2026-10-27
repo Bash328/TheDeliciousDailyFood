@@ -3,6 +3,7 @@ title: "Coconut Curry Chicken Noodle Soup"
 slug: coconut-curry-chicken-noodle-soup
 date: 2026-07-20
 category: Soup
+cuisine: "Thai"
 tag: "Weeknight"
 description: "A coconut curry broth rich enough to eat with a spoon, built around whatever noodles and vegetables are already in the fridge."
 image: "coconut-curry-chicken-noodle-soup.jpg"

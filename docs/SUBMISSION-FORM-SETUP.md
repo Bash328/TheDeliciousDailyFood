@@ -160,9 +160,12 @@ the recipe's author, with the site as publisher.
 - **The link is `rel="nofollow ugc noopener"`**, so it passes no search ranking.
   That's deliberate: a public form offering a followed link is what link
   spammers look for, and this removes the payoff.
-- **The email is never published.** It stays in the pull request description
-  and is never written into a file the site builds from. Name and handle are
-  the only two things that become public, and the form says so next to each.
+- **The email is never published.** A pull request on a public repository is a
+  public page, so the worker only copies the address into the PR description
+  when the repository is private. On a public repo it's withheld (with a note
+  in the PR saying so) and never written into a file the site builds from.
+  Name and handle are the only two things that become public, and the form says
+  so next to each.
 - **You can always overrule it.** Both are ordinary fields on the recipe in the
   CMS — clear them to publish anonymously, or fix a typo before publishing.
 
@@ -256,5 +259,11 @@ the versions currently running on Cloudflare still have the old code.
 - **Requests from other sites' pages are refused** when they carry an `Origin`
   header that isn't `ALLOWED_ORIGIN`. This can't stop a script running outside a
   browser — nothing can — which is why the rate limit above matters more.
+- **Submitter emails stay out of public PRs.** The repo is public, so a PR
+  description is world-readable; the worker checks the repo's visibility at
+  submission time and omits the email (failing closed if the check errors).
+  Because of that, the address isn't available to you for follow-up on this
+  repo — the form's "used if there's a question" line is aspirational until
+  there's a private channel for it.
 - Every rejection happens before any GitHub call, so refused traffic costs
   nothing against your API budget.

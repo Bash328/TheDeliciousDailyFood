@@ -41,7 +41,12 @@ function corsHeaders(env) {
 function json(data, status, env) {
   return new Response(JSON.stringify(data), {
     status: status || 200,
-    headers: { "Content-Type": "application/json", ...corsHeaders(env) },
+    headers: {
+      "Content-Type": "application/json",
+      "Cache-Control": "no-store",
+      "X-Content-Type-Options": "nosniff",
+      ...corsHeaders(env),
+    },
   });
 }
 
@@ -184,6 +189,16 @@ function fenceFor(text) {
   return "`".repeat(Math.max(3, longest + 1));
 }
 
+// Everything a visitor typed is echoed into the PR body inside code spans or
+// fences, so "@someone" can't make GitHub notify a stranger from the repo
+// owner's account, and Markdown images or links never render.
+export function codeSpan(text) {
+  const flat = String(text).replace(/\s+/g, " ");
+  const longest = Math.max(0, ...(flat.match(/`+/g) || []).map((r) => r.length));
+  const fence = "`".repeat(longest + 1);
+  return `${fence} ${flat} ${fence}`;
+}
+
 async function verifyTurnstile(env, token, ip) {
   if (!env.TURNSTILE_SECRET_KEY) return true; // not configured, skip the check
   if (!token) return false;
@@ -277,8 +292,16 @@ async function handleSubmit(request, env) {
   const category = String(payload.category || "").trim();
   const description = String(payload.description || "").trim();
   const raw = String(payload.raw || "").trim();
-  const submitterName = String(payload.submitterName || "").trim().slice(0, 80);
-  const submitterEmail = String(payload.submitterEmail || "").trim().slice(0, 120);
+  const submitterName = String(payload.submitterName || "")
+    .trim()
+    // Collapse whitespace: these two fields are echoed into the PR description,
+    // and a newline there would let a crafted value fake extra Markdown lines.
+    .replace(/\s+/g, " ")
+    .slice(0, 80);
+  const submitterEmail = String(payload.submitterEmail || "")
+    .trim()
+    .replace(/\s+/g, " ")
+    .slice(0, 120);
   // null here means "given, but not a usable handle" — validateSubmission
   // turns that into a message; "" just means they left it blank.
   const submitterInstagram = normalizeInstagram(payload.submitterInstagram);
@@ -344,6 +367,19 @@ async function handleSubmit(request, env) {
   const repo = env.GITHUB_REPO;
   const baseBranch = env.GITHUB_BRANCH || "main";
 
+  // A pull request on a public repository is itself a public web page. The
+  // form promises the submitter's email is never shown, so it must not be
+  // copied into the PR description where anyone can read it. Check the repo's
+  // visibility and only include the address when the PR is genuinely private.
+  // If the check fails, treat the repo as public (fail closed).
+  let repoIsPrivate = false;
+  try {
+    const repoInfo = await gh(env, `/repos/${owner}/${repo}`);
+    repoIsPrivate = repoInfo.private === true;
+  } catch {
+    /* fail closed */
+  }
+
   const ref = await gh(env, `/repos/${owner}/${repo}/git/ref/heads/${baseBranch}`);
   const baseSha = ref.object.sha;
 
@@ -403,22 +439,30 @@ async function handleSubmit(request, env) {
     }),
   });
 
-  const namePart = submitterName || "(no name given)";
-  const emailPart = submitterEmail ? " <" + submitterEmail + ">" : "";
-  const contact =
-    submitterName || submitterEmail ? namePart + emailPart : "anonymous";
+  const namePart = submitterName ? codeSpan(submitterName) : "(no name given)";
+  const emailPart =
+    repoIsPrivate && submitterEmail ? " " + codeSpan(submitterEmail) : "";
+  const contact = submitterName || emailPart ? namePart + emailPart : "anonymous";
   const fence = fenceFor(raw);
 
   const prBody = [
     `**From:** ${contact}`,
+    ...(submitterEmail && !repoIsPrivate
+      ? [
+          "",
+          "**Email:** withheld — this repository is public, so the submitter's",
+          "address isn't copied into this pull request.",
+        ]
+      : []),
     "",
     `**Category:** ${category}`,
-    `**Description:** ${description}`,
+    `**Description:** ${codeSpan(description)}`,
     `**Photo:** ${imagePath ? "attached, see below" : "none sent"}`,
     `**Public credit:** ${
       submitterName || submitterInstagram
         ? [submitterName, submitterInstagram ? "@" + submitterInstagram : ""]
             .filter(Boolean)
+            .map(codeSpan)
             .join(" · ") + " — already set on the recipe, clear it to publish anonymously"
         : "none given, publishes anonymously"
     }`,
@@ -462,7 +506,9 @@ async function handleSubmit(request, env) {
 export default {
   async fetch(request, env) {
     if (request.method === "OPTIONS") {
-      return new Response(null, { headers: corsHeaders(env) });
+      return new Response(null, {
+        headers: { ...corsHeaders(env), "X-Content-Type-Options": "nosniff" },
+      });
     }
     const url = new URL(request.url);
     if (request.method === "POST" && url.pathname === "/submit") {
@@ -480,7 +526,14 @@ export default {
     }
     return new Response(
       "Delicious Daily recipe submission worker. POST to /submit.",
-      { status: 200, headers: corsHeaders(env) }
+      {
+        status: 200,
+        headers: {
+          "Content-Type": "text/plain; charset=utf-8",
+          "X-Content-Type-Options": "nosniff",
+          ...corsHeaders(env),
+        },
+      }
     );
   },
 };

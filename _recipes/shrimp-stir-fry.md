@@ -1,11 +1,11 @@
 ---
-title: "Shrimp stir fry "
+title: "Shrimp Stir Fry"
 slug: Shrimp-stir-fry
 date: 2026-08-28T22:40:00.000+02:00
 category: Lunch
-description: Juicy shrimp and crisp, colourful vegetables tossed in a glossy
-  sweet-and-savoury sauce, creating a quick, flavour-packed stir fry that’s
-  perfect over fluffy rice.
+cuisine: "Asian"
+description: Juicy shrimp and crisp vegetables in a glossy sweet-and-savoury
+  sauce — a quick, flavour-packed stir fry that's perfect over fluffy rice.
 image: /images/img_8130.jpeg
 recipeContent:
   prepTimeMinutes: 15

@@ -1,6 +1,13 @@
-{%- set pageUrl = site.url + site.baseUrl + page.url -%}
+{%- from "partials/card.njk" import photo -%}
+{%- set pageUrl = site.url + page.url -%}
 {%- set imageUrl = image | imageUrl -%}
 {%- set totalMinutes = (recipeContent.prepTimeMinutes or 0) + (recipeContent.cookTimeMinutes or 0) -%}
+{%- set modified = updated or page.date -%}
+{%- if ogImage -%}
+  {%- set socialImage = ogImage.url -%}
+{%- else -%}
+  {%- set socialImage = imageUrl -%}
+{%- endif -%}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,48 +15,64 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{{ title }} — {{ site.title }}</title>
 <meta name="description" content="{{ description }}">
+<link rel="canonical" href="{{ pageUrl }}">
+{% if draft %}<meta name="robots" content="noindex">{% endif %}
 <meta property="og:title" content="{{ title }}">
 <meta property="og:description" content="{{ description }}">
 <meta property="og:type" content="article">
-{% if imageUrl %}<meta property="og:image" content="{{ imageUrl }}">{% endif %}
 <meta property="og:url" content="{{ pageUrl }}">
 <meta property="og:site_name" content="{{ site.title }}">
-<meta name="twitter:card" content="{% if imageUrl %}summary_large_image{% else %}summary{% endif %}">
-<link rel="canonical" href="{{ pageUrl }}">
-{% if draft %}<meta name="robots" content="noindex">{% endif %}
-<link rel="icon" type="image/png" href="/favicon-light.png">
-<link rel="icon" type="image/png" href="/favicon-dark.png" media="(prefers-color-scheme: dark)">
-{% include "partials/fonts.njk" %}
-<link rel="stylesheet" href="../../style.css?v={{ site.assetVersion }}">
-{% include "partials/theme-init.njk" %}
-{% include "partials/tracking.njk" %}
+{% if socialImage %}
+<meta property="og:image" content="{{ socialImage }}">
+<meta property="og:image:alt" content="{{ title }}">
+{% if ogImage %}
+<meta property="og:image:width" content="{{ ogImage.width }}">
+<meta property="og:image:height" content="{{ ogImage.height }}">
+{% endif %}
+{% endif %}
+{% if page.date %}<meta property="article:published_time" content="{{ page.date | isoDate }}">{% endif %}
+{% if modified %}<meta property="article:modified_time" content="{{ modified | isoDate }}">{% endif %}
+<meta name="twitter:card" content="{% if socialImage %}summary_large_image{% else %}summary{% endif %}">
+{% include "partials/head-common.njk" %}
 <script type="application/ld+json">
 {
   "@context": "https://schema.org/",
   "@type": "Recipe",
-  "name": {{ title | dump | safe }},
-  {% if imageUrl %}"image": [{{ imageUrl | dump | safe }}],{% endif %}
-  "description": {{ description | dump | safe }},
+  "name": {{ title | jsonld | safe }},
+  {% if socialImage %}"image": [{{ socialImage | jsonld | safe }}],{% endif %}
+  "description": {{ description | jsonld | safe }},
+  "mainEntityOfPage": { "@type": "WebPage", "@id": {{ pageUrl | jsonld | safe }} },
   {% if creditName or creditInstagram -%}
-  "author": { "@type": "Person", "name": {{ (creditName or ("@" + creditInstagram)) | dump | safe }}{% if creditInstagram %}, "sameAs": {{ ("https://www.instagram.com/" + creditInstagram + "/") | dump | safe }}{% endif %} },
-  "publisher": { "@type": "Organization", "name": {{ site.title | dump | safe }}, "url": {{ site.url | dump | safe }} },
+  "author": { "@type": "Person", "name": {{ (creditName or ("@" + creditInstagram)) | jsonld | safe }}{% if creditInstagram %}, "sameAs": {{ ("https://www.instagram.com/" + creditInstagram + "/") | jsonld | safe }}{% endif %} },
+  "publisher": { "@type": "Organization", "name": {{ site.title | jsonld | safe }}, "url": {{ site.url | jsonld | safe }} },
   {%- else -%}
-  "author": { "@type": "Organization", "name": {{ site.title | dump | safe }}, "url": {{ site.url | dump | safe }} },
+  "author": { "@type": "Organization", "name": {{ site.title | jsonld | safe }}, "url": {{ site.url | jsonld | safe }} },
   {%- endif %}
   {% if page.date %}"datePublished": "{{ page.date | isoDate }}",{% endif %}
+  {% if modified %}"dateModified": "{{ modified | isoDate }}",{% endif %}
   "prepTime": "{{ recipeContent.prepTimeMinutes | isoDuration }}",
   "cookTime": "{{ recipeContent.cookTimeMinutes | isoDuration }}",
   "totalTime": "{{ totalMinutes | isoDuration }}",
-  "recipeYield": {{ (recipeContent.servingsNumber ~ " " ~ recipeContent.servingsUnit) | dump | safe }},
-  "recipeCategory": {{ category | dump | safe }},
-  "recipeCuisine": "American",
+  "recipeYield": {{ (recipeContent.servingsNumber ~ " " ~ recipeContent.servingsUnit) | jsonld | safe }},
+  "recipeCategory": {{ category | jsonld | safe }},
+  {% if cuisine %}"recipeCuisine": {{ cuisine | jsonld | safe }},{% endif %}
   "recipeIngredient": [
-    {% for ing in recipeContent.ingredients %}{{ (ing.amount + " " + ing.item if ing.amount else ing.item) | trim | dump | safe }}{% if not loop.last %},{% endif %}
+    {% for ing in recipeContent.ingredients %}{{ (ing.amount + " " + ing.item if ing.amount else ing.item) | trim | jsonld | safe }}{% if not loop.last %},{% endif %}
     {% endfor %}
   ],
   "recipeInstructions": [
-    {% for step in recipeContent.steps %}{ "@type": "HowToStep", "text": {{ step | dump | safe }} }{% if not loop.last %},{% endif %}
+    {% for step in recipeContent.steps %}{ "@type": "HowToStep", "text": {{ step | jsonld | safe }} }{% if not loop.last %},{% endif %}
     {% endfor %}
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org/",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": {{ (site.url + "/") | jsonld | safe }} },
+    { "@type": "ListItem", "position": 2, "name": {{ title | jsonld | safe }}, "item": {{ pageUrl | jsonld | safe }} }
   ]
 }
 </script>
@@ -89,6 +112,8 @@
        href="https://www.pinterest.com/pin/create/button/?url={{ pageUrl | urlencode }}&media={{ imageUrl | urlencode }}&description={{ description | urlencode }}">
       Save to Pinterest
     </a>
+    {#- Shown by the script below only where the browser supports it. -#}
+    <button type="button" class="btn-line cook-mode-btn" id="cook-mode-btn" aria-pressed="false" hidden>Keep screen on while cooking</button>
   </div>
 
   <div class="stat-strip">
@@ -103,11 +128,13 @@
       <h2>Ingredients</h2>
       <ul>
         {% for ing in recipeContent.ingredients %}
-        <li><span class="amt">{{ ing.amount }}</span> {{ ing.item }}</li>
+        <li><label><input type="checkbox" class="ing-check"> <span class="amt">{{ ing.amount }}</span> <span class="ing-item">{{ ing.item }}</span></label></li>
         {% endfor %}
       </ul>
       <button type="button" class="btn-line grocery-add-btn" id="grocery-add-btn" data-ingredients="{{ recipeContent.ingredients | dump | escape }}">+ Add ingredients to Grocery List</button>
-      <p class="grocery-add-confirm" id="grocery-add-confirm" hidden>Added — <a href="/tools/grocery-list/">view your list</a></p>
+      <div role="status">
+        <p class="grocery-add-confirm" id="grocery-add-confirm" hidden>Added — <a href="/tools/grocery-list/">view your list</a></p>
+      </div>
     </aside>
 
     <section class="method">
@@ -122,13 +149,33 @@
   </div>
 </div>
 
+{%- set related = collections.recipes | relatedRecipes(page.url, 3) -%}
+{% if related.length %}
+<section class="wrap more-recipes">
+  <div class="section-head">
+    <h2>More recipes</h2>
+    <hr class="rule" style="flex:1; margin: 0 20px;">
+  </div>
+  <div class="grid">
+    {% for r in related %}
+    <a class="card" href="{{ r.url }}">
+      {{ photo(r) }}
+      <span class="cat">{{ r.data.category }}</span>
+      <h3>{{ r.data.title }}</h3>
+      <p class="excerpt">{{ r.data.description }}</p>
+    </a>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
 </main>
 
 {% include "partials/footer.njk" %}
 
 {#- Pinterest's script, loaded only here: it exists to upgrade the Pin button
     above into a real save widget, and no other page has that button. -#}
-<script async defer src="//assets.pinterest.com/js/pinit.js"></script>
+<script async defer src="https://assets.pinterest.com/js/pinit.js"></script>
 
 <script src="/grocery-list.js"></script>
 <script>
@@ -144,6 +191,40 @@
     window.DDGroceryList.addItems(lines);
     var confirm = document.getElementById("grocery-add-confirm");
     if (confirm) confirm.hidden = false;
+  });
+})();
+
+// Cook mode: stops the phone screen dimming mid-recipe. The browser drops the
+// lock whenever the tab is hidden, so it's taken again on return.
+(function () {
+  var btn = document.getElementById("cook-mode-btn");
+  if (!btn || !("wakeLock" in navigator)) return;
+  btn.hidden = false;
+  var lock = null;
+  var wanted = false;
+
+  function show(on) {
+    btn.setAttribute("aria-pressed", on ? "true" : "false");
+    btn.textContent = on ? "Screen stays on — tap to turn off" : "Keep screen on while cooking";
+  }
+
+  function acquire() {
+    return navigator.wakeLock.request("screen").then(function (l) {
+      lock = l;
+      lock.addEventListener("release", function () { lock = null; if (!wanted) show(false); });
+      show(true);
+    }).catch(function () { wanted = false; show(false); });
+  }
+
+  btn.addEventListener("click", function () {
+    wanted = !wanted;
+    if (wanted) acquire();
+    else if (lock) lock.release();
+    else show(false);
+  });
+
+  document.addEventListener("visibilitychange", function () {
+    if (wanted && !lock && document.visibilityState === "visible") acquire();
   });
 })();
 </script>

@@ -86,7 +86,17 @@ function renderCallbackPage(message, env) {
 </script>
 </body></html>`;
   return new Response(body, {
-    headers: { "Content-Type": "text/html", "Cache-Control": "no-store" },
+    headers: {
+      "Content-Type": "text/html",
+      "Cache-Control": "no-store",
+      // The page's only job is to run one inline script and hand a token to
+      // the site. Nothing else needs to load, be framed, or be referred to.
+      "Content-Security-Policy":
+        "default-src 'none'; script-src 'unsafe-inline'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'",
+      "X-Frame-Options": "DENY",
+      "X-Content-Type-Options": "nosniff",
+      "Referrer-Policy": "no-referrer",
+    },
   });
 }
 
@@ -148,6 +158,11 @@ export default {
     }
     return new Response("Decap CMS GitHub OAuth relay. Use /auth to sign in.", {
       status: 200,
+      headers: {
+        "Content-Type": "text/plain; charset=utf-8",
+        "X-Content-Type-Options": "nosniff",
+        "Referrer-Policy": "no-referrer",
+      },
     });
   },
 };

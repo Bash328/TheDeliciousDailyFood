@@ -1,5 +1,5 @@
 ---
-title: Pumpkin soup
+title: Pumpkin Soup
 slug: Pumpkin-soup
 date: 2026-08-23T14:42:00.000+02:00
 category: Soup

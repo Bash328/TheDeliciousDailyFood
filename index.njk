@@ -1,7 +1,7 @@
 ---
 permalink: index.html
 ---
-{%- from "partials/card.njk" import photo, recipeHref -%}
+{%- from "partials/card.njk" import photo -%}
 {%- set latest = collections.recipes | first -%}
 <!DOCTYPE html>
 <html lang="en">
@@ -16,13 +16,25 @@ permalink: index.html
 <meta property="og:type" content="website">
 <meta property="og:url" content="{{ site.url }}/">
 <meta property="og:site_name" content="{{ site.title }}">
-<meta name="twitter:card" content="summary">
-<link rel="icon" type="image/png" href="/favicon-light.png">
-<link rel="icon" type="image/png" href="/favicon-dark.png" media="(prefers-color-scheme: dark)">
-{% include "partials/fonts.njk" %}
-<link rel="stylesheet" href="style.css?v={{ site.assetVersion }}">
-{% include "partials/theme-init.njk" %}
-{% include "partials/tracking.njk" %}
+<meta property="og:image" content="{{ site.url }}{{ site.defaultOgImage }}">
+<meta property="og:image:alt" content="{{ site.title }} — {{ site.tagline }}">
+<meta name="twitter:card" content="summary_large_image">
+{% include "partials/head-common.njk" %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org/",
+  "@type": "WebSite",
+  "name": {{ site.title | jsonld | safe }},
+  "url": {{ (site.url + "/") | jsonld | safe }},
+  "description": "Seasonal recipes, tested and photographed for pinning.",
+  "publisher": {
+    "@type": "Organization",
+    "name": {{ site.title | jsonld | safe }},
+    "url": {{ (site.url + "/") | jsonld | safe }},
+    "logo": { "@type": "ImageObject", "url": {{ (site.url + site.defaultOgImage) | jsonld | safe }} }
+  }
+}
+</script>
 </head>
 <body>
 
@@ -31,7 +43,7 @@ permalink: index.html
 <header class="site-header">
   <div class="wrap">
     <img class="mark" src="/images/logo-mark-96.png" alt="" width="40" height="40" eleventy:ignore>
-    <h1>{{ site.title }}</h1>
+    <h1 class="site-title">{{ site.title }}</h1>
     <p class="sub">{{ site.tagline }}</p>
   </div>
   <nav class="site-nav wrap" aria-label="Recipe categories">
@@ -48,11 +60,11 @@ permalink: index.html
   <p class="intro">A small, well-tested collection of recipes worth pinning — nothing fussy, nothing you'll scroll past three times looking for the actual ingredients.</p>
 
   {% if latest %}
-  <a class="hero-post" href="{{ recipeHref(latest) }}">
+  <a class="hero-post" href="{{ latest.url }}">
     {{ photo(latest, "(max-width: 800px) 100vw, 600px", true) }}
     <div>
       <span class="eyebrow">Latest · {{ latest.data.category }}</span>
-      <h1>{{ latest.data.title }}</h1>
+      <h2>{{ latest.data.title }}</h2>
       <p class="excerpt">{{ latest.data.description }}</p>
       <span class="btn-line">Read the recipe</span>
     </div>
@@ -68,7 +80,7 @@ permalink: index.html
   </div>
   <div class="grid">
     {% for recipe in items %}
-    <a class="card" href="{{ recipeHref(recipe) }}">
+    <a class="card" href="{{ recipe.url }}">
       {{ photo(recipe) }}
       <span class="cat">{{ recipe.data.category }}</span>
       <h3>{{ recipe.data.title }}</h3>

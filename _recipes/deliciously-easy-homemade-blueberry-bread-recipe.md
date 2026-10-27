@@ -1,5 +1,5 @@
 ---
-title: Deliciously Easy Homemade Blueberry Bread Recipe
+title: Homemade Blueberry Bread Recipe
 slug: deliciously-easy-homemade-blueberry-bread-recipe
 date: 2026-08-19
 category: Dessert

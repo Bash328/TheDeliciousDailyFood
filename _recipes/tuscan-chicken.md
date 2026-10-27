@@ -3,6 +3,7 @@ title: "Creamy Tuscan Garlic Chicken"
 slug: tuscan-chicken
 date: 2026-08-23
 category: Dinner
+cuisine: "Italian"
 tag: "One Skillet"
 description: "A restaurant-style sauce that comes together in the same pan you seared the chicken in. Weeknight-fast, dinner-party good."
 image: "Creamy-Sun-Dried-Tomato-Spinach-Chicken-IMAGE-50-1-1024x1536.jpg"

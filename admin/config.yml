@@ -35,6 +35,7 @@ collections:
         name: "category"
         widget: "select"
         options: ["Dinner", "Lunch", "Dessert", "Breakfast", "Soup"]
+      - { label: "Cuisine (optional — e.g. Italian, Indian, Thai)", name: "cuisine", widget: "string", required: false, hint: "Used in the recipe's structured data for search results. Leave blank when it isn't a clear fit; a wrong cuisine is worse than none." }
       - { label: "Tag (short, optional — shown next to the category, e.g. \"One Skillet\", \"Weeknight\")", name: "tag", widget: "string", required: false }
       - { label: "Short description", name: "description", widget: "text", hint: "Used as the card blurb, the page intro, and the search/Pinterest description. 1-2 sentences." }
       - { label: "Photo", name: "image", widget: "image", media_library: { config: { multiple: false } }, required: false, hint: "Leave blank to use a plain placeholder until you have a photo." }

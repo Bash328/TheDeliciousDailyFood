@@ -1,3 +1,18 @@
 node_modules/
 _site/
 .cache/
+
+# Never let local credentials or private keys near a commit.
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Editor/OS noise
+.DS_Store
+Thumbs.db
+desktop.ini
+*.log

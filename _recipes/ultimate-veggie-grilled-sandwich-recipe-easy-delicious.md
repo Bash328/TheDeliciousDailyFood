@@ -1,5 +1,5 @@
 ---
-title: "Ultimate Veggie Grilled Sandwich Recipe - Easy & Delicious!"
+title: "Ultimate Veggie Grilled Sandwich"
 slug: ultimate-veggie-grilled-sandwich-recipe-easy-delicious
 date: 2026-08-22
 category: Lunch

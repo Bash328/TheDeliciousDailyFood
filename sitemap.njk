@@ -4,13 +4,14 @@ eleventyExcludeFromCollections: true
 ---
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>{{ site.url }}/</loc></url>
-  <url><loc>{{ site.url }}/about/</loc></url>
-  <url><loc>{{ site.url }}/privacy-policy/</loc></url>
-  <url><loc>{{ site.url }}/contact/</loc></url>
-  <url><loc>{{ site.url }}/tools/grocery-list/</loc></url>
+  <url><loc>{{ site.url }}/</loc><lastmod>{{ "index.njk" | lastUpdated }}</lastmod></url>
+  <url><loc>{{ site.url }}/about/</loc><lastmod>{{ "about.md" | lastUpdated }}</lastmod></url>
+  <url><loc>{{ site.url }}/privacy-policy/</loc><lastmod>{{ "privacy-policy.md" | lastUpdated }}</lastmod></url>
+  <url><loc>{{ site.url }}/contact/</loc><lastmod>{{ "contact.md" | lastUpdated }}</lastmod></url>
+  <url><loc>{{ site.url }}/tools/grocery-list/</loc><lastmod>{{ "tools/grocery-list.html" | lastUpdated }}</lastmod></url>
+  <url><loc>{{ site.url }}/sitemap/</loc><lastmod>{{ "sitemap-page.njk" | lastUpdated }}</lastmod></url>
   {%- if site.submitEndpoint %}
-  <url><loc>{{ site.url }}/submit-recipe/</loc></url>
+  <url><loc>{{ site.url }}/submit-recipe/</loc><lastmod>{{ "submit-recipe.njk" | lastUpdated }}</lastmod></url>
   {%- endif %}
   {%- for recipe in collections.recipes %}
   <url>

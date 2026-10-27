@@ -97,11 +97,21 @@ module.exports = function (eleventyConfig) {
 
   eleventyConfig.addFilter("urlencode", (str) => encodeURIComponent(str || ""));
 
-  // "35" -> "35 min", "185" -> "3 hr" (matches the site's existing hand-written labels)
+  // JSON for embedding inside <script type="application/ld+json">. Plain
+  // JSON.stringify leaves "</script>" and "<!--" intact, so a title or note
+  // containing either can close the block early and inject markup. Escaping
+  // "<" as \u003c keeps the value inert while parsing back to the exact same
+  // string, so the structured data is unchanged.
+  eleventyConfig.addFilter("jsonld", (value) =>
+    JSON.stringify(value === undefined ? null : value).replace(/</g, "\\u003c")
+  );
+
+  // "35" -> "35 min", "65" -> "1 hr 5 min", "180" -> "3 hr"
   eleventyConfig.addFilter("minutesLabel", (minutes) => {
     const n = Number(minutes) || 0;
     if (n < 60) return `${n} min`;
-    return `${Math.floor(n / 60)} hr`;
+    const m = n % 60;
+    return `${Math.floor(n / 60)} hr${m ? ` ${m} min` : ""}`;
   });
 
   eleventyConfig.addFilter("isoDuration", (minutes) => {
@@ -119,13 +129,13 @@ module.exports = function (eleventyConfig) {
     (recipes || []).filter((r) => categories.includes(r.data.category))
   );
 
-  // Decap's image widget writes the full public_folder-prefixed path
-  // (e.g. "/TheDeliciousDailyFood/images/x.jpg"); older recipes migrated by
-  // hand just store the bare filename (e.g. "x.jpg"). Handle both.
+  // Decap's image widget writes the public_folder-prefixed path
+  // (e.g. "/images/x.jpg"); older recipes migrated by hand just store the
+  // bare filename (e.g. "x.jpg"). Handle both.
   eleventyConfig.addFilter("imageUrl", (image) => {
     if (!image) return "";
     if (image.startsWith("/")) return site.url + image;
-    return `${site.url}${site.baseUrl}/images/${image}`;
+    return `${site.url}/images/${image}`;
   });
 
   // Root-relative path for in-page <img src> — this is what the image
@@ -137,6 +147,42 @@ module.exports = function (eleventyConfig) {
     if (image.startsWith("/")) return image;
     return `/images/${image}`;
   });
+
+  // The recipe page's "More recipes" strip: the most recent recipes other than
+  // the one being viewed, so every recipe page links onward instead of dead-ending.
+  eleventyConfig.addFilter("relatedRecipes", (recipes, currentUrl, limit = 3) =>
+    (recipes || []).filter((r) => r.url !== currentUrl).slice(0, limit)
+  );
+
+  // Best-effort "when did this source file last change", for <lastmod> in the
+  // sitemap. Prefers the file's last git commit date — that's stable across CI
+  // checkouts, where every file's mtime is just the checkout time — and falls
+  // back to the file's own mtime when git isn't available.
+  eleventyConfig.addFilter("lastUpdated", (file) => {
+    if (!file) return "";
+    try {
+      // execFileSync, not execSync: the path is passed as an argument rather
+      // than spliced into a shell string, so a filename can never become a
+      // command.
+      const { execFileSync } = require("child_process");
+      const out = execFileSync("git", ["log", "-1", "--format=%cs", "--", file], {
+        stdio: ["ignore", "pipe", "ignore"],
+      })
+        .toString()
+        .trim();
+      if (out) return out;
+    } catch (e) {
+      /* fall through to mtime */
+    }
+    try {
+      return fs.statSync(file).mtime.toISOString().slice(0, 10);
+    } catch (e) {
+      return new Date().toISOString().slice(0, 10);
+    }
+  });
+
+  // RFC 822 dates for the RSS feed (<pubDate>).
+  eleventyConfig.addFilter("rfc822", (date) => new Date(date).toUTCString());
 
   eleventyConfig.addCollection("recipes", (collectionApi) =>
     collectionApi

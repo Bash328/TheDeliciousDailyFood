@@ -3,6 +3,7 @@ title: Butter Chicken with Naan
 slug: butter-chicken-with-naan
 date: 2026-09-16T19:49:00.000+02:00
 category: Dinner
+cuisine: "Indian"
 tag: Weeknight
 description: Creamy, rich butter chicken simmered in a spiced tomato sauce,
   served with warm, fluffy naan for the ultimate comforting dinner.

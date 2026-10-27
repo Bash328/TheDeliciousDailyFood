@@ -1,0 +1,25 @@
+version: 2
+
+# Keeps the build toolchain and the Actions used to deploy it current, so a
+# known-vulnerable version gets a pull request instead of waiting to be noticed.
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "chore"
+    groups:
+      # Patch/minor bumps arrive together; majors stay separate because those
+      # are the ones that need a build check.
+      npm-patch-and-minor:
+        patterns: ["*"]
+        update-types: ["minor", "patch"]
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    commit-message:
+      prefix: "chore"

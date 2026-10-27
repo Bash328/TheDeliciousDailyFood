@@ -1,0 +1,22 @@
+---
+permalink: llms.txt
+eleventyExcludeFromCollections: true
+---
+# {{ site.title }}
+
+> {{ site.tagline }} A small, well-tested collection of seasonal recipes, photographed for pinning — weeknight dinners, quiet bakes, and things worth saving.
+
+## Recipes
+{%- for recipe in collections.recipes %}
+- [{{ recipe.data.title }}]({{ site.url }}{{ recipe.url }}): {{ recipe.data.description }}
+{%- endfor %}
+
+## Pages
+- [About]({{ site.url }}/about/): the story behind the site and how recipes are tested.
+- [Grocery List]({{ site.url }}/tools/grocery-list/): a free tool that turns a recipe's ingredients into a checkable shopping list.
+- [Submit a Recipe]({{ site.url }}/submit-recipe/): send in a recipe for review.
+- [Contact]({{ site.url }}/contact/): questions, corrections, or recipe requests.
+- [Sitemap]({{ site.url }}/sitemap/): every recipe and page on the site, in one place.
+
+## Contact
+hello@thedeliciousdaily.com

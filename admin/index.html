@@ -3,10 +3,18 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
   <title>Content Manager — The Delicious Daily</title>
 </head>
 <body>
-  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+  <!-- Pinned to an exact version and integrity-checked: a floating ^3.0.0
+       pointed at "whatever unpkg serves next", and an unverified CDN script
+       runs with full access to the signed-in editor's GitHub token. When
+       upgrading Decap, replace both the version and the sha384 hash (the
+       browser refuses to run the bundle if they disagree). -->
+  <script src="https://unpkg.com/decap-cms@3.0.0/dist/decap-cms.js"
+          integrity="sha384-XHBfDQ1YTdjkb8wj/zJCx1vQHqDKKebww8oqgWdiTh0/FVtN133ZLsefUaUQhfrR"
+          crossorigin="anonymous"></script>
   <script src="quickpaste-widget.js"></script>
   <script src="theme.js"></script>
 </body>
