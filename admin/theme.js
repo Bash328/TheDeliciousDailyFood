@@ -4,8 +4,10 @@
 // Style: "Recipe notebook" — warm paper with pale-blue ruled lines and a
 // terracotta margin line, a dark stitched-leather top bar, white "sheets" for
 // the cards and the form, fields that read like lines written on a page, and a
-// yellow highlighter pen for what's selected. Type is the site's own: Cormorant
-// Garamond for titles, Jost for everything you read and type.
+// yellow highlighter pen for what's selected. Type is IBM Plex: Mono for titles
+// and labels, Sans for everything you read and type. Labels and hints are plain
+// sentence case at a readable size, so every word is visible without wrapping
+// into spaced-out capitals.
 //
 // Deliberately a CSS-only layer. The `logo_url` / `site_url` / `display_url`
 // keys in config.yml are Decap's officially supported branding hooks and keep
@@ -18,7 +20,7 @@
 // browser's dev tools, inspect the element you want to restyle, and update the
 // selector here.
 //
-// Fonts are the site's own files in ./fonts (no request to Google).
+// Fonts are self-hosted in ./fonts (no request to Google).
 
 (function () {
   var INK = "#2a2620";
@@ -32,8 +34,8 @@
   var ACCENT = "#a8553a";
   var ACCENT_DARK = "#8a3f27";
   var HIGHLIGHT = "rgba(246, 226, 122, 0.80)";
-  var SERIF = "'Cormorant Garamond', Georgia, serif";
-  var SANS = "'Jost', system-ui, sans-serif";
+  var MONO = "'IBM Plex Mono', ui-monospace, monospace";
+  var SANS = "'IBM Plex Sans', system-ui, sans-serif";
 
   function face(family, style, weight, file) {
     return (
@@ -54,10 +56,11 @@
 
   var style = document.createElement("style");
   style.textContent = [
-    face("Cormorant Garamond", "normal", 500, "cormorant-garamond-500.woff2"),
-    face("Cormorant Garamond", "italic", 400, "cormorant-garamond-400-italic.woff2"),
-    face("Jost", "normal", 400, "jost-400.woff2"),
-    face("Jost", "normal", 500, "jost-500.woff2"),
+    face("IBM Plex Mono", "normal", "400", "ibm-plex-mono-400.woff2"),
+    face("IBM Plex Mono", "normal", "500", "ibm-plex-mono-500.woff2"),
+    face("IBM Plex Mono", "normal", "600", "ibm-plex-mono-600.woff2"),
+    /* one variable file covers every weight of the Sans */
+    face("IBM Plex Sans", "normal", "400 700", "ibm-plex-sans-400.woff2"),
 
     /* ---- The page: ruled paper with a margin line ---- */
     "html, body, #nc-root {",
@@ -85,8 +88,8 @@
     "  border-bottom: 2px dashed rgba(224, 190, 120, 0.55); pointer-events: none;",
     "}",
     "[class*='AppHeaderButton'], [class*='AppHeaderQuickNewButton'], [class*='AppHeaderSiteLink'] {",
-    "  font-family: " + SANS + " !important; font-weight: 500 !important;",
-    "  font-size: 13px !important; letter-spacing: 0.16em; text-transform: uppercase;",
+    "  font-family: " + MONO + " !important; font-weight: 500 !important;",
+    "  font-size: 14px !important; letter-spacing: 0.01em;",
     "  background-color: transparent !important; color: rgba(247, 241, 227, 0.72) !important;",
     "}",
     "[class*='AppHeaderButton']:hover, [class*='AppHeaderSiteLink']:hover { color: #fff !important; }",
@@ -100,7 +103,7 @@
     "  background: " + SHEET + "; border: 1px solid " + EDGE + "; border-radius: 3px;",
     "  box-shadow: 0 1px 0 rgba(42, 38, 32, 0.06), 0 10px 22px -14px rgba(42, 38, 32, 0.35);",
     "}",
-    "[class*='SidebarHeading'] { font-family: " + SERIF + " !important; font-style: italic; font-weight: 400 !important; font-size: 30px !important; color: " + INK + "; }",
+    "[class*='SidebarHeading'] { font-family: " + MONO + " !important; font-weight: 600 !important; font-size: 20px !important; color: " + INK + "; }",
     "[class*='SidebarNavLink'] { font-family: " + SANS + " !important; font-weight: 500; font-size: 15px; color: " + INK + " !important; border-left-color: transparent !important; }",
     "[class*='SidebarNavLink'] svg, [class*='SidebarNavLink'] [class*='Icon'] { color: " + ACCENT + "; }",
     "[class*='SidebarNavLink'][aria-current='page'] { background: " + HIGHLIGHT + " !important; border-left: 3px solid " + ACCENT + " !important; }",
@@ -111,23 +114,23 @@
     "  background: " + SHEET + "; border: 1px solid " + EDGE + "; border-radius: 3px;",
     "  box-shadow: 0 1px 0 rgba(42, 38, 32, 0.06), 0 10px 22px -14px rgba(42, 38, 32, 0.35);",
     "}",
-    "[class*='CollectionTopHeading'] { font-family: " + SERIF + " !important; font-weight: 500 !important; font-size: 40px !important; letter-spacing: -0.01em; color: " + INK + " !important; }",
+    "[class*='CollectionTopHeading'] { font-family: " + MONO + " !important; font-weight: 600 !important; font-size: 28px !important; color: " + INK + " !important; }",
     "[class*='CollectionTopNewButton'] {",
     "  background: " + INK + " !important; color: " + PAPER + " !important; border-radius: 2px !important;",
-    "  font-family: " + SANS + " !important; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; font-size: 12px !important;",
+    "  font-family: " + MONO + " !important; font-weight: 500; letter-spacing: 0.01em; font-size: 14px !important;",
     "  box-shadow: 2px 2px 0 " + ACCENT + " !important; transition: transform 0.12s ease, box-shadow 0.12s ease;",
     "}",
     "[class*='CollectionTopNewButton']:hover { transform: translate(1px, 1px); box-shadow: 1px 1px 0 " + ACCENT + " !important; }",
-    "[class*='ViewControlsButton'], [class*='ControlButton'] { font-family: " + SANS + " !important; font-weight: 500 !important; font-size: 12px !important; letter-spacing: 0.14em; text-transform: uppercase; color: " + INK_SOFT + " !important; }",
+    "[class*='ViewControlsButton'], [class*='ControlButton'] { font-family: " + SANS + " !important; font-weight: 500 !important; font-size: 14px !important; color: " + INK_SOFT + " !important; }",
     "[class*='ViewControlsSection'] svg, [class*='ViewControlsButton'] svg { color: " + ACCENT + "; }",
     "[class*='ListCard-'] {",
     "  background: " + SHEET + " !important; border: 1px solid " + EDGE + " !important; border-radius: 3px !important;",
     "  box-shadow: 0 1px 0 rgba(42, 38, 32, 0.05) !important; transition: transform 0.12s ease, box-shadow 0.12s ease;",
     "}",
     "[class*='ListCard-']:hover { transform: translateY(-1px); box-shadow: 0 8px 18px -12px rgba(42, 38, 32, 0.45) !important; }",
-    "[class*='ListCardTitle'] { font-family: " + SERIF + " !important; font-weight: 500 !important; font-size: 23px !important; line-height: 1.2; color: " + INK + " !important; }",
+    "[class*='ListCardTitle'] { font-family: " + SANS + " !important; font-weight: 500 !important; font-size: 17px !important; line-height: 1.3; color: " + INK + " !important; }",
     "[class*='AppHeaderNavLink'] [class*='IconWrapper'], [class*='AppHeaderButton'] [class*='IconWrapper'] { color: inherit !important; }",
-    "[class*='ListCardLink'] { border: 0 !important; box-shadow: none !important; background: transparent !important; font-family: " + SERIF + " !important; font-weight: 500; font-size: 22px; color: " + INK + " !important; }",
+    "[class*='ListCardLink'] { border: 0 !important; box-shadow: none !important; background: transparent !important; }",
 
     /* ---- Editor top bar: a white strip with a tear-off line ---- */
     "[class*='ToolbarContainer'] {",
@@ -136,7 +139,7 @@
     "  font-family: " + SANS + " !important;",
     "}",
     "[class*='BackArrow'], [class*='BackCollection'] { color: " + INK + "; }",
-    "[class*='BackCollection'] { font-family: " + SERIF + " !important; font-style: italic; font-size: 17px; }",
+    "[class*='BackCollection'] { font-family: " + SANS + " !important; font-size: 14px; }",
     "[class*='PublishedToolbarButton'], [class*='ToolbarDropdown'] [class*='DropdownButton'] {",
     "  background: rgba(63, 122, 91, 0.12) !important; color: #2f6a4a !important; border-radius: 2px !important;",
     "  font-weight: 500; letter-spacing: 0.04em;",
@@ -148,10 +151,14 @@
     "[class*='ControlContainer'] { font-family: " + SANS + "; }",
     "[class*='FieldLabel'] {",
     "  background: transparent !important; color: " + ACCENT + " !important; border-radius: 0 !important;",
-    "  padding: 0 0 6px !important; font-family: " + SANS + " !important; font-weight: 500 !important;",
-    "  font-size: 12px !important; letter-spacing: 0.2em; text-transform: uppercase;",
+    "  padding: 0 0 6px !important; font-family: " + MONO + " !important; font-weight: 500 !important;",
+    "  font-size: 14px !important; letter-spacing: 0.01em; text-transform: none !important;",
+    "  white-space: normal !important; overflow: visible !important; text-overflow: clip !important; max-width: 100% !important; line-height: 1.35;",
     "}",
-    "[class*='ControlHint'] { font-family: " + SERIF + " !important; font-style: italic; font-size: 16px !important; color: " + INK_SOFT + " !important; line-height: 1.35; }",
+    /* Decap draws the old grey tab's slanted end with a pseudo-element; it was
+       left behind as a white notch after every label. */
+    "[class*='FieldLabel']::before, [class*='FieldLabel']::after { display: none !important; content: none !important; }",
+    "[class*='ControlHint'] { font-family: " + SANS + " !important; font-size: 14.5px !important; color: #5f564a !important; line-height: 1.5; }",
     "[class*='EditorContainer'] input:not([type='checkbox']):not([type='radio']):not([type='file']),",
     "[class*='EditorContainer'] textarea, [class*='EditorContainer'] select {",
     "  background: " + SHEET + " !important; color: " + INK + " !important;",
@@ -191,12 +198,12 @@
 
     /* ---- Pop-ups (the media library) ---- */
     "[class*='StyledModal'] { background: " + SHEET + " !important; border-radius: 3px !important; box-shadow: 0 24px 60px -20px rgba(42, 38, 32, 0.55) !important; }",
-    "[class*='LibraryTitle'] { font-family: " + SERIF + " !important; font-weight: 500 !important; font-size: 32px !important; color: " + INK + "; }",
+    "[class*='LibraryTitle'] { font-family: " + MONO + " !important; font-weight: 600 !important; font-size: 22px !important; color: " + INK + "; }",
 
     /* ---- Login ---- */
     "[class*='LoginButton'], button[class*='Login'] {",
     "  background: " + INK + " !important; color: " + PAPER + " !important; border-radius: 2px !important;",
-    "  font-family: " + SANS + " !important; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase;",
+    "  font-family: " + MONO + " !important; font-weight: 500; letter-spacing: 0.01em;",
     "  box-shadow: 3px 3px 0 " + ACCENT + " !important;",
     "}",
 

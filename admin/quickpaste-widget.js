@@ -155,7 +155,7 @@ if (typeof module !== "undefined" && module.exports) {
   if (typeof createClass === "undefined" || typeof h === "undefined") return; // not running inside the CMS
 
   var SECTION_STYLE = { marginBottom: "20px", paddingBottom: "16px", borderBottom: "1px solid #eee" };
-  var LABEL_STYLE = { display: "block", fontFamily: "'Cormorant Garamond', Georgia, serif", fontStyle: "italic", fontWeight: "400", fontSize: "22px", color: "#2a2620", marginBottom: "4px" };
+  var LABEL_STYLE = { display: "block", fontFamily: "'IBM Plex Mono', ui-monospace, monospace", fontWeight: "600", fontSize: "15px", color: "#2a2620", marginBottom: "6px" };
   var HINT_STYLE = { fontSize: "14px", color: "#666", marginTop: "0", marginBottom: "8px" };
   var ROW_STYLE = { display: "flex", gap: "8px", marginBottom: "8px", alignItems: "flex-start" };
   // 16px: iOS Safari zooms the whole page in on any field with smaller text.
@@ -348,7 +348,7 @@ if (typeof module !== "undefined" && module.exports) {
               "div",
               { style: ROW_STYLE, key: idx },
               h("input", { type: "text", placeholder: "Amount", "aria-label": "Amount for ingredient " + (idx + 1), style: Object.assign({}, INPUT_STYLE, { flex: "0 0 30%", maxWidth: "150px" }), value: ing.amount || "", onChange: function (e) { self.updateIngredient(idx, "amount", e.target.value); } }),
-              h("input", { type: "text", placeholder: "Ingredient", "aria-label": "Ingredient " + (idx + 1), style: Object.assign({}, INPUT_STYLE, { flex: "1 1 0" }), value: ing.item || "", onChange: function (e) { self.updateIngredient(idx, "item", e.target.value); } }),
+              h("textarea", { rows: 1, placeholder: "Ingredient", "aria-label": "Ingredient " + (idx + 1), ref: autoGrow, style: Object.assign({}, INPUT_STYLE, { flex: "1 1 0", resize: "none", overflow: "hidden", lineHeight: "1.4", fontFamily: "inherit" }), value: ing.item || "", onChange: function (e) { autoGrow(e.target); self.updateIngredient(idx, "item", e.target.value); } }),
               h("button", { type: "button", "aria-label": "Remove ingredient " + (idx + 1), style: REMOVE_BUTTON_STYLE, onClick: function () { self.removeIngredient(idx); } }, "\u2715")
             );
           }),
