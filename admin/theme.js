@@ -219,6 +219,19 @@
     "  box-shadow: inset 0 -3px 0 " + HIGHLIGHT + " !important;",
     "}",
 
+    /* ---- The Category picker's list ---- */
+    "[class*='ControlContainer'] [class$='-menu'], [class*='ControlContainer'] [class*='-menu ']  {",
+    "  background: " + SHEET + " !important; border: 1px solid " + EDGE + " !important; border-radius: 3px !important;",
+    "  box-shadow: 0 16px 32px -14px rgba(42, 38, 32, 0.55) !important; overflow: hidden; margin-top: 4px;",
+    "}",
+    "[class*='ControlContainer'] [class*='-option'] {",
+    "  font-family: " + SANS + " !important; font-size: 16px !important; color: " + INK + " !important;",
+    "  padding: 14px 16px !important; background: transparent !important; cursor: pointer;",
+    "}",
+    "[class*='ControlContainer'] [class*='-option']:hover, [class*='ControlContainer'] [class*='-option']:active { background: " + HIGHLIGHT + " !important; }",
+    "[class*='ControlContainer'] [class*='-option'][aria-selected='true'] { background: " + HIGHLIGHT + " !important; font-weight: 600; }",
+    "[class*='ControlContainer'] input[aria-autocomplete='list'] { caret-color: transparent; cursor: pointer; opacity: 0 !important; }",
+
     /* ---- Pop-ups (the media library) ---- */
     "[class*='StyledModal'] { background: " + SHEET + " !important; border-radius: 3px !important; box-shadow: 0 24px 60px -20px rgba(42, 38, 32, 0.55) !important; }",
     "[class*='LibraryTitle'] { font-family: " + MONO + " !important; font-weight: 600 !important; font-size: 22px !important; color: " + INK + "; }",
@@ -292,6 +305,25 @@
     "}",
   ].join("\n");
   document.head.appendChild(style);
+
+  // The Category field is a searchable drop-down: tapping it put a text cursor
+  // in and brought up the keyboard. It only has five fixed choices, so make it
+  // a pure picker. A read-only input still opens the list on tap, but never
+  // shows the keyboard. Checked again whenever Decap redraws the form.
+  var lockTimer = null;
+  function lockPickers() {
+    lockTimer = null;
+    var boxes = document.querySelectorAll("[class*='ControlContainer'] input[aria-autocomplete='list']");
+    for (var i = 0; i < boxes.length; i++) {
+      if (!boxes[i].readOnly) {
+        boxes[i].readOnly = true;
+        boxes[i].setAttribute("inputmode", "none");
+      }
+    }
+  }
+  new MutationObserver(function () {
+    if (!lockTimer) lockTimer = setTimeout(lockPickers, 50);
+  }).observe(document.body, { childList: true, subtree: true });
 
   var favicon = document.createElement("link");
   favicon.rel = "icon";
