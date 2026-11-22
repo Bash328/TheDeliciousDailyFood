@@ -15,6 +15,16 @@ display_url: "https://thedeliciousdaily.com"
 media_folder: "images"
 public_folder: "/images"
 
+# Our own photo library (admin/photo-library.js) instead of Decap's built-in one:
+# two-column grid, every button visible, and uploads resized to one standard size.
+media_library:
+  name: dd-photos
+  config:
+    repo: Bash328/TheDeliciousDailyFood
+    branch: main
+    folder: images
+    public_folder: /images
+
 publish_mode: simple
 
 # No live preview pane. Decap's preview would show the raw fields in an unstyled
@@ -48,7 +58,7 @@ collections:
       - { label: "Category", field: "category" }
     fields: &recipe_fields
       - { label: "Title", name: "title", widget: "string" }
-      - { label: "Photo", name: "image", widget: "image", media_library: { config: { multiple: false } }, required: false, hint: "Leave blank to use a plain placeholder until you have a photo." }
+      - { label: "Photo", name: "image", widget: "image", required: false, hint: "Leave blank to use a plain placeholder until you have a photo." }
       - label: "Category"
         name: "category"
         widget: "select"

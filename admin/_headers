@@ -12,6 +12,8 @@
   Cache-Control: no-cache
 /theme.js
   Cache-Control: no-cache
+/photo-library.js
+  Cache-Control: no-cache
 /quickpaste-widget.js
   Cache-Control: no-cache
 /config.yml

@@ -128,6 +128,24 @@ whatever's in the box at that moment.
   do this by itself, hence the extra service. See the setup steps below for how
   it's wired up.
 
+## Photos: the photo library
+
+Photos (the **Media** tab, and **Choose an image** on a recipe) use our own
+library, `admin/photo-library.js`, not Decap's built-in one.
+
+- A two-column grid of square thumbnails (more across on a wide screen), with
+  search. Tap one to select it; **Use photo** puts it on the recipe, **Copy path**
+  copies its address, **Delete** removes it (after asking).
+- **Every upload is resized to one standard size:** 1600 pixels wide, cropped to
+  4:3 (the shape the site shows photos in), saved as a JPEG. A 4 MB phone photo
+  becomes roughly 300 KB. Untick **Crop uploads to 4:3** to keep the original
+  shape (still resized to 1600 wide at most).
+- It saves straight to the repo's `images/` folder using the same GitHub sign-in
+  as the rest of the admin, and shows only recipe photos (the site's own icons
+  and logo are hidden so they can't be deleted by accident).
+- If it ever says GitHub didn't accept your sign-in: sign out of the admin, sign
+  in again, and retry.
+
 ## The admin lives on its own subdomain
 
 `admin/` is not part of the main site's build. A separate **Cloudflare Worker**
