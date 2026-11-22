@@ -113,6 +113,17 @@
     "  [class*='ToolbarSectionBackLink'] { min-width: 0 !important; padding-right: 8px !important; }",
     "  [class*='ToolbarSectionMain'] { min-width: 0 !important; flex: 1 1 auto !important; padding: 0 8px !important; justify-content: flex-end; }",
 
+    /* The media library (Media tab, and the photo picker in a recipe): a pop-up
+       whose title row held the title and four buttons side by side, wider than
+       the phone, so Copy / Delete and the search box ran off the right edge. */
+    "  [class*='StyledModal'] { width: 94vw !important; max-width: 94vw !important; padding: 14px !important; }",
+    "  [class*='LibraryTop'] { width: auto !important; max-width: 100% !important; }",
+    "  [class*='RowContainer'] { flex-wrap: wrap !important; gap: 10px; width: auto !important; max-width: 100% !important; }",
+    "  [class*='ButtonsContainer'] { flex-wrap: wrap !important; gap: 8px; margin-left: 0 !important; width: auto !important; max-width: 100% !important; }",
+    "  [class*='ButtonsContainer'] { margin-bottom: 10px !important; }",
+    "  [class*='ButtonsContainer'] > *, [class*='ActionButton'], [class*='DeleteButton'], [class*='UploadButton'] { margin-left: 0 !important; margin-right: 8px !important; }",
+    "  [class*='SearchContainer'], [class*='SearchInput'] { width: 100% !important; max-width: 100% !important; }",
+
     /* Bigger touch targets, and 16px text so iOS doesn't zoom in on tap. */
     "  input, textarea, select { font-size: 16px !important; }",
     "  button, [class*='SidebarNavLink'], [class*='ListCardLink'] { min-height: 44px; }",
