@@ -561,7 +561,19 @@ h1, h2, h3 { margin: 0; font-family: var(--serif); font-weight: 400; }
 
 .grocery-tool { max-width: 620px; margin: 0; padding-bottom: 96px; }
 .grocery-add-form { display: flex; gap: 12px; margin-bottom: 30px; }
-.grocery-add-form input { flex: 1; min-width: 0; }
+.grocery-add-form input {
+  flex: 1;
+  min-width: 0;
+  min-height: 52px;
+  padding: 0 16px;
+  background: var(--card-bg);
+  border: 1px solid var(--rule);
+  border-radius: 0;
+  color: var(--ink);
+  font: inherit;
+  font-size: 1.0625rem; /* 17px: iOS zooms the page on any field under 16px */
+}
+.grocery-add-form .btn { min-height: 52px; padding: 0 22px; }
 
 ::placeholder { color: var(--ink-faint); opacity: 1; }
 
@@ -666,7 +678,6 @@ input:focus-visible, select:focus-visible, textarea:focus-visible {
   .method li { padding-left: 52px; }
   .factbar .actions { justify-content: flex-start; }
   .sitemap-list { columns: 1; }
-  .grocery-add-form { flex-direction: column; }
 }
 
 /* ---------- Hover (mouse only) ---------- */
@@ -897,7 +908,14 @@ input:focus-visible, select:focus-visible, textarea:focus-visible {
   .tabbar a:active, .courses a:active { opacity: 0.6; }
   .btn:active { transform: scale(0.97); }
 
-  /* -- Forms: no sideways overflow, comfortable tap size */
+  /* -- Grocery list actions: Share on its own row, the rest two across */
+  .grocery-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .grocery-actions .btn { width: 100%; padding: 0 10px; }
+  .grocery-actions #grocery-share { grid-column: 1 / -1; }
+  #grocery-print { display: none; }
+
+  /* -- Forms: never under 16px (iOS zooms in on tap), comfortable tap size */
+  input, select, textarea { font-size: max(16px, 1em); }
   .submit-form .btn { width: 100%; }
 }
 
