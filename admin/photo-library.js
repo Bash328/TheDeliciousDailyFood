@@ -33,10 +33,12 @@
 
   // ---------------------------------------------------------------- styles
   var css = [
-    ".ddp-overlay{position:fixed;inset:0;z-index:99999;background:rgba(42,38,32,.6);display:flex;align-items:flex-end;justify-content:center;font-family:'IBM Plex Sans',system-ui,sans-serif;color:#2a2620}",
-    ".ddp-sheet{background:#fffdf6;width:100%;max-width:1000px;height:100%;display:flex;flex-direction:column;position:relative}",
+    ".ddp-overlay{position:fixed;left:0;right:0;top:0;height:100vh;height:100dvh;z-index:99999;background:rgba(42,38,32,.6);display:flex;align-items:flex-end;justify-content:center;font-family:'IBM Plex Sans',system-ui,sans-serif;color:#2a2620;-webkit-tap-highlight-color:transparent}",
+    ".ddp-overlay *{-webkit-tap-highlight-color:transparent}",
+    ".ddp-overlay button:focus,.ddp-sheet:focus{outline:none;box-shadow:none}",
+    ".ddp-sheet{background:#fffdf6;width:100%;max-width:1000px;height:100%;display:flex;flex-direction:column;position:relative;min-height:0}",
     "@media(min-width:800px){.ddp-overlay{align-items:center}.ddp-sheet{height:90vh;border-radius:3px;box-shadow:0 30px 70px -20px rgba(42,38,32,.6)}}",
-    ".ddp-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:calc(12px + env(safe-area-inset-top)) 16px 12px;border-bottom:2px dashed rgba(168,85,58,.45)}",
+    ".ddp-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:calc(12px + env(safe-area-inset-top)) 18px 12px;border-bottom:2px dashed rgba(168,85,58,.45)}",
     ".ddp-head h2{margin:0;font:600 20px 'IBM Plex Mono',ui-monospace,monospace}",
     ".ddp-close{min-width:44px;min-height:44px;border:1.5px solid #ddd3ba;background:#fffdf6;border-radius:2px;font-size:20px;cursor:pointer;color:#2a2620}",
     ".ddp-tools{display:flex;flex-wrap:wrap;gap:8px 10px;align-items:center;padding:10px 16px 0}",
@@ -61,8 +63,9 @@
     ".ddp-tile[aria-pressed='true']{border-color:#a8553a;box-shadow:0 0 0 3px rgba(168,85,58,.28)}",
     ".ddp-tile[aria-pressed='true']::after{content:'\\2713';position:absolute;top:8px;right:8px;width:28px;height:28px;border-radius:50%;background:#a8553a;color:#fff;font-size:17px;line-height:28px;text-align:center}",
     ".ddp-empty{grid-column:1/-1;text-align:center;padding:40px 0;color:#5f564a}",
-    ".ddp-foot{display:flex;gap:8px;padding:10px 12px calc(10px + env(safe-area-inset-bottom));border-top:2px dashed rgba(168,85,58,.45)}",
-    ".ddp-foot .ddp-btn{flex:1 1 0;min-width:0;padding:0 6px;font-size:13px}",
+    ".ddp-foot{display:flex;gap:10px;padding:12px 18px max(22px,calc(14px + env(safe-area-inset-bottom)));border-top:2px dashed rgba(168,85,58,.45);background:#fffdf6}",
+    ".ddp-foot .ddp-btn{flex:1 1 0;min-width:0;padding:0 6px;font-size:13px;box-shadow:none}",
+    ".ddp-foot .ddp-primary{border-color:#8a3f27}",
   ].join("\n");
   var styleEl = null;
   function ensureStyle() {
@@ -387,7 +390,8 @@
     overlay_prevOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     document.body.appendChild(overlay);
-    closeBtn.focus();
+    sheet.setAttribute("tabindex", "-1");
+    sheet.focus({ preventScroll: true }); // keyboard and screen readers land inside, with no ring on the X
     refreshButtons();
     load();
   }
