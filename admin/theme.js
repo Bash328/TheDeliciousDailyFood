@@ -59,7 +59,7 @@
     "}",
 
     /* Primary action buttons (Publish, New Recipe, and friends) */
-    "[class*='ToolbarButton'][class*='Primary'], button[class*='WidgetButton'] {",
+    "[class*='ToolbarButton'][class*='Primary'] {",
     "  background: " + RED + " !important;",
     "  border-color: " + RED + " !important;",
     "  border-radius: 1px !important;",
@@ -75,6 +75,47 @@
     /* Field labels and collection titles in the monospace voice */
     "[class*='ControlLabel'], [class*='CollectionTop'] h1 {",
     "  font-family: " + MONO + " !important;",
+    "}",
+
+    /* ---- Phones and small tablets ----
+       Decap hard-codes an 800px minimum width on the page, header, toolbar and
+       editor, and pins a 250px sidebar beside the list. On a phone that is what
+       made everything scroll sideways and hid half of every recipe name. */
+    "@media (max-width: 800px) {",
+    "  [class*='AppMainContainer'], [class*='AppHeaderContent'],",
+    "  [class*='EditorContainer'], [class*='ToolbarContainer'] {",
+    "    min-width: 0 !important; width: 100% !important; margin-right: 0 !important;",
+    "  }",
+    "  [class*='AppHeaderContent'] { padding: 0 8px; }",
+    "  [class*='AppHeaderActions'] { white-space: nowrap; }",
+    /* Tighter top nav so Contents / Media / Quick add / avatar fit in 390px. */
+    "  [class*='AppHeaderButton'] svg, [class*='AppHeaderButton'] [class*='Icon'] { display: none !important; }",
+    "  [class*='AppHeaderButton'] { padding-left: 10px !important; padding-right: 10px !important; }",
+    "  [class*='AppHeaderQuickNewButton'] { padding-left: 10px !important; margin-right: 0 !important; }",
+    "  [class*='AppHeaderSiteLink'] { display: none !important; }",
+
+    /* The collections sidebar becomes a strip above the list. */
+    "  [class*='SidebarContainer'] {",
+    "    position: static !important; width: auto !important; margin: 0 0 14px !important;",
+    "    padding: 8px 0 !important;",
+    "  }",
+    "  [class*='SidebarHeading'] { display: none; }",
+    "  [class*='CollectionContainer'] { width: auto !important; margin: 14px 12px !important; }",
+    "  [class*='CollectionMain'] { padding-left: 0 !important; width: auto !important; }",
+    "  [class*='CollectionTopContainer'], [class*='CollectionControlsContainer'] { width: auto !important; }",
+    "  [class*='CardsGrid'] { width: auto !important; margin-left: 0 !important; }",
+    "  [class*='ListCard'] { width: 100% !important; margin-left: 0 !important; }",
+
+    /* The editor's top bar: keep the arrow, the save status, the Published menu
+       and Delete; drop the long "Writing in Recipes collection" text, the
+       (unused) preview button and the avatar, which is what pushed it off-screen. */
+    "  [class*='BackCollection'], [class*='PreviewButtonContainer'], [class*='ToolbarSectionMeta'] { display: none !important; }",
+    "  [class*='ToolbarSectionBackLink'] { min-width: 0 !important; padding-right: 8px !important; }",
+    "  [class*='ToolbarSectionMain'] { min-width: 0 !important; flex: 1 1 auto !important; padding: 0 8px !important; justify-content: flex-end; }",
+
+    /* Bigger touch targets, and 16px text so iOS doesn't zoom in on tap. */
+    "  input, textarea, select { font-size: 16px !important; }",
+    "  button, [class*='SidebarNavLink'], [class*='ListCardLink'] { min-height: 44px; }",
     "}",
   ].join("\n");
   document.head.appendChild(style);

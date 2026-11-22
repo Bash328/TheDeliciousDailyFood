@@ -96,12 +96,11 @@ recipe file that happens to have `submitted: true` on it.
    before merging — normal GitHub PR editing). Their photo is already on the
    branch and already set as the recipe's photo.
 3. Once merged, open `/admin/` and go to **Submitted (from the public form)**.
-   The new recipe is there with **Keep hidden from the live site** switched on,
+   The new recipe is there with **Draft — keep off the live site** switched on,
    so it isn't on the homepage.
 4. Paste the submitter's raw text from the PR description into the **Quick
-   Paste** box on the Recipe content field, click **Parse & Fill**, adjust as
-   usual, swap the photo if you'd rather use your own, switch off **Keep hidden
-   from the live site**, and Publish. Turning off **Came in through the public
+   Paste** box on the Recipe field, click **Parse & Fill**, adjust as
+   usual, swap the photo if you'd rather use your own, switch off **Draft**, and Publish. Turning off **Came in through the
    submission form** as well clears it from the Submitted list once you're done
    — the recipe itself doesn't move.
 

@@ -156,11 +156,21 @@ if (typeof module !== "undefined" && module.exports) {
 
   var SECTION_STYLE = { marginBottom: "20px", paddingBottom: "16px", borderBottom: "1px solid #eee" };
   var LABEL_STYLE = { display: "block", fontWeight: "600", marginBottom: "6px" };
-  var HINT_STYLE = { fontSize: "13px", color: "#666", marginTop: "0", marginBottom: "8px" };
+  var HINT_STYLE = { fontSize: "14px", color: "#666", marginTop: "0", marginBottom: "8px" };
   var ROW_STYLE = { display: "flex", gap: "8px", marginBottom: "8px", alignItems: "flex-start" };
-  var INPUT_STYLE = { padding: "8px", border: "1px solid #ccc", borderRadius: "4px", fontSize: "14px" };
-  var BUTTON_STYLE = { padding: "8px 14px", border: "1px solid #ccc", borderRadius: "4px", background: "#f5f5f5", cursor: "pointer" };
-  var REMOVE_BUTTON_STYLE = { padding: "6px 10px", border: "1px solid #ccc", borderRadius: "4px", background: "#fff", cursor: "pointer", color: "#a33" };
+  // 16px: iOS Safari zooms the whole page in on any field with smaller text.
+  // minWidth 0 lets a field shrink instead of pushing the row off a phone screen.
+  var INPUT_STYLE = { padding: "10px", border: "1px solid #ccc", borderRadius: "4px", fontSize: "16px", minWidth: "0", boxSizing: "border-box" };
+  var BUTTON_STYLE = { padding: "10px 16px", minHeight: "44px", border: "1px solid #ccc", borderRadius: "4px", background: "#f5f5f5", fontSize: "15px", cursor: "pointer" };
+  var REMOVE_BUTTON_STYLE = { flex: "0 0 auto", minWidth: "44px", minHeight: "44px", padding: "0 10px", border: "1px solid #ccc", borderRadius: "4px", background: "#fff", cursor: "pointer", color: "#a33", fontSize: "18px" };
+  var STEP_NUMBER_STYLE = { flex: "0 0 24px", paddingTop: "10px", fontWeight: "600", color: "#a5453a", textAlign: "right" };
+
+  // A step box grows to fit what's in it, so a long step is never cut off at two lines.
+  function autoGrow(el) {
+    if (!el) return;
+    el.style.height = "auto";
+    el.style.height = el.scrollHeight + 2 + "px";
+  }
 
   function toPlain(v) {
     if (v && typeof v.toJS === "function") return v.toJS();
@@ -196,6 +206,12 @@ if (typeof module !== "undefined" && module.exports) {
       var parsed = parseQuickPaste(this.state.quickPasteText);
       var current = this.getValue();
       var filled = [];
+
+      var replacing =
+        (parsed.ingredients && current.ingredients.length) || (parsed.steps && current.steps.length);
+      if (replacing && !window.confirm("This replaces the ingredients and steps already filled in below. Continue?")) {
+        return;
+      }
 
       var next = {
         prepTimeMinutes: current.prepTimeMinutes,
@@ -300,7 +316,7 @@ if (typeof module !== "undefined" && module.exports) {
             value: this.state.quickPasteText,
             onChange: this.handleQuickPasteChange,
             rows: 10,
-            style: Object.assign({}, INPUT_STYLE, { width: "100%", boxSizing: "border-box", fontFamily: "monospace" }),
+            style: Object.assign({}, INPUT_STYLE, { width: "100%", fontFamily: "monospace" }),
             placeholder: "Prep time: 15 minutes\nCook time: 30 minutes\nServes: 4\n\nIngredients:\n- 2 cups flour\n...\n\nInstructions:\n1. Preheat oven...",
           }),
           h("div", { style: { marginTop: "8px" } },
@@ -315,11 +331,11 @@ if (typeof module !== "undefined" && module.exports) {
           h("label", { style: LABEL_STYLE }, "Prep / cook time & servings"),
           h(
             "div",
-            { style: ROW_STYLE },
-            h("input", { type: "number", min: "0", placeholder: "Prep (min)", style: INPUT_STYLE, value: value.prepTimeMinutes, onChange: this.setNumberField("prepTimeMinutes") }),
-            h("input", { type: "number", min: "0", placeholder: "Cook (min)", style: INPUT_STYLE, value: value.cookTimeMinutes, onChange: this.setNumberField("cookTimeMinutes") }),
-            h("input", { type: "number", min: "0", placeholder: "Servings #", style: INPUT_STYLE, value: value.servingsNumber, onChange: this.setNumberField("servingsNumber") }),
-            h("input", { type: "text", placeholder: "Unit (Servings, Muffins...)", style: INPUT_STYLE, value: value.servingsUnit, onChange: this.setTextField("servingsUnit") })
+            { style: Object.assign({}, ROW_STYLE, { flexWrap: "wrap" }) },
+            h("input", { type: "number", min: "0", inputMode: "numeric", placeholder: "Prep (min)", "aria-label": "Prep time in minutes", style: Object.assign({}, INPUT_STYLE, { flex: "1 1 110px" }), value: value.prepTimeMinutes, onChange: this.setNumberField("prepTimeMinutes") }),
+            h("input", { type: "number", min: "0", inputMode: "numeric", placeholder: "Cook (min)", "aria-label": "Cook time in minutes", style: Object.assign({}, INPUT_STYLE, { flex: "1 1 110px" }), value: value.cookTimeMinutes, onChange: this.setNumberField("cookTimeMinutes") }),
+            h("input", { type: "number", min: "0", inputMode: "numeric", placeholder: "Servings #", "aria-label": "Number of servings", style: Object.assign({}, INPUT_STYLE, { flex: "1 1 110px" }), value: value.servingsNumber, onChange: this.setNumberField("servingsNumber") }),
+            h("input", { type: "text", placeholder: "Unit (Servings, Muffins...)", "aria-label": "Servings unit", style: Object.assign({}, INPUT_STYLE, { flex: "2 1 170px" }), value: value.servingsUnit, onChange: this.setTextField("servingsUnit") })
           )
         ),
 
@@ -331,9 +347,9 @@ if (typeof module !== "undefined" && module.exports) {
             return h(
               "div",
               { style: ROW_STYLE, key: idx },
-              h("input", { type: "text", placeholder: "Amount", style: Object.assign({}, INPUT_STYLE, { width: "120px" }), value: ing.amount || "", onChange: function (e) { self.updateIngredient(idx, "amount", e.target.value); } }),
-              h("input", { type: "text", placeholder: "Ingredient", style: Object.assign({}, INPUT_STYLE, { flex: "1" }), value: ing.item || "", onChange: function (e) { self.updateIngredient(idx, "item", e.target.value); } }),
-              h("button", { type: "button", style: REMOVE_BUTTON_STYLE, onClick: function () { self.removeIngredient(idx); } }, "Remove")
+              h("input", { type: "text", placeholder: "Amount", "aria-label": "Amount for ingredient " + (idx + 1), style: Object.assign({}, INPUT_STYLE, { flex: "0 0 30%", maxWidth: "150px" }), value: ing.amount || "", onChange: function (e) { self.updateIngredient(idx, "amount", e.target.value); } }),
+              h("input", { type: "text", placeholder: "Ingredient", "aria-label": "Ingredient " + (idx + 1), style: Object.assign({}, INPUT_STYLE, { flex: "1 1 0" }), value: ing.item || "", onChange: function (e) { self.updateIngredient(idx, "item", e.target.value); } }),
+              h("button", { type: "button", "aria-label": "Remove ingredient " + (idx + 1), style: REMOVE_BUTTON_STYLE, onClick: function () { self.removeIngredient(idx); } }, "\u2715")
             );
           }),
           h("button", { type: "button", style: BUTTON_STYLE, onClick: this.addIngredient }, "+ Add ingredient")
@@ -347,8 +363,9 @@ if (typeof module !== "undefined" && module.exports) {
             return h(
               "div",
               { style: ROW_STYLE, key: idx },
-              h("textarea", { rows: 2, style: Object.assign({}, INPUT_STYLE, { flex: "1" }), value: step, onChange: function (e) { self.updateStep(idx, e.target.value); } }),
-              h("button", { type: "button", style: REMOVE_BUTTON_STYLE, onClick: function () { self.removeStep(idx); } }, "Remove")
+              h("span", { style: STEP_NUMBER_STYLE, "aria-hidden": "true" }, String(idx + 1)),
+              h("textarea", { rows: 2, "aria-label": "Step " + (idx + 1), ref: autoGrow, style: Object.assign({}, INPUT_STYLE, { flex: "1 1 0", resize: "none", overflow: "hidden", lineHeight: "1.4", fontFamily: "inherit" }), value: step, onChange: function (e) { autoGrow(e.target); self.updateStep(idx, e.target.value); } }),
+              h("button", { type: "button", "aria-label": "Remove step " + (idx + 1), style: REMOVE_BUTTON_STYLE, onClick: function () { self.removeStep(idx); } }, "\u2715")
             );
           }),
           h("button", { type: "button", style: BUTTON_STYLE, onClick: this.addStep }, "+ Add step")

@@ -49,15 +49,15 @@ the live site on the next rebuild.
 | Tag | Optional short word/phrase shown next to the category on the recipe page (e.g. "One Skillet", "Weeknight"). Leave blank if you don't want one. |
 | Short description | Used as the card blurb on the homepage, the intro line on the recipe page, the browser/search description, and the Pinterest pin description. One or two sentences. |
 | Photo | Upload an image here — it's saved into the `images/` folder automatically and used everywhere the recipe's photo appears. Leave blank and the recipe shows a plain placeholder until you add one. |
-| Recipe content | Prep/cook time, servings, ingredients, and steps, all in one field — see **Quick Paste** below, it's the fast way to fill this in. |
+| Recipe | Prep/cook time, servings, ingredients, and steps, all in one field — see **Quick Paste** below, it's the fast way to fill this in. |
 | Note | Optional tip shown in a highlighted box at the end of the method. Leave blank to omit it. |
-| Keep hidden from the live site (draft) | While this is on, the recipe stays off the homepage and out of the sitemap — its page still exists at its own URL, just unlinked and marked not-to-be-indexed. Useful while you're still working on one, and it's how recipes arrive from the public submission form. Switch it off when it's ready to go live. |
-| Credit — name / Instagram | Who sent the recipe in, shown as a line under the description on the recipe page, and named as the author in the page's structured data. Filled in from the submission form; clear either one to drop it. The Instagram link is marked nofollow, so it passes no search ranking. |
-| Came in through the public submission form | Set automatically on recipes sent in at /submit-recipe/. It is what puts them in the **Submitted** list in the sidebar; switch it off once you've finished with one to clear it from that list. |
+| Draft — keep off the live site | While this is on, the recipe stays off the homepage and out of the sitemap — its page still exists at its own URL, just unlinked and marked not-to-be-indexed. Useful while you're still working on one, and it's how recipes arrive from the public submission form. Switch it off when it's ready to go live. |
+| Credit name / Credit Instagram handle | Who sent the recipe in, shown as a line under the description on the recipe page, and named as the author in the page's structured data. Filled in from the submission form; clear either one to drop it. The Instagram link is marked nofollow, so it passes no search ranking. |
+| Came in through the submission form | Set automatically on recipes sent in at /submit-recipe/. It is what puts them in the **Submitted** list in the sidebar; switch it off once you've finished with one to clear it from that list. |
 
 ## Quick Paste — auto-fill from a pasted recipe
 
-The **Recipe content** field has a **Quick Paste** box at the top. Paste in an
+The **Recipe** field has a **Quick Paste** box at the top. Paste in an
 old recipe as raw text and click **Parse & Fill** — it reads the text and
 fills in prep time, cook time, servings, ingredients, and steps below, so you
 review/adjust instead of retyping everything by hand.
@@ -117,7 +117,7 @@ whatever's in the box at that moment.
   a good one to hand to Claude Code with a plain-English request rather than
   editing by hand).
 - **`admin/quickpaste-widget.js`** — the Quick Paste box and its parsing logic
-  (the "Recipe content" field in `/admin`). Runs entirely in your browser, no
+  (the "Recipe" field in the admin). Runs entirely in your browser, no
   server involved.
 - **`.github/workflows/deploy.yml`** — the GitHub Action that rebuilds and
   republishes the site every time a commit lands on `main` (i.e., every time you

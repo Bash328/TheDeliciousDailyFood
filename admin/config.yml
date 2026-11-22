@@ -1,6 +1,6 @@
 # The main content manager, at https://admin.thedeliciousdaily.com — signs in
 # with a GitHub account through the OAuth relay worker in ../oauth-worker.
-# This folder is deployed on its own by Cloudflare Pages (see docs/CMS-GUIDE.md);
+# This folder is deployed on its own as a Cloudflare Worker (see docs/CMS-GUIDE.md);
 # the public site's build leaves it out.
 backend:
   name: github
@@ -17,11 +17,22 @@ public_folder: "/images"
 
 publish_mode: simple
 
+# No live preview pane. Decap's preview would show the raw fields in an unstyled
+# box (the site's stylesheet isn't loaded here) and, on a phone, squeezes the
+# form into half the screen. The editor is a single column instead.
+editor:
+  preview: false
+
 # --- collections block ------------------------------------------------------
 # Two views onto the same _recipes folder: everything, and just the ones that
 # came in through the public form. The second is a filter, not a separate
 # place — a submitted recipe is an ordinary recipe file, so publishing it is
 # the same job as publishing any other.
+#
+# Field order is the order you fill a recipe in: what it is, a photo, the recipe
+# itself, then the fiddly details (web address, date, credit, draft) at the end.
+# Decap adds "(optional)" to the label of any field marked required: false, so
+# labels don't say it themselves.
 collections:
   - name: "recipes"
     label: "Recipes"
@@ -29,27 +40,33 @@ collections:
     create: true
     slug: "{{slug}}"
     identifier_field: title
+    summary: "{{title}} · {{category}}"
+    sortable_fields: ["date", "title", "category"]
+    view_filters:
+      - { label: "Drafts (not live yet)", field: "draft", pattern: true }
+    view_groups:
+      - { label: "Category", field: "category" }
     fields: &recipe_fields
       - { label: "Title", name: "title", widget: "string" }
-      - { label: "URL slug (only set once, changing it later breaks the recipe's link)", name: "slug", widget: "string", hint: "Lowercase, words separated by dashes, e.g. lemon-blueberry-muffins. This becomes part of the web address." }
-      - { label: "Publish date", name: "date", widget: "datetime", default: "" }
+      - { label: "Photo", name: "image", widget: "image", media_library: { config: { multiple: false } }, required: false, hint: "Leave blank to use a plain placeholder until you have a photo." }
       - label: "Category"
         name: "category"
         widget: "select"
         options: ["Dinner", "Lunch", "Dessert", "Breakfast", "Soup"]
-      - { label: "Cuisine (optional — e.g. Italian, Indian, Thai)", name: "cuisine", widget: "string", required: false, hint: "Used in the recipe's structured data for search results. Leave blank when it isn't a clear fit; a wrong cuisine is worse than none." }
-      - { label: "Tag (short, optional — shown next to the category, e.g. \"One Skillet\", \"Weeknight\")", name: "tag", widget: "string", required: false }
       - { label: "Short description", name: "description", widget: "text", hint: "Used as the card blurb, the page intro, and the search/Pinterest description. 1-2 sentences." }
-      - { label: "Photo", name: "image", widget: "image", media_library: { config: { multiple: false } }, required: false, hint: "Leave blank to use a plain placeholder until you have a photo." }
-      - label: "Recipe content (ingredients, steps, times, servings)"
+      - label: "Recipe"
         name: "recipeContent"
         widget: "quickpaste"
         default: { servingsUnit: "Servings", ingredients: [], steps: [] }
-      - { label: "Note (optional tip shown at the end of the method)", name: "note", widget: "text", required: false }
-      - { label: "Credit — name (shown on the recipe as who sent it in)", name: "creditName", widget: "string", required: false, hint: "Filled in from the submission form. Clear it to publish the recipe without a credit." }
-      - { label: "Credit — Instagram handle (no @)", name: "creditInstagram", widget: "string", required: false, hint: "Just the handle, e.g. jamieoliver. Linked from the credit line, marked nofollow so it carries no search ranking. Clear it to drop the link." }
-      - { label: "Keep hidden from the live site for now (draft)", name: "draft", widget: "boolean", default: false, required: false, hint: "Leave this on while you're still working on a recipe — the site's build skips anything marked draft, so it stays off the homepage. Recipes sent in through the public form arrive with this on; turn it off when you're happy with it and publish." }
-      - { label: "Came in through the public submission form", name: "submitted", widget: "boolean", default: false, required: false, hint: "Set automatically for recipes sent in at /submit-recipe/, and what puts them in the Submitted list. Turn it off once you've finished with one to clear it from that list — the recipe itself stays exactly where it is." }
+      - { label: "Note", name: "note", widget: "text", required: false, hint: "A tip shown at the end of the method." }
+      - { label: "Tag", name: "tag", widget: "string", required: false, hint: "A short word shown next to the category, e.g. One Skillet or Weeknight." }
+      - { label: "Cuisine", name: "cuisine", widget: "string", required: false, hint: "e.g. Italian, Indian, Thai. Used in the recipe's search-result data. Leave blank when it isn't a clear fit; a wrong cuisine is worse than none." }
+      - { label: "Publish date", name: "date", widget: "datetime", default: "" }
+      - { label: "URL slug", name: "slug", widget: "string", hint: "Set once — changing it later breaks the recipe's link. Lowercase words separated by dashes, e.g. lemon-blueberry-muffins." }
+      - { label: "Credit name", name: "creditName", widget: "string", required: false, hint: "Shown on the recipe as who sent it in. Filled in from the submission form; clear it to publish without a credit." }
+      - { label: "Credit Instagram handle", name: "creditInstagram", widget: "string", required: false, hint: "Just the handle, no @, e.g. jamieoliver. Linked from the credit line (nofollow). Clear it to drop the link." }
+      - { label: "Draft — keep off the live site", name: "draft", widget: "boolean", default: false, required: false, hint: "On = hidden from the homepage. Recipes sent in through the public form arrive with this on; turn it off when you're happy with the recipe, then publish." }
+      - { label: "Came in through the submission form", name: "submitted", widget: "boolean", default: false, required: false, hint: "Set automatically for recipes sent in at /submit-recipe/; it's what puts them in the Submitted list. Turn it off when you've finished with one to clear it from that list." }
 
   - name: "submitted"
     label: "Submitted (from the public form)"
@@ -57,5 +74,6 @@ collections:
     create: false
     slug: "{{slug}}"
     identifier_field: title
+    summary: "{{title}} · {{category}}"
     filter: { field: "submitted", value: true }
     fields: *recipe_fields
