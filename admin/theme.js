@@ -309,8 +309,13 @@
     "  [class*='CollectionContainer'] { width: auto !important; margin: 14px 12px !important; }",
     "  [class*='CollectionMain'] { padding-left: 0 !important; width: auto !important; }",
     "  [class*='CollectionTopContainer'], [class*='CollectionControlsContainer'] { width: auto !important; }",
-    "  [class*='CollectionTopHeading'] { font-size: 34px !important; }",
+    "  [class*='CollectionTopHeading'] { font-size: 24px !important; }",
     "  [class*='CardsGrid'] { width: auto !important; margin-left: 0 !important; }",
+    /* "No Entries" / loading / end-of-list messages carry a fixed 682px width. An
+       empty list (the Submitted page, when nothing has been sent in) was wider
+       than the phone and made the whole page scroll sideways. */
+    "  [class*='PaginationMessage'], [class*='NoEntriesMessage'] { width: auto !important; max-width: 100% !important; box-sizing: border-box; text-align: center; padding: 24px 16px !important; }",
+    "  [class*='CollectionTopHeading'] { overflow-wrap: anywhere; line-height: 1.2; }",
     "  [class*='ListCard-'] { width: 100% !important; margin-left: 0 !important; }",
 
     /* The editor's top bar: keep the arrow, the save status, the Published menu
