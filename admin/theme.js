@@ -93,6 +93,10 @@
     "  background-color: transparent !important; color: rgba(247, 241, 227, 0.72) !important;",
     "}",
     "[class*='AppHeaderButton']:hover, [class*='AppHeaderSiteLink']:hover { color: #fff !important; }",
+    /* Decap's "Quick add" menu only ever listed "Recipes" (the one collection you
+       can create in), which the "New Recipes" button and "+ Quick post" already
+       do; opening it also pushed the page wider than a phone. Removed. */
+    "[class*='AppHeaderActions'] > div:has(> [class*='AppHeaderQuickNewButton']) { display: none !important; }",
     "[class*='AppHeaderNavLink'][aria-current='page'] {",
     "  color: #fff !important; background-color: transparent !important;",
     "  box-shadow: inset 0 -4px 0 " + HIGHLIGHT + ";",
