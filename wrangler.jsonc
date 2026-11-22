@@ -1,0 +1,10 @@
+// Deploys the CMS (the admin/ folder, as plain static files) as the Cloudflare
+// Worker "thedeliciousdailyfood", which serves admin.thedeliciousdaily.com.
+// Cloudflare's Git integration runs `npx wrangler deploy` on every push to main.
+// The name must match the project's name in the Cloudflare dashboard.
+// The public site is NOT deployed from here: that's the GitHub Pages workflow.
+{
+  "name": "thedeliciousdailyfood",
+  "compatibility_date": "2025-01-01",
+  "assets": { "directory": "./admin" }
+}

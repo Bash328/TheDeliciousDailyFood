@@ -1,12 +1,12 @@
 # The Delicious Daily — CMS Guide
 
 This site now builds itself. You add, edit, or delete a recipe through a form at
-`/admin`, and the live site updates automatically within about a minute — no HTML,
+`admin.thedeliciousdaily.com`, and the live site updates automatically within about a minute — no HTML,
 no code, nothing to touch by hand.
 
-**A collaborator without their own `/admin/` access?** Add their GitHub
+**A collaborator without their own admin access?** Add their GitHub
 account to the repo (Settings → Collaborators → Add people → Write access) —
-they then log in at `/admin/` exactly like you do, no separate setup needed.
+they then log in at `admin.thedeliciousdaily.com` exactly like you do, no separate setup needed.
 
 **No login at all:** anyone can suggest a recipe at `/submit-recipe/` —
 submissions arrive as a pull request for you to review, and never publish
@@ -15,7 +15,7 @@ themselves. Needs a one-time setup first; see
 
 ## Day-to-day: logging in and publishing
 
-1. Go to `https://thedeliciousdaily.com/admin/`.
+1. Go to `https://admin.thedeliciousdaily.com/` (the old `/admin/` address on the main site redirects there). On a phone or in Chrome/Edge you can **install it as an app** from the browser menu.
 2. Click **Login with GitHub** and authorize the app (first time only).
 3. You'll see a **Recipes** collection listing every recipe on the site.
 
@@ -128,6 +128,21 @@ whatever's in the box at that moment.
   do this by itself, hence the extra service. See the setup steps below for how
   it's wired up.
 
+## The admin lives on its own subdomain
+
+`admin/` is not part of the main site's build. A separate **Cloudflare Worker**
+named `thedeliciousdailyfood` serves just that folder as static files at
+`admin.thedeliciousdaily.com`:
+
+- `wrangler.jsonc` (repo root) points it at `./admin`. Cloudflare's Git
+  integration runs `npx wrangler deploy` on every push to `main`; no build
+  command is needed.
+- Cloudflare dashboard → the Worker → Domains → add the custom domain
+  `admin.thedeliciousdaily.com`.
+- `oauth-worker/wrangler.toml` has `ALLOWED_ORIGIN` set to that same address —
+  redeploy the OAuth worker whenever it changes, or login will hang.
+- Login is still GitHub: only accounts with write access to the repo can save.
+
 ## One-time setup steps (already documented for the record — only needed once)
 
 These five steps had to happen outside Claude Code, under your own GitHub and
@@ -139,7 +154,7 @@ Cloudflare accounts, before `/admin` could work:
    dashboard's Quick Edit — no install needed) → note its `*.workers.dev` URL.
 3. **Create a GitHub OAuth App** at github.com/settings/developers → New OAuth
    App:
-   - Homepage URL: `https://thedeliciousdaily.com/admin/`
+   - Homepage URL: `https://admin.thedeliciousdaily.com/`
    - Authorization callback URL: `<your-worker-url>/callback`
    - Copy the **Client ID**, generate and copy a **Client Secret**.
 4. **Add those two values to the Worker** as secrets named `GITHUB_CLIENT_ID`

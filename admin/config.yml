@@ -1,5 +1,7 @@
-# The main content manager, at /admin/ — signs in with a GitHub account
-# through the OAuth relay worker in ../oauth-worker.
+# The main content manager, at https://admin.thedeliciousdaily.com — signs in
+# with a GitHub account through the OAuth relay worker in ../oauth-worker.
+# This folder is deployed on its own by Cloudflare Pages (see docs/CMS-GUIDE.md);
+# the public site's build leaves it out.
 backend:
   name: github
   repo: Bash328/TheDeliciousDailyFood

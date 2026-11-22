@@ -15,8 +15,15 @@ function parseQuickPaste(text) {
     "gi"
   );
 
+  // Only the lines above the first Ingredients/Instructions heading: a method
+  // step like "Bake - 25 minutes" must not overwrite the real cook time.
+  var firstHeading = lines.findIndex(function (l) {
+    return /^\s*(ingredients|instructions|steps|directions|method)\s*:?\s*$/i.test(l);
+  });
+  var header = firstHeading === -1 ? text : lines.slice(0, firstHeading).join("\n");
+
   var match;
-  while ((match = labelRe.exec(text)) !== null) {
+  while ((match = labelRe.exec(header)) !== null) {
     var label = match[1].toLowerCase();
     var value = match[2].trim();
 
@@ -84,8 +91,9 @@ function parseQuickPaste(text) {
 }
 
 function parseIngredientLine(line) {
-  // A "quantity" is a plain number, a fraction, or a mixed number ("1 1/2").
-  var QTY = "(?:\\d+\\s+\\d+\\s*\\/\\s*\\d+|\\d+\\s*\\/\\s*\\d+|\\d+(?:\\.\\d+)?)";
+  // A "quantity" is a plain number, a fraction, or a mixed number ("1 1/2",
+  // "1½", "½").
+  var QTY = "(?:\\d*\\s*[¼-¾⅐-⅞]|\\d+\\s+\\d+\\s*\\/\\s*\\d+|\\d+\\s*\\/\\s*\\d+|\\d+(?:\\.\\d+)?)";
 
   // "2 cups flour" / "1 1/2 cups sugar, packed" / "3 large eggs" / "Salt, to taste"
   var withUnit = line.match(

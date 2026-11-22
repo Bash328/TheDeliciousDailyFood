@@ -13,7 +13,7 @@
 const GITHUB_AUTHORIZE_URL = "https://github.com/login/oauth/authorize";
 const GITHUB_TOKEN_URL = "https://github.com/login/oauth/access_token";
 const STATE_COOKIE = "dd_oauth_state";
-const DEFAULT_ORIGIN = "https://thedeliciousdaily.com";
+const DEFAULT_ORIGIN = "https://admin.thedeliciousdaily.com";
 
 function allowedOrigin(env) {
   return (env && env.ALLOWED_ORIGIN) || DEFAULT_ORIGIN;
@@ -50,6 +50,7 @@ async function handleAuth(url, env) {
       // Lax rather than Strict: the callback arrives as a top-level navigation
       // from github.com, and Strict would withhold the cookie exactly then.
       "Set-Cookie": `${STATE_COOKIE}=${state}; HttpOnly; Secure; SameSite=Lax; Path=/; Max-Age=600`,
+      // (cleared again in renderCallbackPage, so a state value works once)
       "Cache-Control": "no-store",
     },
   });
@@ -89,6 +90,8 @@ function renderCallbackPage(message, env) {
     headers: {
       "Content-Type": "text/html",
       "Cache-Control": "no-store",
+      // One use only: drop the state cookie so it can't be replayed.
+      "Set-Cookie": `${STATE_COOKIE}=; HttpOnly; Secure; SameSite=Lax; Path=/; Max-Age=0`,
       // The page's only job is to run one inline script and hand a token to
       // the site. Nothing else needs to load, be framed, or be referred to.
       "Content-Security-Policy":
@@ -128,7 +131,9 @@ async function handleCallback(request, url, env) {
     }),
   });
 
-  const tokenData = await tokenResponse.json();
+  // A non-JSON reply (GitHub outage page) becomes "no token returned" instead
+  // of an unhandled exception.
+  const tokenData = await tokenResponse.json().catch(() => ({}));
 
   if (tokenData.error || !tokenData.access_token) {
     return renderCallbackPage(

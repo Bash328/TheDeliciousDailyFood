@@ -1,0 +1,7 @@
+# Read by Cloudflare Pages (this folder is its build output). Keeps the admin
+# out of search results and out of other people's frames.
+/*
+  X-Robots-Tag: noindex, nofollow
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: same-origin
