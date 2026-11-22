@@ -357,12 +357,18 @@ if (typeof module !== "undefined" && module.exports) {
             { style: Object.assign({}, ROW_STYLE, { flexWrap: "wrap" }) },
             labelled("Prep time (minutes)", h("input", { type: "number", min: "0", inputMode: "numeric", placeholder: "e.g. 15", style: Object.assign({}, INPUT_STYLE, { width: "100%" }), value: value.prepTimeMinutes, onChange: this.setNumberField("prepTimeMinutes") })),
             labelled("Cook time (minutes)", h("input", { type: "number", min: "0", inputMode: "numeric", placeholder: "e.g. 30", style: Object.assign({}, INPUT_STYLE, { width: "100%" }), value: value.cookTimeMinutes, onChange: this.setNumberField("cookTimeMinutes") })),
-            labelled("Servings (number)", h("input", { type: "number", min: "0", inputMode: "numeric", placeholder: "e.g. 4", style: Object.assign({}, INPUT_STYLE, { width: "100%" }), value: value.servingsNumber, onChange: this.setNumberField("servingsNumber") })),
-            labelled("Servings word", h("input", { type: "text", placeholder: "Servings, Muffins, Slices\u2026", style: Object.assign({}, INPUT_STYLE, { width: "100%" }), value: value.servingsUnit, onChange: this.setTextField("servingsUnit") }))
+            labelled("Servings (number)", h("input", { type: "number", min: "0", inputMode: "numeric", placeholder: "e.g. 4", style: Object.assign({}, INPUT_STYLE, { width: "100%" }), value: value.servingsNumber, onChange: this.setNumberField("servingsNumber") }))
           ),
           (function () {
             var total = (Number(value.prepTimeMinutes) || 0) + (Number(value.cookTimeMinutes) || 0);
-            return total ? h("p", { style: Object.assign({}, HINT_STYLE, { marginBottom: "0" }) }, "Total time: " + total + " min (worked out for you)") : null;
+            var lines = [];
+            if (total) lines.push("Total time: " + total + " min (worked out for you)");
+            // The word after the number is set from the pasted text ("Serves: 12 muffins")
+            // and otherwise stays "Servings". It isn't typed by hand, so it can't be mistyped.
+            if (value.servingsNumber) lines.push("Shown on the site as: " + value.servingsNumber + " " + (value.servingsUnit || "Servings"));
+            return lines.length
+              ? h("p", { style: Object.assign({}, HINT_STYLE, { marginBottom: "0", lineHeight: "1.6" }) }, lines.map(function (l, i) { return h("span", { key: i, style: { display: "block" } }, l); }))
+              : null;
           })()
         ),
 
