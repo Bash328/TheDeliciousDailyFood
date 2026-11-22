@@ -5,3 +5,14 @@
   X-Frame-Options: DENY
   X-Content-Type-Options: nosniff
   Referrer-Policy: same-origin
+
+# Always re-check these with the server, so a phone that installed the admin as
+# an app picks up a new look straight away instead of holding the old one.
+/index.html
+  Cache-Control: no-cache
+/theme.js
+  Cache-Control: no-cache
+/quickpaste-widget.js
+  Cache-Control: no-cache
+/config.yml
+  Cache-Control: no-cache

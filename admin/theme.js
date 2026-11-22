@@ -196,6 +196,29 @@
     "}",
     "[class*='ControlContainer'] button:not([class]):hover { background: " + ACCENT + " !important; color: #fff !important; }",
 
+    /* ---- Dropdown menus: Sort / Filter / Group, Quick add, Published, the avatar ---- */
+    "[class*='DropdownList'] {",
+    "  background: " + SHEET + " !important; border: 1px solid " + EDGE + " !important; border-radius: 3px !important;",
+    "  box-shadow: 0 16px 32px -14px rgba(42, 38, 32, 0.55) !important; padding: 4px 0 !important; min-width: 190px; overflow: hidden;",
+    "}",
+    "[class*='dropdownItem'] {",
+    "  font-family: " + SANS + " !important; font-size: 15px !important; color: " + INK + " !important;",
+    "  padding: 12px 16px !important; min-height: 44px; border-radius: 0 !important; background: transparent;",
+    "}",
+    "[class*='dropdownItem']:hover, [class*='dropdownItem']:focus, [class*='dropdownItem'][aria-selected='true'] {",
+    "  background: " + HIGHLIGHT + " !important; color: " + INK + " !important; outline: none;",
+    "}",
+    /* the blue focus box Decap draws around an open menu's button */
+    "[class*='ViewControlsButton']:focus, [class*='ControlButton']:focus, [class*='StyledDropdownButton']:focus {",
+    "  outline: none !important; box-shadow: none !important;",
+    "}",
+    "[class*='ViewControlsButton']:focus-visible, [class*='ControlButton']:focus-visible, [class*='StyledDropdownButton']:focus-visible {",
+    "  outline: 2px solid " + ACCENT + " !important; outline-offset: 2px;",
+    "}",
+    "[class*='ViewControlsButton'][aria-expanded='true'], [class*='ControlButton'][aria-expanded='true'] {",
+    "  box-shadow: inset 0 -3px 0 " + HIGHLIGHT + " !important;",
+    "}",
+
     /* ---- Pop-ups (the media library) ---- */
     "[class*='StyledModal'] { background: " + SHEET + " !important; border-radius: 3px !important; box-shadow: 0 24px 60px -20px rgba(42, 38, 32, 0.55) !important; }",
     "[class*='LibraryTitle'] { font-family: " + MONO + " !important; font-weight: 600 !important; font-size: 22px !important; color: " + INK + "; }",
@@ -265,6 +288,7 @@
     /* Bigger touch targets, and 16px text so iOS doesn't zoom in on tap. */
     "  input, textarea, select { font-size: 16px !important; }",
     "  button, [class*='SidebarNavLink'], [class*='ListCardLink'] { min-height: 44px; }",
+    "  [class*='dropdownItem'] { min-height: 48px; font-size: 16px !important; }",
     "}",
   ].join("\n");
   document.head.appendChild(style);
