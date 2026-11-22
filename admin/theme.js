@@ -245,6 +245,11 @@
     "[class*='dropdownItem']:hover, [class*='dropdownItem']:focus, [class*='dropdownItem'][aria-selected='true'] {",
     "  background: " + HIGHLIGHT + " !important; color: " + INK + " !important; outline: none;",
     "}",
+    /* The editor toolbar's Publish menu opened flush with the LEFT edge of its
+       button, so on a phone (the button is at the right) it ran off the screen
+       and "Publish and create new" was cut off. Open it leftward instead. */
+    "[class*='ToolbarContainer'] [class*='DropdownList'] { left: auto !important; right: 0 !important; }",
+    "[class*='DropdownList'] { max-width: calc(100vw - 16px); }",
     /* the blue focus box Decap draws around an open menu's button */
     "[class*='ViewControlsButton']:focus, [class*='ControlButton']:focus, [class*='StyledDropdownButton']:focus {",
     "  outline: none !important; box-shadow: none !important;",
