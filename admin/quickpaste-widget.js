@@ -156,6 +156,9 @@ if (typeof module !== "undefined" && module.exports) {
 
   var SECTION_STYLE = { marginBottom: "20px", paddingBottom: "16px", borderBottom: "1px solid #eee" };
   var LABEL_STYLE = { display: "block", fontFamily: "'IBM Plex Mono', ui-monospace, monospace", fontWeight: "600", fontSize: "15px", color: "#2a2620", marginBottom: "6px" };
+  // Shown above each box, so a filled-in "20" is never just a number: you can
+  // always see whether it's the prep time, the cook time or the servings.
+  var SMALL_LABEL_STYLE = { display: "block", fontFamily: "'IBM Plex Mono', ui-monospace, monospace", fontWeight: "500", fontSize: "13px", color: "#a8553a", marginBottom: "4px" };
   var HINT_STYLE = { fontSize: "14px", color: "#666", marginTop: "0", marginBottom: "8px" };
   var ROW_STYLE = { display: "flex", gap: "8px", marginBottom: "8px", alignItems: "flex-start" };
   // 16px: iOS Safari zooms the whole page in on any field with smaller text.
@@ -303,6 +306,10 @@ if (typeof module !== "undefined" && module.exports) {
       var self = this;
       var value = this.getValue();
 
+      function labelled(text, input) {
+        return h("label", { style: { flex: "1 1 140px", minWidth: "0", display: "block" } }, h("span", { style: SMALL_LABEL_STYLE }, text), input);
+      }
+
       return h(
         "div",
         { className: this.props.classNameWrapper, id: this.props.forID },
@@ -328,27 +335,40 @@ if (typeof module !== "undefined" && module.exports) {
         h(
           "div",
           { style: SECTION_STYLE },
-          h("label", { style: LABEL_STYLE }, "Prep / cook time & servings"),
+          h("label", { style: LABEL_STYLE }, "Time & servings"),
           h(
             "div",
             { style: Object.assign({}, ROW_STYLE, { flexWrap: "wrap" }) },
-            h("input", { type: "number", min: "0", inputMode: "numeric", placeholder: "Prep (min)", "aria-label": "Prep time in minutes", style: Object.assign({}, INPUT_STYLE, { flex: "1 1 110px" }), value: value.prepTimeMinutes, onChange: this.setNumberField("prepTimeMinutes") }),
-            h("input", { type: "number", min: "0", inputMode: "numeric", placeholder: "Cook (min)", "aria-label": "Cook time in minutes", style: Object.assign({}, INPUT_STYLE, { flex: "1 1 110px" }), value: value.cookTimeMinutes, onChange: this.setNumberField("cookTimeMinutes") }),
-            h("input", { type: "number", min: "0", inputMode: "numeric", placeholder: "Servings #", "aria-label": "Number of servings", style: Object.assign({}, INPUT_STYLE, { flex: "1 1 110px" }), value: value.servingsNumber, onChange: this.setNumberField("servingsNumber") }),
-            h("input", { type: "text", placeholder: "Unit (Servings, Muffins...)", "aria-label": "Servings unit", style: Object.assign({}, INPUT_STYLE, { flex: "2 1 170px" }), value: value.servingsUnit, onChange: this.setTextField("servingsUnit") })
-          )
+            labelled("Prep time (minutes)", h("input", { type: "number", min: "0", inputMode: "numeric", placeholder: "e.g. 15", style: Object.assign({}, INPUT_STYLE, { width: "100%" }), value: value.prepTimeMinutes, onChange: this.setNumberField("prepTimeMinutes") })),
+            labelled("Cook time (minutes)", h("input", { type: "number", min: "0", inputMode: "numeric", placeholder: "e.g. 30", style: Object.assign({}, INPUT_STYLE, { width: "100%" }), value: value.cookTimeMinutes, onChange: this.setNumberField("cookTimeMinutes") })),
+            labelled("Servings (number)", h("input", { type: "number", min: "0", inputMode: "numeric", placeholder: "e.g. 4", style: Object.assign({}, INPUT_STYLE, { width: "100%" }), value: value.servingsNumber, onChange: this.setNumberField("servingsNumber") })),
+            labelled("Servings word", h("input", { type: "text", placeholder: "Servings, Muffins, Slices\u2026", style: Object.assign({}, INPUT_STYLE, { width: "100%" }), value: value.servingsUnit, onChange: this.setTextField("servingsUnit") }))
+          ),
+          (function () {
+            var total = (Number(value.prepTimeMinutes) || 0) + (Number(value.cookTimeMinutes) || 0);
+            return total ? h("p", { style: Object.assign({}, HINT_STYLE, { marginBottom: "0" }) }, "Total time: " + total + " min (worked out for you)") : null;
+          })()
         ),
 
         h(
           "div",
           { style: SECTION_STYLE },
           h("label", { style: LABEL_STYLE }, "Ingredients"),
+          value.ingredients.length
+            ? h(
+                "div",
+                { style: ROW_STYLE },
+                h("span", { style: Object.assign({}, SMALL_LABEL_STYLE, { flex: "0 0 36%", maxWidth: "170px", marginBottom: "0" }) }, "Amount"),
+                h("span", { style: Object.assign({}, SMALL_LABEL_STYLE, { flex: "1 1 0", marginBottom: "0" }) }, "Ingredient"),
+                h("span", { style: { flex: "0 0 44px" } })
+              )
+            : null,
           value.ingredients.map(function (ing, idx) {
             return h(
               "div",
               { style: ROW_STYLE, key: idx },
-              h("input", { type: "text", placeholder: "Amount", "aria-label": "Amount for ingredient " + (idx + 1), style: Object.assign({}, INPUT_STYLE, { flex: "0 0 30%", maxWidth: "150px" }), value: ing.amount || "", onChange: function (e) { self.updateIngredient(idx, "amount", e.target.value); } }),
-              h("textarea", { rows: 1, placeholder: "Ingredient", "aria-label": "Ingredient " + (idx + 1), ref: autoGrow, style: Object.assign({}, INPUT_STYLE, { flex: "1 1 0", resize: "none", overflow: "hidden", lineHeight: "1.4", fontFamily: "inherit" }), value: ing.item || "", onChange: function (e) { autoGrow(e.target); self.updateIngredient(idx, "item", e.target.value); } }),
+              h("textarea", { rows: 1, placeholder: "1 cup", "aria-label": "Amount for ingredient " + (idx + 1), ref: autoGrow, style: Object.assign({}, INPUT_STYLE, { flex: "0 0 36%", maxWidth: "170px", resize: "none", overflow: "hidden", lineHeight: "1.4", fontFamily: "inherit" }), value: ing.amount || "", onChange: function (e) { autoGrow(e.target); self.updateIngredient(idx, "amount", e.target.value); } }),
+              h("textarea", { rows: 1, placeholder: "flour", "aria-label": "Ingredient " + (idx + 1), ref: autoGrow, style: Object.assign({}, INPUT_STYLE, { flex: "1 1 0", resize: "none", overflow: "hidden", lineHeight: "1.4", fontFamily: "inherit" }), value: ing.item || "", onChange: function (e) { autoGrow(e.target); self.updateIngredient(idx, "item", e.target.value); } }),
               h("button", { type: "button", "aria-label": "Remove ingredient " + (idx + 1), style: REMOVE_BUTTON_STYLE, onClick: function () { self.removeIngredient(idx); } }, "\u2715")
             );
           }),
