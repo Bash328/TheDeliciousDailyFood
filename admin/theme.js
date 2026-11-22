@@ -1,87 +1,217 @@
-// Light restyle for the Decap CMS admin at /admin/ so it feels like part of
-// the site instead of stock CMS chrome.
+// Restyle for the Decap CMS admin so it feels like part of the site instead of
+// stock CMS chrome.
 //
-// Style: "Index Card" — ruled paper background, monospace headers, a card-
-// catalog red rule line.
+// Style: "Recipe notebook" — warm paper with pale-blue ruled lines and a
+// terracotta margin line, a dark stitched-leather top bar, white "sheets" for
+// the cards and the form, fields that read like lines written on a page, and a
+// yellow highlighter pen for what's selected. Type is the site's own: Cormorant
+// Garamond for titles, Jost for everything you read and type.
 //
-// Deliberately modest. The `logo_url` / `site_url` / `display_url` keys in
-// each config.yml are Decap's officially supported branding hooks and are
-// guaranteed to keep working across upgrades. Everything below — the fonts,
-// the colors, the class-name selectors — is a best-effort CSS injection on
-// top of Decap's rendered markup, which is NOT a documented, stable API. It
-// looks right against the Decap 3.x build in use when this was written; if a
-// future Decap upgrade renames its internal classes, some of these rules will
-// quietly stop matching (nothing breaks, the admin just looks more stock
-// again). If that happens, open the admin in your browser's dev tools,
-// inspect the element you want to restyle, and update the selector below.
+// Deliberately a CSS-only layer. The `logo_url` / `site_url` / `display_url`
+// keys in config.yml are Decap's officially supported branding hooks and keep
+// working across upgrades. Everything below — the colours, the class-name
+// selectors — is a best-effort injection on top of Decap's rendered markup,
+// which is NOT a documented, stable API. It looks right against the Decap 3.x
+// build in use when this was written; if a future Decap upgrade renames its
+// internal classes, some rules will quietly stop matching (nothing breaks, the
+// admin just looks more stock again). If that happens, open the admin in your
+// browser's dev tools, inspect the element you want to restyle, and update the
+// selector here.
+//
+// Fonts are the site's own files in ./fonts (no request to Google).
 
 (function () {
   var INK = "#2a2620";
-  var RED = "#a5453a";
-  var PAPER = "#f7f4ea";
-  var RULE = "#e3dcc6";
-  var MONO = "'IBM Plex Mono', ui-monospace, monospace";
-  var SANS = "'IBM Plex Sans', system-ui, sans-serif";
+  var INK_SOFT = "#6b6358";
+  var PAPER = "#f7f1e3";
+  var SHEET = "#fffdf6";
+  var EDGE = "#ddd3ba";        // sheet and field outlines
+  var UNDERLINE = "#b8aa88";   // the heavier line under a field
+  var RULED = "rgba(110, 150, 190, 0.30)";   // notebook blue
+  var MARGIN = "rgba(217, 120, 92, 0.60)";   // the red margin line, in brand terracotta
+  var ACCENT = "#a8553a";
+  var ACCENT_DARK = "#8a3f27";
+  var HIGHLIGHT = "rgba(246, 226, 122, 0.80)";
+  var SERIF = "'Cormorant Garamond', Georgia, serif";
+  var SANS = "'Jost', system-ui, sans-serif";
 
-  // A <link> rather than an @import inside the injected stylesheet: @import is
-  // only honored as the first rule of a sheet, which makes it fragile to edit
-  // around later, and it blocks the rest of these rules on the font request.
-  var font = document.createElement("link");
-  font.rel = "stylesheet";
-  font.href =
-    "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500" +
-    "&family=IBM+Plex+Sans:wght@400;500&display=swap";
-  document.head.appendChild(font);
+  function face(family, style, weight, file) {
+    return (
+      "@font-face { font-family: '" + family + "'; font-style: " + style +
+      "; font-weight: " + weight + "; font-display: swap; src: url('/fonts/" + file +
+      "') format('woff2'); }"
+    );
+  }
+
+  // The ruled lines every 32px, plus the margin line at x. `x` is any CSS length.
+  function paper(x) {
+    return (
+      "linear-gradient(90deg, transparent calc(" + x + " - 1px), " + MARGIN +
+      " calc(" + x + " - 1px) calc(" + x + " + 1px), transparent calc(" + x + " + 1px)), " +
+      "repeating-linear-gradient(to bottom, transparent 0 31px, " + RULED + " 31px 32px)"
+    );
+  }
 
   var style = document.createElement("style");
   style.textContent = [
-    /* Ruled index-card paper, behind everything */
+    face("Cormorant Garamond", "normal", 500, "cormorant-garamond-500.woff2"),
+    face("Cormorant Garamond", "italic", 400, "cormorant-garamond-400-italic.woff2"),
+    face("Jost", "normal", 400, "jost-400.woff2"),
+    face("Jost", "normal", 500, "jost-500.woff2"),
+
+    /* ---- The page: ruled paper with a margin line ---- */
     "html, body, #nc-root {",
-    "  background: " + PAPER + ";",
-    "  background-image: repeating-linear-gradient(" +
-      PAPER + " 0 27px, " + RULE + " 27px 28px);",
+    "  background-color: " + PAPER + ";",
+    "  background-image: " + paper("282px") + ";",
+    "  font-family: " + SANS + " !important;",
+    "  color: " + INK + ";",
+    "}",
+    /* In the editor there's no sidebar, so the margin runs just left of the page. */
+    "html:has([class*='EditorContainer']), html:has([class*='EditorContainer']) body,",
+    "html:has([class*='EditorContainer']) #nc-root {",
+    "  background-image: " + paper("calc(50% - 424px)") + ";",
+    "}",
+    "::selection { background: " + HIGHLIGHT + "; color: " + INK + "; }",
+    "* { scrollbar-color: #c9bd9f transparent; scrollbar-width: thin; }",
+
+    /* ---- Top bar: dark leather with a stitched edge ---- */
+    "header[class*='AppHeader'] {",
+    "  position: relative;",
+    "  background: " + INK + " !important;",
     "  font-family: " + SANS + " !important;",
     "}",
-
-    /* Login screen button */
-    "[class*='LoginButton'], button[class*='Login'] {",
-    "  background: " + INK + " !important;",
-    "  color: " + PAPER + " !important;",
-    "  border-radius: 1px !important;",
-    "  font-family: " + MONO + " !important;",
-    "  letter-spacing: 0.02em;",
+    "header[class*='AppHeader']::after {",
+    "  content: ''; position: absolute; left: 10px; right: 10px; bottom: 5px;",
+    "  border-bottom: 2px dashed rgba(224, 190, 120, 0.55); pointer-events: none;",
+    "}",
+    "[class*='AppHeaderButton'], [class*='AppHeaderQuickNewButton'], [class*='AppHeaderSiteLink'] {",
+    "  font-family: " + SANS + " !important; font-weight: 500 !important;",
+    "  font-size: 13px !important; letter-spacing: 0.16em; text-transform: uppercase;",
+    "  background-color: transparent !important; color: rgba(247, 241, 227, 0.72) !important;",
+    "}",
+    "[class*='AppHeaderButton']:hover, [class*='AppHeaderSiteLink']:hover { color: #fff !important; }",
+    "[class*='AppHeaderNavLink'][aria-current='page'] {",
+    "  color: #fff !important; background-color: transparent !important;",
+    "  box-shadow: inset 0 -4px 0 " + HIGHLIGHT + ";",
     "}",
 
-    /* Top app bar */
-    "[class*='AppHeader'], [class*='TopBarContainer'] {",
-    "  background: " + INK + " !important;",
-    "  font-family: " + MONO + " !important;",
+    /* ---- Sidebar: the index tab down the left ---- */
+    "[class*='SidebarContainer'] {",
+    "  background: " + SHEET + "; border: 1px solid " + EDGE + "; border-radius: 3px;",
+    "  box-shadow: 0 1px 0 rgba(42, 38, 32, 0.06), 0 10px 22px -14px rgba(42, 38, 32, 0.35);",
+    "}",
+    "[class*='SidebarHeading'] { font-family: " + SERIF + " !important; font-style: italic; font-weight: 400 !important; font-size: 30px !important; color: " + INK + "; }",
+    "[class*='SidebarNavLink'] { font-family: " + SANS + " !important; font-weight: 500; font-size: 15px; color: " + INK + " !important; border-left-color: transparent !important; }",
+    "[class*='SidebarNavLink'] svg, [class*='SidebarNavLink'] [class*='Icon'] { color: " + ACCENT + "; }",
+    "[class*='SidebarNavLink'][aria-current='page'] { background: " + HIGHLIGHT + " !important; border-left: 3px solid " + ACCENT + " !important; }",
+    "[class*='SidebarContainer'] input { background: " + PAPER + " !important; border: 1.5px solid " + EDGE + " !important; border-bottom: 2px solid " + UNDERLINE + " !important; border-radius: 2px !important; font-family: " + SANS + " !important; color: " + INK + " !important; }",
+
+    /* ---- The list: each recipe is a line on a sheet ---- */
+    "[class*='CollectionTopContainer'] {",
+    "  background: " + SHEET + "; border: 1px solid " + EDGE + "; border-radius: 3px;",
+    "  box-shadow: 0 1px 0 rgba(42, 38, 32, 0.06), 0 10px 22px -14px rgba(42, 38, 32, 0.35);",
+    "}",
+    "[class*='CollectionTopHeading'] { font-family: " + SERIF + " !important; font-weight: 500 !important; font-size: 40px !important; letter-spacing: -0.01em; color: " + INK + " !important; }",
+    "[class*='CollectionTopNewButton'] {",
+    "  background: " + INK + " !important; color: " + PAPER + " !important; border-radius: 2px !important;",
+    "  font-family: " + SANS + " !important; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; font-size: 12px !important;",
+    "  box-shadow: 2px 2px 0 " + ACCENT + " !important; transition: transform 0.12s ease, box-shadow 0.12s ease;",
+    "}",
+    "[class*='CollectionTopNewButton']:hover { transform: translate(1px, 1px); box-shadow: 1px 1px 0 " + ACCENT + " !important; }",
+    "[class*='ViewControlsButton'], [class*='ControlButton'] { font-family: " + SANS + " !important; font-weight: 500 !important; font-size: 12px !important; letter-spacing: 0.14em; text-transform: uppercase; color: " + INK_SOFT + " !important; }",
+    "[class*='ViewControlsSection'] svg, [class*='ViewControlsButton'] svg { color: " + ACCENT + "; }",
+    "[class*='ListCard-'] {",
+    "  background: " + SHEET + " !important; border: 1px solid " + EDGE + " !important; border-radius: 3px !important;",
+    "  box-shadow: 0 1px 0 rgba(42, 38, 32, 0.05) !important; transition: transform 0.12s ease, box-shadow 0.12s ease;",
+    "}",
+    "[class*='ListCard-']:hover { transform: translateY(-1px); box-shadow: 0 8px 18px -12px rgba(42, 38, 32, 0.45) !important; }",
+    "[class*='ListCardTitle'] { font-family: " + SERIF + " !important; font-weight: 500 !important; font-size: 23px !important; line-height: 1.2; color: " + INK + " !important; }",
+    "[class*='AppHeaderNavLink'] [class*='IconWrapper'], [class*='AppHeaderButton'] [class*='IconWrapper'] { color: inherit !important; }",
+    "[class*='ListCardLink'] { border: 0 !important; box-shadow: none !important; background: transparent !important; font-family: " + SERIF + " !important; font-weight: 500; font-size: 22px; color: " + INK + " !important; }",
+
+    /* ---- Editor top bar: a white strip with a tear-off line ---- */
+    "[class*='ToolbarContainer'] {",
+    "  background: " + SHEET + " !important; box-shadow: none !important;",
+    "  border-bottom: 2px dashed rgba(168, 85, 58, 0.45);",
+    "  font-family: " + SANS + " !important;",
+    "}",
+    "[class*='BackArrow'], [class*='BackCollection'] { color: " + INK + "; }",
+    "[class*='BackCollection'] { font-family: " + SERIF + " !important; font-style: italic; font-size: 17px; }",
+    "[class*='PublishedToolbarButton'], [class*='ToolbarDropdown'] [class*='DropdownButton'] {",
+    "  background: rgba(63, 122, 91, 0.12) !important; color: #2f6a4a !important; border-radius: 2px !important;",
+    "  font-weight: 500; letter-spacing: 0.04em;",
+    "}",
+    "[class*='DeleteButton'] { border-radius: 2px !important; font-weight: 500; letter-spacing: 0.04em; }",
+    "[class*='AppHeaderSiteLink'][class*='Toolbar'], [class*='ToolbarSectionMeta'] a { color: " + ACCENT + " !important; }",
+
+    /* ---- The form: labels in pencil, fields as ruled lines ---- */
+    "[class*='ControlContainer'] { font-family: " + SANS + "; }",
+    "[class*='FieldLabel'] {",
+    "  background: transparent !important; color: " + ACCENT + " !important; border-radius: 0 !important;",
+    "  padding: 0 0 6px !important; font-family: " + SANS + " !important; font-weight: 500 !important;",
+    "  font-size: 12px !important; letter-spacing: 0.2em; text-transform: uppercase;",
+    "}",
+    "[class*='ControlHint'] { font-family: " + SERIF + " !important; font-style: italic; font-size: 16px !important; color: " + INK_SOFT + " !important; line-height: 1.35; }",
+    "[class*='EditorContainer'] input:not([type='checkbox']):not([type='radio']):not([type='file']),",
+    "[class*='EditorContainer'] textarea, [class*='EditorContainer'] select {",
+    "  background: " + SHEET + " !important; color: " + INK + " !important;",
+    "  border: 1.5px solid " + EDGE + " !important; border-bottom: 2px solid " + UNDERLINE + " !important;",
+    "  border-radius: 2px !important; font-family: " + SANS + " !important;",
+    "}",
+    "[class*='EditorContainer'] input:focus, [class*='EditorContainer'] textarea:focus, [class*='EditorContainer'] select:focus {",
+    "  border-color: " + ACCENT + " !important; box-shadow: 0 0 0 3px rgba(168, 85, 58, 0.16) !important; outline: none;",
+    "}",
+    "[class*='ControlContainer']:focus-within [class*='FieldLabel'] { color: " + ACCENT_DARK + " !important; }",
+    "[class*='ControlContainer'] a { color: " + ACCENT + "; }",
+    /* Let the ruled paper show through behind the form (Decap paints it grey-blue) */
+    "[class*='EditorContainer'], [class*='ControlPaneContainer'], [class*='NoPreviewContainer'], [class*='Editor'] [class*='splitPane'] {",
+    "  background: transparent !important; box-shadow: none !important; border: 0 !important;",
+    "}",
+    /* The boxes around the photo, the Category menu and the Recipe widget */
+    "[class*='ControlContainer'] > div:not([class*='ControlHint']):not([class*='FieldLabel']) {",
+    "  background: " + SHEET + " !important; border: 1.5px solid " + EDGE + " !important;",
+    "  border-bottom: 2px solid " + UNDERLINE + " !important; border-radius: 2px !important;",
+    "}",
+    "[class*='ControlContainer'] .control, [class*='ControlContainer'] .container .control { background: transparent !important; border: 0 !important; box-shadow: none !important; }",
+    "[class*='PreviewLink'], [class*='ToolbarSectionMain'] a { color: " + ACCENT + " !important; }",
+    /* The Now / Choose image / Replace with URL / Remove chips */
+    "[class*='NowButton'], [class*='FileWidgetButton'] {",
+    "  background: rgba(168, 85, 58, 0.09) !important; color: " + ACCENT_DARK + " !important;",
+    "  border: 1px solid rgba(168, 85, 58, 0.28) !important; border-radius: 2px !important;",
+    "  font-family: " + SANS + " !important; font-weight: 500;",
+    "}",
+    "[class*='FileWidgetButtonRemove'] { background: rgba(170, 45, 45, 0.07) !important; color: #a32d2d !important; border-color: rgba(170, 45, 45, 0.28) !important; }",
+    /* The Quick Paste widget's own buttons (they carry no class) */
+    "[class*='ControlContainer'] button:not([class]) {",
+    "  background: transparent !important; color: " + ACCENT + " !important;",
+    "  border: 1.5px solid " + ACCENT + " !important; border-radius: 2px !important;",
+    "  font-family: " + SANS + " !important; font-weight: 500; letter-spacing: 0.04em;",
+    "}",
+    "[class*='ControlContainer'] button:not([class]):hover { background: " + ACCENT + " !important; color: #fff !important; }",
+
+    /* ---- Pop-ups (the media library) ---- */
+    "[class*='StyledModal'] { background: " + SHEET + " !important; border-radius: 3px !important; box-shadow: 0 24px 60px -20px rgba(42, 38, 32, 0.55) !important; }",
+    "[class*='LibraryTitle'] { font-family: " + SERIF + " !important; font-weight: 500 !important; font-size: 32px !important; color: " + INK + "; }",
+
+    /* ---- Login ---- */
+    "[class*='LoginButton'], button[class*='Login'] {",
+    "  background: " + INK + " !important; color: " + PAPER + " !important; border-radius: 2px !important;",
+    "  font-family: " + SANS + " !important; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase;",
+    "  box-shadow: 3px 3px 0 " + ACCENT + " !important;",
     "}",
 
     /* Primary action buttons (Publish, New Recipe, and friends) */
-    "[class*='ToolbarButton'][class*='Primary'] {",
-    "  background: " + RED + " !important;",
-    "  border-color: " + RED + " !important;",
-    "  border-radius: 1px !important;",
-    "}",
-
-    /* Sidebar nav, active entry */
-    "[class*='SidebarListItemLink'][aria-current='page'],",
-    "a[class*='SidebarNavLink'][class*='Active'] {",
-    "  color: " + RED + " !important;",
-    "  border-color: " + RED + " !important;",
-    "}",
-
-    /* Field labels and collection titles in the monospace voice */
-    "[class*='ControlLabel'], [class*='CollectionTop'] h1 {",
-    "  font-family: " + MONO + " !important;",
-    "}",
+    "[class*='ToolbarButton'][class*='Primary'] { background: " + ACCENT + " !important; border-color: " + ACCENT + " !important; border-radius: 2px !important; }",
 
     /* ---- Phones and small tablets ----
        Decap hard-codes an 800px minimum width on the page, header, toolbar and
        editor, and pins a 250px sidebar beside the list. On a phone that is what
        made everything scroll sideways and hid half of every recipe name. */
     "@media (max-width: 800px) {",
+    /* the margin line hugs the left edge, as on a real pad */
+    "  html, html body, html #nc-root, html:has([class*='EditorContainer']), html:has([class*='EditorContainer']) body, html:has([class*='EditorContainer']) #nc-root {",
+    "    background-image: " + paper("12px") + ";",
+    "  }",
     "  [class*='AppMainContainer'], [class*='AppHeaderContent'],",
     "  [class*='EditorContainer'], [class*='ToolbarContainer'] {",
     "    min-width: 0 !important; width: 100% !important; margin-right: 0 !important;",
@@ -90,7 +220,7 @@
     "  [class*='AppHeaderActions'] { white-space: nowrap; }",
     /* Tighter top nav so Contents / Media / Quick add / avatar fit in 390px. */
     "  [class*='AppHeaderButton'] svg, [class*='AppHeaderButton'] [class*='Icon'] { display: none !important; }",
-    "  [class*='AppHeaderButton'] { padding-left: 10px !important; padding-right: 10px !important; }",
+    "  [class*='AppHeaderButton'] { padding-left: 10px !important; padding-right: 10px !important; letter-spacing: 0.1em !important; }",
     "  [class*='AppHeaderQuickNewButton'] { padding-left: 10px !important; margin-right: 0 !important; }",
     "  [class*='AppHeaderSiteLink'] { display: none !important; }",
 
@@ -103,8 +233,9 @@
     "  [class*='CollectionContainer'] { width: auto !important; margin: 14px 12px !important; }",
     "  [class*='CollectionMain'] { padding-left: 0 !important; width: auto !important; }",
     "  [class*='CollectionTopContainer'], [class*='CollectionControlsContainer'] { width: auto !important; }",
+    "  [class*='CollectionTopHeading'] { font-size: 34px !important; }",
     "  [class*='CardsGrid'] { width: auto !important; margin-left: 0 !important; }",
-    "  [class*='ListCard'] { width: 100% !important; margin-left: 0 !important; }",
+    "  [class*='ListCard-'] { width: 100% !important; margin-left: 0 !important; }",
 
     /* The editor's top bar: keep the arrow, the save status, the Published menu
        and Delete; drop the long "Writing in Recipes collection" text, the

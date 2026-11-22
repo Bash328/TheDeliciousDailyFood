@@ -155,7 +155,7 @@ if (typeof module !== "undefined" && module.exports) {
   if (typeof createClass === "undefined" || typeof h === "undefined") return; // not running inside the CMS
 
   var SECTION_STYLE = { marginBottom: "20px", paddingBottom: "16px", borderBottom: "1px solid #eee" };
-  var LABEL_STYLE = { display: "block", fontWeight: "600", marginBottom: "6px" };
+  var LABEL_STYLE = { display: "block", fontFamily: "'Cormorant Garamond', Georgia, serif", fontStyle: "italic", fontWeight: "400", fontSize: "22px", color: "#2a2620", marginBottom: "4px" };
   var HINT_STYLE = { fontSize: "14px", color: "#666", marginTop: "0", marginBottom: "8px" };
   var ROW_STYLE = { display: "flex", gap: "8px", marginBottom: "8px", alignItems: "flex-start" };
   // 16px: iOS Safari zooms the whole page in on any field with smaller text.
