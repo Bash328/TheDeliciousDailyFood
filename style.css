@@ -610,7 +610,8 @@ h1, h2, h3 { margin: 0; font-family: var(--serif); font-weight: 400; }
 
 .submit-form { display: flex; flex-direction: column; gap: 8px; max-width: 720px; }
 
-.submit-form label {
+.submit-form label,
+.submit-form .field-label {
   font-size: 0.75rem;
   letter-spacing: 0.22em;
   text-transform: uppercase;
@@ -634,6 +635,35 @@ h1, h2, h3 { margin: 0; font-family: var(--serif); font-weight: 400; }
 .submit-form textarea { padding: 16px; line-height: 1.5; resize: vertical; }
 .submit-form input[type="file"] { padding: 24px 16px; border-style: dashed; color: var(--ink-soft); font-size: 0.9375rem; cursor: pointer; }
 
+/* Category pills (and the same look anywhere a short list of choices is needed) */
+.pills { display: flex; flex-wrap: wrap; gap: 10px; }
+.submit-form .pill { position: relative; margin: 0; letter-spacing: 0; text-transform: none; }
+.submit-form .pill input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  pointer-events: none;
+}
+.pill span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 48px;
+  padding: 0 20px;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  font-size: 0.8125rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+.pill input:checked + span { background: var(--accent); color: var(--on-accent); }
+.pill input:focus-visible + span { outline: 2px solid var(--ink); outline-offset: 2px; }
+.pills[aria-invalid="true"] { outline: 1px solid var(--accent); outline-offset: 6px; border-color: transparent !important; }
+
 .submit-form .btn { margin-top: 28px; align-self: flex-start; min-height: 56px; padding: 0 36px; }
 .submit-form .submit-photo-remove { margin: 0; min-height: 40px; padding: 0 16px; }
 
@@ -642,7 +672,8 @@ h1, h2, h3 { margin: 0; font-family: var(--serif); font-weight: 400; }
 
 #submit-status { font-size: 0.9375rem; color: var(--ink-soft); min-height: 1.4em; }
 #submit-status.submit-status-error,
-.submit-field-error { color: var(--accent); }
+.submit-field-error,
+.page-content .submit-field-error { color: var(--accent); }
 .submit-field-error { font-size: 0.875rem; margin: 6px 0 0; }
 [aria-invalid="true"] { border-color: var(--accent) !important; }
 

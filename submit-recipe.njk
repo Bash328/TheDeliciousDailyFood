@@ -45,15 +45,15 @@ permalink: submit-recipe/
   <label for="title">Recipe title *</label>
   <input type="text" id="title" name="title" required maxlength="120">
 
-  <label for="category">Category *</label>
-  <select id="category" name="category" required>
-    <option value="" disabled selected>Choose one</option>
-    <option>Dinner</option>
-    <option>Lunch</option>
-    <option>Dessert</option>
-    <option>Breakfast</option>
-    <option>Soup</option>
-  </select>
+  {#- Pills instead of a <select>: a phone's native picker can't be styled, and
+      this is one tap instead of two. The group has id="category" so the form
+      script can focus it and hang its error message under it. -#}
+  <div class="field-label" id="category-label">Category *</div>
+  <div class="pills" id="category" role="radiogroup" aria-labelledby="category-label" aria-required="true" tabindex="-1">
+    {%- for choice in ["Dinner", "Lunch", "Dessert", "Breakfast", "Soup"] %}
+    <label class="pill"><input type="radio" name="category" value="{{ choice }}"><span>{{ choice }}</span></label>
+    {%- endfor %}
+  </div>
 
   <label for="description">Short description *</label>
   <textarea id="description" name="description" rows="2" required maxlength="280" placeholder="One or two sentences — what it is and why it's worth making."></textarea>
