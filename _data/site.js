@@ -27,5 +27,5 @@ module.exports = {
   // Optional Cloudflare Turnstile site key for spam filtering on that form.
   // Leave empty to skip it — the widget isn't loaded at all when it's blank,
   // rather than rendering an error box with a placeholder key.
-  turnstileSiteKey: "",
+  turnstileSiteKey: "0x4AAAAAAGNvx93yvgxFMc1G",
 };

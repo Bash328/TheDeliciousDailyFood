@@ -38,6 +38,10 @@ including:
   account, and everything stored in it, at any time from the
   [Account page](/account/). We don't use your email for anything except signing
   you in.
+- **Spam protection.** The forms on this site use Cloudflare Turnstile to check
+  that a visitor is a person and not a script. Turnstile looks at signals from
+  your browser, such as your IP address, and is governed by Cloudflare's privacy
+  policy (linked below). It rarely needs you to do anything.
 - **Pinterest widgets** (the "Save" button) may set cookies from
   pinterest.com when used.
 - **Grocery list data** you build on the [Grocery List
