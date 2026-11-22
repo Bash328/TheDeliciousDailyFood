@@ -1,6 +1,6 @@
 {#- Rendered hidden and unhidden by the script below, so a visitor without
-    JavaScript isn't shown a button that can't do anything — their OS
-    preference still picks the theme. -#}
+    JavaScript isn't shown a button that can't do anything — they simply get
+    the dark default. -#}
 <button type="button" class="theme-toggle" id="theme-toggle" hidden
         aria-label="Switch between light and dark mode" title="Light / dark">
   <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
@@ -20,12 +20,10 @@
     btn.hidden = false;
 
     var root = document.documentElement;
-    var systemDark = window.matchMedia("(prefers-color-scheme: dark)");
 
+    // Dark is the default; only an explicit choice (stored below) changes it.
     function current() {
-      var set = root.getAttribute("data-theme");
-      if (set === "dark" || set === "light") return set;
-      return systemDark.matches ? "dark" : "light";
+      return root.getAttribute("data-theme") === "light" ? "light" : "dark";
     }
 
     btn.addEventListener("click", function () {

@@ -56,12 +56,12 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy("images");
   eleventyConfig.addPassthroughCopy("fonts");
   eleventyConfig.addPassthroughCopy("style.css");
-  eleventyConfig.addPassthroughCopy("admin");
   eleventyConfig.addPassthroughCopy("CNAME");
   eleventyConfig.addPassthroughCopy("favicon-light.png");
   eleventyConfig.addPassthroughCopy("favicon-dark.png");
   eleventyConfig.addPassthroughCopy("grocery-list.js");
   eleventyConfig.addPassthroughCopy("sprinkles.js");
+  eleventyConfig.addPassthroughCopy("app.js");
 
   // Those two are passthrough copies, so nothing was stripping their comments
   // — and both are commented heavily, sprinkles.js especially. Measured on it:
@@ -70,7 +70,7 @@ module.exports = function (eleventyConfig) {
   // style.css wasn't (docs/PERFORMANCE-NOTES.md explains why not), because
   // terser is already in the tree for the HTML minifier above — no new
   // dependency, and the source keeps its comments either way.
-  const PASSTHROUGH_SCRIPTS = ["grocery-list.js", "sprinkles.js"];
+  const PASSTHROUGH_SCRIPTS = ["grocery-list.js", "sprinkles.js", "app.js"];
   eleventyConfig.on("eleventy.after", async ({ dir }) => {
     const { minify } = require("terser");
     await Promise.all(
@@ -127,6 +127,14 @@ module.exports = function (eleventyConfig) {
 
   eleventyConfig.addFilter("byCategories", (recipes, categories) =>
     (recipes || []).filter((r) => categories.includes(r.data.category))
+  );
+
+  // The homepage's course sections: each section that has at least one recipe,
+  // with its recipes attached, so empty sections never render.
+  eleventyConfig.addFilter("sectionsWithRecipes", (sections, recipes) =>
+    sections
+      .map((s) => ({ ...s, items: (recipes || []).filter((r) => s.categories.includes(r.data.category)) }))
+      .filter((s) => s.items.length)
   );
 
   // Decap's image widget writes the public_folder-prefixed path

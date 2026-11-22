@@ -1,0 +1,54 @@
+---
+layout: layouts/page.njk
+title: Your account
+description: "Sign in to save recipes and keep your grocery list on every device."
+permalink: account/
+eleventyExcludeFromCollections: true
+---
+{#- Behaviour lives in /app.js, which finds everything below by id and
+    data-view. Restyle or re-arrange freely; just keep the ids. -#}
+{%- if site.accountsApi %}
+<section id="account">
+  <div data-view="signed-out">
+    <p>Sign in to save recipes and keep your grocery list on every device. No
+    password — we email you a one-time link.</p>
+    <form id="login-form" class="submit-form">
+      <label for="login-email">Email</label>
+      <input type="email" id="login-email" name="email" required autocomplete="email" maxlength="254">
+      {%- if site.turnstileSiteKey %}
+      <div class="cf-turnstile" data-sitekey="{{ site.turnstileSiteKey }}"></div>
+      {%- endif %}
+      <button type="submit" class="btn btn-solid">Email me a link</button>
+    </form>
+    <p class="submit-hint">We use your email only to sign you in. See the
+    <a href="/privacy-policy/">privacy policy</a>.</p>
+  </div>
+
+  <div data-view="link-sent" hidden>
+    <p>Check your email for a sign-in link. It works once and expires in 15
+    minutes. Nothing there? Look in spam, or <a href="/account/">try again</a>.</p>
+  </div>
+
+  <div data-view="signed-in" hidden>
+    <p>Signed in as <strong id="account-email"></strong>.</p>
+    <h2>Saved recipes</h2>
+    <ul id="saved-list"></ul>
+    <p id="saved-empty" hidden>Nothing saved yet — open a recipe and tap "Save recipe".</p>
+    <p>Your grocery list is kept in sync on every device you sign in on.</p>
+    <p>
+      <button type="button" id="logout-btn" class="btn">Sign out</button>
+      <button type="button" id="delete-btn" class="btn">Delete my account</button>
+    </p>
+  </div>
+
+  <p id="account-status" role="status"></p>
+</section>
+{#- The grocery list is merged into the account right after sign-in, so its storage has to be loaded here. -#}
+<script src="/grocery-list.js"></script>
+{%- if site.turnstileSiteKey %}
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+{%- endif %}
+<script type="application/json" id="recipe-index">[{% for r in collections.recipes %}{"slug":{{ (r.data.slug or r.fileSlug) | jsonld | safe }},"title":{{ r.data.title | jsonld | safe }},"url":{{ r.url | jsonld | safe }}}{% if not loop.last %},{% endif %}{% endfor %}]</script>
+{%- else %}
+<p>Accounts aren't open yet.</p>
+{%- endif %}

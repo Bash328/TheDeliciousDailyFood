@@ -23,6 +23,8 @@
     } catch (e) {
       /* list stays in memory for this page; nothing else to do */
     }
+    // app.js listens for this to sync a signed-in reader's list.
+    window.dispatchEvent(new Event("dd:grocery-changed"));
   }
 
   function addItems(texts) {

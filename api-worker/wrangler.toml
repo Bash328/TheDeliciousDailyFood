@@ -1,0 +1,33 @@
+name = "delicious-daily-api"
+main = "worker.js"
+compatibility_date = "2024-01-01"
+
+# The site is at thedeliciousdaily.com, so the API has to be on a subdomain of
+# it (not *.workers.dev): the sign-in cookie is then "same-site" and browsers
+# send it. Cloudflare creates the DNS record for you on deploy.
+routes = [{ pattern = "api.thedeliciousdaily.com", custom_domain = true }]
+
+[vars]
+# The only web page allowed to call this API.
+ALLOWED_ORIGIN = "https://thedeliciousdaily.com"
+# Where the sign-in link in the email points.
+SITE_URL = "https://thedeliciousdaily.com"
+# Must be an address on a domain verified with Resend.
+MAIL_FROM = "The Delicious Daily <login@thedeliciousdaily.com>"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "delicious-daily"
+# Printed by `wrangler d1 create delicious-daily` — paste it here.
+database_id = "REPLACE_WITH_DATABASE_ID"
+
+# Per-IP cap on "email me a link": 5 a minute.
+[[unsafe.bindings]]
+name = "AUTH_RATE_LIMIT"
+type = "ratelimit"
+namespace_id = "1002"
+simple = { limit = 5, period = 60 }
+
+# Secrets — `wrangler secret put NAME`, never in this file:
+#   RESEND_API_KEY        — from resend.com, to send the sign-in emails
+#   TURNSTILE_SECRET_KEY  — optional, same one as the submission worker

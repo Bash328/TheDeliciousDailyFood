@@ -1,0 +1,5 @@
+{#- Accounts: only loaded once site.accountsApi is set (see _data/site.js). -#}
+{%- if site.accountsApi %}
+<script>window.DD_API = {{ site.accountsApi | jsonld | safe }};</script>
+<script src="/app.js?v={{ site.assetVersion }}" defer></script>
+{%- endif %}

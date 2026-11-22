@@ -1,0 +1,11 @@
+{#- The slim bar at the top of every inner page: wordmark, a way back, and the
+    theme toggle. (The homepage has its own, with the tagline.) -#}
+<header class="pagebar">
+  <div class="wrap">
+    <a class="brand" href="/">The Delicious <em>Daily</em></a>
+    <div class="topbar-right">
+      <a class="link" href="/">&larr; All recipes</a>
+      {% include "partials/theme-toggle.njk" %}
+    </div>
+  </div>
+</header>

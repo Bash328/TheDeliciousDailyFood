@@ -16,14 +16,22 @@ permalink: submit-recipe/
 
 {%- else %}
 
-<p>Have a recipe you think belongs here? Send it in below. Nothing gets
-published automatically — it arrives as a draft for review, and only goes live
-if it's picked up and edited in.</p>
-
-<p class="submit-hint">Two things are needed for a recipe to be considered: a
-<strong>photo of the finished dish</strong>, and the <strong>full recipe</strong>
-— ingredients with their amounts, and the steps to make it. Anything short of
-that can't be sent.</p>
+<div class="submit-layout">
+<aside class="submit-side">
+  <p>Have a recipe you think belongs here? Send it in. Nothing gets published
+  automatically — it arrives as a draft for review, and only goes live if it's
+  picked up and edited in.</p>
+  <ol class="steps-list">
+    <li><b>1</b><span>You send the recipe and a photo of the finished dish.</span></li>
+    <li><b>2</b><span>It's reviewed before anything goes live.</span></li>
+    <li><b>3</b><span>If it's published, you're credited by name or Instagram handle — only if you give one.</span></li>
+  </ol>
+  <p class="submit-hint" style="margin-top:24px">Two things are needed for a recipe to be considered: a
+  <strong>photo of the finished dish</strong>, and the <strong>full recipe</strong>
+  — ingredients with their amounts, and the steps to make it. Anything short of
+  that can't be sent.</p>
+</aside>
+<div class="submit-main">
 
 <form id="submit-form" class="submit-form" novalidate>
 
@@ -87,7 +95,7 @@ Instructions:
   <input type="file" id="photo" name="photo" accept="image/jpeg,image/png,image/webp,image/*" required>
   <div id="photo-preview" class="submit-photo-preview" hidden>
     <img id="photo-preview-img" alt="Preview of the photo you selected">
-    <button type="button" id="photo-remove" class="submit-photo-remove">Remove photo</button>
+    <button type="button" id="photo-remove" class="btn btn-small submit-photo-remove">Remove photo</button>
   </div>
   <p id="photo-status" class="submit-hint" role="status"></p>
 
@@ -101,25 +109,23 @@ Instructions:
   your credit on the recipe, if it's published.</p>
   <input type="text" id="submitterInstagram" name="submitterInstagram" maxlength="40" placeholder="@yourname" autocapitalize="none" autocorrect="off" spellcheck="false">
 
-  <label for="submitterEmail">Your email (optional)</label>
-  <p class="submit-hint">Never published, and never shown on the site — only
-  used if there's a question about the recipe.</p>
-  <input type="email" id="submitterEmail" name="submitterEmail" maxlength="120">
-
   {%- if site.turnstileSiteKey %}
   <!-- Cloudflare Turnstile spam check — free, and usually invisible to the
        visitor. Loaded only when a site key is configured in _data/site.js. -->
   <div class="cf-turnstile" data-sitekey="{{ site.turnstileSiteKey }}"></div>
   {%- endif %}
 
-  <button type="submit" id="submit-btn">Send recipe</button>
+  <button type="submit" id="submit-btn" class="btn btn-solid">Send recipe</button>
 
   <p id="submit-status" role="status"></p>
 </form>
 
 <p class="submit-hint">By sending a recipe you're confirming it's yours to
 share, photo included. If you give a name or an Instagram handle they're shown
-as your credit on the recipe when it's published; your email never is.</p>
+as your credit on the recipe when it's published. Nothing else about you is
+collected.</p>
+</div>
+</div>
 
 {%- if site.turnstileSiteKey %}
 <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
@@ -289,7 +295,6 @@ as your credit on the recipe when it's published; your email never is.</p>
       raw: form.raw.value.trim(),
       submitterName: form.submitterName.value.trim(),
       submitterInstagram: form.submitterInstagram.value.trim(),
-      submitterEmail: form.submitterEmail.value.trim(),
       turnstileToken: turnstileToken,
       image: photo
     };

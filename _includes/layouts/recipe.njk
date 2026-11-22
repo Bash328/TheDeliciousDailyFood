@@ -1,4 +1,4 @@
-{%- from "partials/card.njk" import photo -%}
+{%- from "partials/card.njk" import photo, meta -%}
 {%- set pageUrl = site.url + page.url -%}
 {%- set imageUrl = image | imageUrl -%}
 {%- set totalMinutes = (recipeContent.prepTimeMinutes or 0) + (recipeContent.cookTimeMinutes or 0) -%}
@@ -79,11 +79,10 @@
 </head>
 <body>
 
-{% include "partials/theme-toggle.njk" %}
+{% include "partials/pagebar.njk" %}
 
 <main>
-<div class="wrap recipe-header">
-  <a class="back-link" href="../../">&larr; {{ site.title }}</a>
+<div class="wrap page-head">
   <span class="eyebrow">{{ category }}{% if tag %} · {{ tag }}{% endif %}</span>
   <h1>{{ title }}</h1>
   <p class="lede">{{ description }}</p>
@@ -98,40 +97,53 @@
     {%- endif %}
   </p>
   {%- endif %}
+
+  <div class="factbar">
+    {%- if recipeContent.prepTimeMinutes %}
+    <div class="fact"><span class="small-caps">Prep</span><b>{{ recipeContent.prepTimeMinutes | minutesLabel }}</b></div>
+    {%- endif %}
+    {%- if recipeContent.cookTimeMinutes %}
+    <div class="fact"><span class="small-caps">Cook</span><b>{{ recipeContent.cookTimeMinutes | minutesLabel }}</b></div>
+    {%- endif %}
+    {%- if totalMinutes %}
+    <div class="fact"><span class="small-caps">Total time</span><b>{{ totalMinutes | minutesLabel }}</b></div>
+    {%- endif %}
+    {%- if recipeContent.servingsNumber %}
+    <div class="fact"><span class="small-caps">{{ recipeContent.servingsUnit or "Servings" }}</span><b>{{ recipeContent.servingsNumber }}</b></div>
+    {%- endif %}
+    {#- pin-save-row: app.js adds the "Save recipe" button to this row. -#}
+    <div class="actions pin-save-row">
+      <a class="btn btn-solid" href="#recipe-body">Jump to recipe</a>
+      {#- Shown by the scripts below only where they can work. -#}
+      <button type="button" class="btn" id="print-btn" hidden>Print</button>
+      <a class="btn" data-pin-do="buttonPin" data-pin-custom="true"
+         href="https://www.pinterest.com/pin/create/button/?url={{ pageUrl | urlencode }}&media={{ imageUrl | urlencode }}&description={{ description | urlencode }}">
+        Save to Pinterest
+      </a>
+      <button type="button" class="btn cook-mode-btn" id="cook-mode-btn" aria-pressed="false" hidden>Keep screen on</button>
+    </div>
+  </div>
 </div>
 
-<div class="wrap">
+<div class="wrap recipe-photo">
   {% if imageUrl %}
-  <img class="hero-photo" src="{{ image | imageSrc }}" alt="{{ title }}" style="width:100%; object-fit:cover;" sizes="(max-width: 900px) 100vw, 900px" loading="eager" fetchpriority="high">
+  <img class="hero-photo" src="{{ image | imageSrc }}" alt="{{ title }}" sizes="(max-width: 1240px) 100vw, 1176px" loading="eager" fetchpriority="high">
   {% else %}
   <div class="hero-photo"></div>
   {% endif %}
+</div>
 
-  <div class="pin-save-row">
-    <a class="btn-line" data-pin-do="buttonPin" data-pin-custom="true"
-       href="https://www.pinterest.com/pin/create/button/?url={{ pageUrl | urlencode }}&media={{ imageUrl | urlencode }}&description={{ description | urlencode }}">
-      Save to Pinterest
-    </a>
-    {#- Shown by the script below only where the browser supports it. -#}
-    <button type="button" class="btn-line cook-mode-btn" id="cook-mode-btn" aria-pressed="false" hidden>Keep screen on while cooking</button>
-  </div>
-
-  <div class="stat-strip">
-    <div class="stat"><span class="num">{{ recipeContent.prepTimeMinutes }}m</span><span class="label">Prep</span></div>
-    <div class="stat"><span class="num">{{ recipeContent.cookTimeMinutes }}m</span><span class="label">Cook</span></div>
-    <div class="stat"><span class="num">{{ totalMinutes }}m</span><span class="label">Total</span></div>
-    <div class="stat"><span class="num">{{ recipeContent.servingsNumber }}</span><span class="label">{{ recipeContent.servingsUnit }}</span></div>
-  </div>
-
-  <div class="recipe-body">
+<div class="wrap">
+  <div class="recipe-grid" id="recipe-body">
     <aside class="ingredients">
       <h2>Ingredients</h2>
+      <p class="meta">Tick items off as you shop or prep.</p>
       <ul>
         {% for ing in recipeContent.ingredients %}
         <li><label><input type="checkbox" class="ing-check"> <span class="amt">{{ ing.amount }}</span> <span class="ing-item">{{ ing.item }}</span></label></li>
         {% endfor %}
       </ul>
-      <button type="button" class="btn-line grocery-add-btn" id="grocery-add-btn" data-ingredients="{{ recipeContent.ingredients | dump | escape }}">+ Add ingredients to Grocery List</button>
+      <button type="button" class="btn grocery-add-btn" id="grocery-add-btn" data-ingredients="{{ recipeContent.ingredients | dump | escape }}">+ Add to Grocery List</button>
       <div role="status">
         <p class="grocery-add-confirm" id="grocery-add-confirm" hidden>Added — <a href="/tools/grocery-list/">view your list</a></p>
       </div>
@@ -154,7 +166,7 @@
 <section class="wrap more-recipes">
   <div class="section-head">
     <h2>More recipes</h2>
-    <hr class="rule" style="flex:1; margin: 0 20px;">
+    <a class="small-caps" href="/">See all</a>
   </div>
   <div class="grid">
     {% for r in related %}
@@ -162,7 +174,7 @@
       {{ photo(r) }}
       <span class="cat">{{ r.data.category }}</span>
       <h3>{{ r.data.title }}</h3>
-      <p class="excerpt">{{ r.data.description }}</p>
+      <span class="meta">{{ meta(r) }}</span>
     </a>
     {% endfor %}
   </div>
@@ -194,6 +206,14 @@
   });
 })();
 
+// Print button: needs JavaScript, so it's only revealed when that's running.
+(function () {
+  var btn = document.getElementById("print-btn");
+  if (!btn) return;
+  btn.hidden = false;
+  btn.addEventListener("click", function () { window.print(); });
+})();
+
 // Cook mode: stops the phone screen dimming mid-recipe. The browser drops the
 // lock whenever the tab is hidden, so it's taken again on return.
 (function () {
@@ -205,7 +225,7 @@
 
   function show(on) {
     btn.setAttribute("aria-pressed", on ? "true" : "false");
-    btn.textContent = on ? "Screen stays on — tap to turn off" : "Keep screen on while cooking";
+    btn.textContent = on ? "Screen on — tap to stop" : "Keep screen on";
   }
 
   function acquire() {

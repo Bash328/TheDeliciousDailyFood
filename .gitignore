@@ -16,3 +16,6 @@ _site/
 Thumbs.db
 desktop.ini
 *.log
+
+# Wrangler scratch
+.wrangler/

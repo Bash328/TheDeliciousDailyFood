@@ -1,3 +1,6 @@
+# Deploy with: cd oauth-worker && npx wrangler deploy --config wrangler.toml
+# (Without --config, wrangler finds the repo-root wrangler.jsonc instead and
+# deploys the admin site, not this worker.)
 name = "decap-oauth"
 main = "worker.js"
 compatibility_date = "2024-01-01"

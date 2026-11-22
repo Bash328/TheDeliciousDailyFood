@@ -5,3 +5,12 @@
     <div class="photo"></div>
   {%- endif -%}
 {%- endmacro -%}
+{#- "35 min · 4 servings", leaving out whichever half the recipe doesn't have yet
+    (a freshly merged submission has neither). -#}
+{%- macro meta(recipe) -%}
+  {%- set c = recipe.data.recipeContent -%}
+  {%- set total = (c.prepTimeMinutes or 0) + (c.cookTimeMinutes or 0) -%}
+  {%- if total %}{{ total | minutesLabel }}{% endif -%}
+  {%- if total and c.servingsNumber %} · {% endif -%}
+  {%- if c.servingsNumber %}{{ c.servingsNumber }} {{ (c.servingsUnit or "servings") | lower }}{% endif -%}
+{%- endmacro -%}

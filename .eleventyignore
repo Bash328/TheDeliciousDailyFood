@@ -1,4 +1,7 @@
+admin/
+api-worker/
 oauth-worker/
 submission-worker/
 docs/
+test/
 README.md

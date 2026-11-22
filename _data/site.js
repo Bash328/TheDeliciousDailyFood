@@ -4,7 +4,7 @@ module.exports = {
 
   // Bumped whenever style.css changes, so returning visitors get the new
   // stylesheet instead of a cached one. Used as style.css?v={{ site.assetVersion }}.
-  assetVersion: 8,
+  assetVersion: 9,
 
   tagline: "A daily dose of deliciousness, upgrade your everyday.",
 
@@ -19,6 +19,11 @@ module.exports = {
   // instead of a form that can't send anywhere, and nothing links to it.
   submitEndpoint:
     "https://delicious-daily-submissions.cwakiku.workers.dev/submit",
+  // Reader accounts (sign in, saved recipes, synced grocery list) — see
+  // docs/ACCOUNTS-SETUP.md. Until this is filled in with the deployed API's URL
+  // ("https://api.thedeliciousdaily.com"), no account button, link or script
+  // appears anywhere on the site, and /account/ says accounts aren't open.
+  accountsApi: "",
   // Optional Cloudflare Turnstile site key for spam filtering on that form.
   // Leave empty to skip it — the widget isn't loaded at all when it's blank,
   // rather than rendering an error box with a placeholder key.

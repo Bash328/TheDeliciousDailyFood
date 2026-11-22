@@ -28,7 +28,6 @@ var SUBMISSION_LIMITS = {
   minIngredientLines: 3,
   minSteps: 2,
   maxLinksInRecipe: 2,
-  imageMaxBytes: 4 * 1024 * 1024,
 };
 
 // A step usually opens with an instruction, optionally behind "1." or a
