@@ -6,14 +6,15 @@
       <a href="/contact/">Contact</a>
       <a href="/privacy-policy/">Privacy Policy</a>
       <a href="/sitemap/">Sitemap</a>
-      <a href="/tools/grocery-list/">Grocery List</a>
+      <a class="app-link" href="/tools/grocery-list/">Grocery List</a>
       {%- if site.submitEndpoint %}
-      <a href="/submit-recipe/">Submit a Recipe</a>
+      <a class="app-link" href="/submit-recipe/">Submit a Recipe</a>
       {%- endif %}
       {%- if site.accountsApi %}
-      <a href="/account/">Account</a>
+      <a class="app-link" href="/account/">Account</a>
       {%- endif %}
     </nav>
   </div>
 </footer>
+{% include "partials/tabbar.njk" %}
 {% include "partials/app-script.njk" %}

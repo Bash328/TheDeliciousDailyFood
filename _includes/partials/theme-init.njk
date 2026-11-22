@@ -9,6 +9,8 @@
       var stored = localStorage.getItem("dd-theme");
       if (stored === "dark" || stored === "light") {
         document.documentElement.setAttribute("data-theme", stored);
+        var bar = document.querySelector('meta[name="theme-color"]');
+        if (bar) bar.setAttribute("content", stored === "light" ? "#faf6ef" : "#12100e");
       }
     } catch (e) {
       /* Private mode or blocked storage — fall through to the dark default. */

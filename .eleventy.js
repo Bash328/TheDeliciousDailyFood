@@ -62,6 +62,7 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy("grocery-list.js");
   eleventyConfig.addPassthroughCopy("sprinkles.js");
   eleventyConfig.addPassthroughCopy("app.js");
+  eleventyConfig.addPassthroughCopy("manifest.webmanifest");
 
   // Those two are passthrough copies, so nothing was stripping their comments
   // — and both are commented heavily, sprinkles.js especially. Measured on it:

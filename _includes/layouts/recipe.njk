@@ -12,7 +12,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>{{ title }} — {{ site.title }}</title>
 <meta name="description" content="{{ description }}">
 <link rel="canonical" href="{{ pageUrl }}">
@@ -81,7 +81,7 @@
 
 {% include "partials/pagebar.njk" %}
 
-<main>
+<main class="recipe-page">
 <div class="wrap page-head">
   <span class="eyebrow">{{ category }}{% if tag %} · {{ tag }}{% endif %}</span>
   <h1>{{ title }}</h1>

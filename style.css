@@ -167,12 +167,10 @@ h1, h2, h3 { margin: 0; font-family: var(--serif); font-weight: 400; }
   cursor: pointer;
   transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
 }
-.btn:hover,
 .btn[aria-pressed="true"] { background: var(--accent); color: var(--on-accent); }
 .btn:disabled { opacity: 0.6; cursor: default; }
 
 .btn-solid { background: var(--accent); color: var(--on-accent); }
-.btn-solid:hover { background: var(--ink); border-color: var(--ink); color: var(--bg); }
 
 .btn-small { min-height: 40px; padding: 0 16px; font-size: 0.75rem; letter-spacing: 0.14em; }
 
@@ -212,8 +210,6 @@ h1, h2, h3 { margin: 0; font-family: var(--serif); font-weight: 400; }
   color: var(--accent);
   padding: 12px 0;
 }
-.topbar a.link:hover,
-.pagebar a.link:hover { opacity: 0.78; }
 
 .brand { font-family: var(--serif); font-size: 1.625rem; }
 .brand em { color: var(--accent); }
@@ -232,7 +228,6 @@ h1, h2, h3 { margin: 0; font-family: var(--serif); font-weight: 400; }
   cursor: pointer;
   transition: color 0.15s ease, border-color 0.15s ease;
 }
-.theme-toggle:hover { color: var(--accent); border-color: var(--accent); }
 .theme-toggle svg { width: 20px; height: 20px; }
 .theme-toggle .icon-sun { display: var(--icon-sun); }
 .theme-toggle .icon-moon { display: var(--icon-moon); }
@@ -293,7 +288,6 @@ h1, h2, h3 { margin: 0; font-family: var(--serif); font-weight: 400; }
 }
 .featured h2 { font-size: clamp(2.75rem, 6vw, 4.25rem); line-height: 1; letter-spacing: -0.01em; }
 .featured .excerpt { margin: 18px 0 0; color: var(--ink-soft); max-width: 40ch; }
-.featured:hover h2 { color: var(--accent); }
 
 .tag {
   background: var(--accent);
@@ -327,7 +321,6 @@ h1, h2, h3 { margin: 0; font-family: var(--serif); font-weight: 400; }
 .courses a { display: flex; flex-direction: column; gap: 10px; padding: 28px 24px 28px 0; }
 .courses .num { font-family: var(--serif); font-size: 1.25rem; color: var(--accent); }
 .courses .name { font-family: var(--serif); font-size: 1.875rem; line-height: 1.1; }
-.courses a:hover .name { color: var(--accent); }
 
 /* ---------- Home: course sections ---------- */
 
@@ -350,9 +343,6 @@ h1, h2, h3 { margin: 0; font-family: var(--serif); font-weight: 400; }
 
 .lead { flex: 1 1 420px; display: flex; flex-direction: column; gap: 16px; }
 .lead h3 { font-size: clamp(2rem, 4vw, 2.625rem); line-height: 1.05; }
-.lead:hover h3,
-.row:hover h3,
-.card:hover h3 { color: var(--accent); }
 
 .rows { flex: 1 1 420px; display: flex; flex-direction: column; }
 .row { display: flex; gap: 20px; align-items: center; padding: 18px 0; border-top: 1px solid var(--rule); }
@@ -395,7 +385,6 @@ h1, h2, h3 { margin: 0; font-family: var(--serif); font-weight: 400; }
   color: var(--ink-soft);
   padding: 12px 0;
 }
-.footer-links a:hover { color: var(--accent); }
 
 /* ---------- Page header (static pages, grocery list, recipes) ---------- */
 
@@ -417,7 +406,6 @@ h1, h2, h3 { margin: 0; font-family: var(--serif); font-weight: 400; }
 }
 .recipe-credit .credit-name { color: var(--ink-soft); }
 .recipe-credit .credit-instagram { color: var(--accent); border-bottom: 1px solid currentColor; padding-bottom: 1px; }
-.recipe-credit .credit-instagram:hover { opacity: 0.75; }
 
 /* ---------- Recipe page ---------- */
 
@@ -554,7 +542,6 @@ h1, h2, h3 { margin: 0; font-family: var(--serif); font-weight: 400; }
 .page-content li { color: var(--ink-soft); }
 .page-content p { margin: 0 0 18px; }
 .page-content a { color: var(--accent); border-bottom: 1px solid var(--accent); }
-.page-content a:hover { opacity: 0.78; }
 .page-content strong { color: var(--ink); font-weight: 500; }
 .page-content em { color: var(--ink-faint); }
 
@@ -593,7 +580,6 @@ h1, h2, h3 { margin: 0; font-family: var(--serif); font-weight: 400; }
 .grocery-item.checked span { opacity: 0.45; text-decoration: line-through; }
 
 .grocery-remove { background: none; border: none; color: var(--ink-faint); font-size: 1.5rem; line-height: 1; cursor: pointer; min-width: 44px; min-height: 44px; }
-.grocery-remove:hover { color: var(--accent); }
 
 .grocery-empty { color: var(--ink-soft); padding: 30px 0; }
 .grocery-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
@@ -683,6 +669,238 @@ input:focus-visible, select:focus-visible, textarea:focus-visible {
   .grocery-add-form { flex-direction: column; }
 }
 
+/* ---------- Hover (mouse only) ---------- */
+
+@media (hover: hover) {
+  .btn:hover { background: var(--accent); color: var(--on-accent); }
+  .btn-solid:hover { background: var(--ink); border-color: var(--ink); color: var(--bg); }
+  .theme-toggle:hover { color: var(--accent); border-color: var(--accent); }
+  .featured:hover h2 { color: var(--accent); }
+  .courses a:hover .name { color: var(--accent); }
+  .footer-links a:hover { color: var(--accent); }
+  .recipe-credit .credit-instagram:hover { opacity: 0.75; }
+  .page-content a:hover { opacity: 0.78; }
+  .grocery-remove:hover { color: var(--accent); }
+  .topbar a.link:hover, .pagebar a.link:hover { opacity: 0.78; }
+  .lead:hover h3, .row:hover h3, .card:hover h3 { color: var(--accent); }
+}
+
+/* ---------- App chrome that only exists on phones ---------- */
+
+.tabbar, .topbar-brand { display: none; }
+
+/* Page-to-page cross-fade where the browser supports it (Chrome, Safari 18+),
+   with the bars held still so only the content changes. */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition { navigation: auto; }
+}
+.topbar, .pagebar { view-transition-name: appbar; }
+.tabbar { view-transition-name: tabbar; }
+
+/* ---------- Phones ----------
+   Meant to feel like an app rather than a shrunken web page: a slim sticky bar,
+   swipeable category chips, edge-to-edge photos, a bottom tab bar, and press
+   states instead of hover. Everything above this block is the desktop design. */
+
+@media (max-width: 640px) {
+  :root { --bar-h: 56px; --tab-h: 58px; }
+
+  body {
+    padding-bottom: calc(var(--tab-h) + env(safe-area-inset-bottom));
+    -webkit-tap-highlight-color: transparent;
+  }
+  a, button { touch-action: manipulation; }
+
+  .wrap {
+    padding-left: max(20px, env(safe-area-inset-left));
+    padding-right: max(20px, env(safe-area-inset-right));
+  }
+
+  /* -- Top bars: slim, sticky, frosted */
+  .topbar, .pagebar {
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    padding-top: env(safe-area-inset-top);
+    background: var(--bg);
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    -webkit-backdrop-filter: saturate(1.4) blur(14px);
+    backdrop-filter: saturate(1.4) blur(14px);
+  }
+  .topbar .wrap, .pagebar .wrap {
+    min-height: var(--bar-h);
+    padding-top: 0;
+    padding-bottom: 0;
+    flex-wrap: nowrap;
+  }
+  .theme-toggle { width: 40px; height: 40px; }
+  .topbar-brand { display: inline-block; font-size: 1.5rem; line-height: 1; }
+  .topbar-tagline, .topbar a.link { display: none; }
+  .topbar-right { margin-left: auto; }
+  .pagebar .brand { display: none; }
+  .pagebar .topbar-right { width: 100%; justify-content: space-between; gap: 12px; }
+  .pagebar a.link { padding: 14px 0; letter-spacing: 0.16em; }
+
+  /* -- Home: the big masthead gives way to the bar (kept for screen readers/SEO) */
+  .masthead {
+    position: absolute;
+    width: 1px; height: 1px;
+    padding: 0; margin: -1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
+  /* -- Featured recipe: a full-bleed hero with the text under it */
+  .featured { display: block; border: 0; margin: 16px -20px 28px; }
+  .featured .photo { min-height: 0; aspect-ratio: 4 / 3; }
+  .featured-body { border: 0; padding: 18px 20px 0; gap: 10px; }
+  .featured h2 { font-size: 2.25rem; }
+  .featured .excerpt {
+    margin-top: 10px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .featured .underlink { display: none; }
+
+  .home-intro { font-size: 1.1875rem; margin: 0 auto 20px; }
+
+  /* -- Category chips: one swipeable row that sticks under the bar */
+  .home-nav {
+    position: sticky;
+    top: calc(var(--bar-h) + env(safe-area-inset-top));
+    z-index: 20;
+    padding: 0;
+    background: var(--bg);
+    border-bottom: 1px solid var(--rule);
+  }
+  .courses {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    margin: 0;
+    padding: 10px 20px;
+    border: 0;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+  }
+  .courses::-webkit-scrollbar { display: none; }
+  .courses a {
+    flex: 0 0 auto;
+    flex-direction: row;
+    align-items: center;
+    min-height: 40px;
+    padding: 0 16px;
+    gap: 0;
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    scroll-snap-align: center;
+    font: 500 0.875rem var(--sans);
+    letter-spacing: 0.03em;
+  }
+  .courses .num, .courses .small-caps { display: none; }
+  .courses .name { font: inherit; }
+  .courses a[aria-current="true"] { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+
+  /* -- Course sections: a big lead card, then a compact list under it */
+  .course { padding-bottom: 40px; scroll-margin-top: calc(var(--bar-h) + 58px + env(safe-area-inset-top)); }
+  .course-head { margin: 28px 0 16px; padding-bottom: 12px; }
+  .course-head .num { display: none; }
+  .course-head h2 { font-size: 2rem; }
+  .course-body { gap: 18px; }
+  .lead { flex-basis: 100%; gap: 12px; }
+  .lead .photo { border-radius: 16px; }
+  .lead h3 { font-size: 1.75rem; }
+  .rows { flex-basis: 100%; }
+  .row { gap: 16px; padding: 14px 0; min-height: 88px; }
+  .row .photo { flex-basis: 84px; width: 84px; height: 84px; border-radius: 12px; }
+  .row h3 { font-size: 1.3125rem; }
+  .cta { padding: 28px 22px; margin-bottom: 24px; }
+
+  /* -- Recipe page: photo first, edge to edge, like opening a recipe in an app */
+  .recipe-page { display: flex; flex-direction: column; }
+  .recipe-page > .wrap { width: 100%; }
+  .recipe-page .recipe-photo { order: -1; padding: 0; max-width: none; }
+  .hero-photo { aspect-ratio: 4 / 3; }
+  .page-head { padding-top: 22px; padding-bottom: 8px; }
+  .page-head h1 { font-size: 2.5rem; margin: 10px 0 12px; }
+  .page-head .lede { font-size: 1.0625rem; }
+  .page-head .factbar { display: grid; grid-template-columns: 1fr 1fr; margin-top: 24px; }
+  .fact { padding: 14px 12px 14px 0; border-bottom: 1px solid var(--rule); }
+  .fact b { font-size: 1.5rem; }
+  .factbar .actions { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 16px 0; }
+  .factbar .actions .btn { width: 100%; min-height: 48px; padding: 0 10px; letter-spacing: 0.12em; font-size: 0.75rem; }
+  .factbar .actions .btn-solid { grid-column: 1 / -1; }
+  #print-btn { display: none; }
+  .recipe-grid { gap: 32px; padding-bottom: 40px; }
+  .ingredients { max-width: none; }
+  .ingredients h2, .method h2 { font-size: 2.25rem; }
+  .method li p { font-size: 1.125rem; }
+
+  /* "More recipes": a swipeable shelf instead of a tall stack */
+  .more-recipes .grid {
+    display: flex;
+    gap: 14px;
+    overflow-x: auto;
+    margin: 0 -20px;
+    padding: 0 20px 8px;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+  .more-recipes .grid::-webkit-scrollbar { display: none; }
+  .more-recipes .card { flex: 0 0 74%; scroll-snap-align: start; }
+  .card .photo { border-radius: 14px; }
+  .section-head h2 { font-size: 2rem; }
+
+  /* -- Footer: the tab bar carries the main links, so this keeps only the small print */
+  .site-footer { margin-top: 8px; }
+  .site-footer .wrap { padding-top: 24px; padding-bottom: 28px; justify-content: center; text-align: center; }
+  .site-footer .brand, .footer-links .app-link { display: none; }
+  .footer-links { justify-content: center; gap: 0 20px; }
+  .footer-links a { font-size: 0.6875rem; letter-spacing: 0.14em; }
+
+  /* -- Bottom tab bar */
+  .tabbar {
+    display: flex;
+    position: fixed;
+    left: 0; right: 0; bottom: 0;
+    z-index: 40;
+    padding-bottom: env(safe-area-inset-bottom);
+    background: var(--bg);
+    background: color-mix(in srgb, var(--bg) 90%, transparent);
+    -webkit-backdrop-filter: saturate(1.4) blur(14px);
+    backdrop-filter: saturate(1.4) blur(14px);
+    border-top: 1px solid var(--rule);
+    -webkit-user-select: none;
+    user-select: none;
+  }
+  .tabbar a {
+    flex: 1;
+    min-height: var(--tab-h);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    font-size: 0.6875rem;
+    letter-spacing: 0.04em;
+    color: var(--ink-soft);
+  }
+  .tabbar a[aria-current="page"] { color: var(--accent); }
+  .tabbar svg { width: 24px; height: 24px; }
+
+  /* -- Press feedback in place of hover */
+  .lead, .row, .card, .featured, .tabbar a, .courses a { transition: transform 0.12s ease, opacity 0.12s ease; }
+  .lead:active, .row:active, .card:active, .featured:active { transform: scale(0.985); opacity: 0.85; }
+  .tabbar a:active, .courses a:active { opacity: 0.6; }
+  .btn:active { transform: scale(0.97); }
+
+  /* -- Forms: no sideways overflow, comfortable tap size */
+  .submit-form .btn { width: 100%; }
+}
+
 /* ---------- Print ---------- */
 
 /* The site is dark by default, which would print pale text on white paper. */
@@ -691,7 +909,7 @@ input:focus-visible, select:focus-visible, textarea:focus-visible {
     --bg: #fff; --ink: #000; --ink-soft: #222; --ink-faint: #333;
     --rule: #bbb; --card-bg: #fff; --accent: #000; --on-accent: #fff;
   }
-  .dd-fx, .topbar, .pagebar, .site-footer, .theme-toggle, .actions, .cta, .more-recipes,
+  .dd-fx, .topbar, .pagebar, .tabbar, .home-nav, .site-footer, .theme-toggle, .actions, .cta, .more-recipes,
   .grocery-add-form, .grocery-actions, .grocery-share-status, .grocery-add-btn,
   .grocery-add-confirm, .ing-check, .grocery-remove, .page-head .eyebrow, .page-head .lede {
     display: none !important;

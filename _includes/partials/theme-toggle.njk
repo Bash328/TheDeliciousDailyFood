@@ -30,6 +30,8 @@
       var next = current() === "dark" ? "light" : "dark";
       root.setAttribute("data-theme", next);
       try { localStorage.setItem("dd-theme", next); } catch (e) {}
+      var bar = document.querySelector('meta[name="theme-color"]');
+      if (bar) bar.setAttribute("content", next === "light" ? "#faf6ef" : "#12100e");
     });
   })();
 </script>

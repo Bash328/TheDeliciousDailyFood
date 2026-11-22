@@ -7,7 +7,7 @@ permalink: index.html
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>{{ site.title }} — Recipes worth saving</title>
 <meta name="description" content="Seasonal recipes, tested and photographed for pinning. Weeknight dinners, quiet bakes, and things worth saving.">
 <link rel="canonical" href="{{ site.url }}/">
@@ -40,7 +40,8 @@ permalink: index.html
 
 <div class="topbar">
   <div class="wrap">
-    <span class="small-caps">Recipes tested at home, not in a lab</span>
+    <a class="brand topbar-brand" href="/">The Delicious <em>Daily</em></a>
+    <span class="small-caps topbar-tagline">Recipes tested at home, not in a lab</span>
     <div class="topbar-right">
       <a class="link" href="/tools/grocery-list/">Grocery list</a>
       {% include "partials/theme-toggle.njk" %}
@@ -78,7 +79,7 @@ permalink: index.html
   <p class="home-intro">A small, well-tested collection of recipes worth pinning — nothing fussy, nothing you'll scroll past three times looking for the actual ingredients.</p>
 </section>
 
-<nav class="wrap" aria-label="Browse by course">
+<nav class="home-nav wrap" aria-label="Browse by course">
   <div class="courses">
     {%- for group in groups %}
     <a href="#{{ group.id }}"><span class="num">0{{ loop.index }}</span><span class="name">{{ group.heading }}</span><span class="small-caps">{{ group.items.length }} recipe{% if group.items.length != 1 %}s{% endif %}</span></a>
@@ -126,6 +127,28 @@ permalink: index.html
 </main>
 
 {% include "partials/footer.njk" %}
+
+<script>
+// Highlights the category chip for the section on screen, and keeps it in view.
+(function () {
+  var chips = document.querySelectorAll(".courses a");
+  if (!chips.length || !("IntersectionObserver" in window)) return;
+  var byId = {};
+  chips.forEach(function (a) { byId[a.getAttribute("href").slice(1)] = a; });
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      chips.forEach(function (a) { a.removeAttribute("aria-current"); });
+      var chip = byId[e.target.id];
+      if (chip) {
+        chip.setAttribute("aria-current", "true");
+        chip.scrollIntoView({ block: "nearest", inline: "center" });
+      }
+    });
+  }, { rootMargin: "-30% 0px -65% 0px" });
+  document.querySelectorAll(".course").forEach(function (s) { io.observe(s); });
+})();
+</script>
 {% include "partials/sprinkles.njk" %}
 </body>
 </html>
