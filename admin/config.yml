@@ -71,8 +71,12 @@ collections:
       - { label: "Note", name: "note", widget: "text", required: false, hint: "A tip shown at the end of the method." }
       - { label: "Tag", name: "tag", widget: "string", required: false, hint: "A short word shown next to the category, e.g. One Skillet or Weeknight." }
       - { label: "Cuisine", name: "cuisine", widget: "string", required: false, hint: "e.g. Italian, Indian, Thai. Used in the recipe's search-result data. Leave blank when it isn't a clear fit; a wrong cuisine is worse than none." }
-      - { label: "Publish date", name: "date", widget: "datetime", default: "" }
-      - { label: "URL slug", name: "slug", widget: "string", hint: "Set once — changing it later breaks the recipe's link. Lowercase words separated by dashes, e.g. lemon-blueberry-muffins." }
+      - { label: "Publish date", name: "date", widget: "datetime", required: false, hint: "Leave this blank for a new recipe: today's date is filled in when you save." }
+      # No slug field to fill in: a recipe's web address comes from its title
+      # (the file name), e.g. "Lemon Blueberry Muffins" -> /recipes/lemon-blueberry-muffins/.
+      # Older recipes that pin an address with `slug:` keep it; this hidden field
+      # just stops the CMS dropping it when one of them is saved.
+      - { label: "URL slug", name: "slug", widget: "hidden", required: false }
       - { label: "Credit name", name: "creditName", widget: "string", required: false, hint: "Shown on the recipe as who sent it in. Filled in from the submission form; clear it to publish without a credit." }
       - { label: "Credit Instagram handle", name: "creditInstagram", widget: "string", required: false, hint: "Just the handle, no @, e.g. jamieoliver. Linked from the credit line (nofollow). Clear it to drop the link." }
       - { label: "Draft — keep off the live site", name: "draft", widget: "boolean", default: false, required: false, hint: "On = hidden from the homepage. Recipes sent in through the public form arrive with this on; turn it off when you're happy with the recipe, then publish." }

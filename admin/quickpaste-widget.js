@@ -202,17 +202,33 @@ if (typeof module !== "undefined" && module.exports) {
     },
 
     handleQuickPasteChange: function (e) {
-      this.setState({ quickPasteText: e.target.value });
+      var text = e.target.value;
+      this.setState({ quickPasteText: text });
+      // Paste a recipe and it fills itself in: no need to remember a button.
+      // Only while the form is still empty, so it can never overwrite work
+      // that's already been done (Parse & Fill stays for a deliberate re-parse).
+      var self = this;
+      clearTimeout(this.autoTimer);
+      this.autoTimer = setTimeout(function () {
+        var current = self.getValue();
+        var empty = !current.ingredients.length && !current.steps.length &&
+          !current.prepTimeMinutes && !current.cookTimeMinutes && !current.servingsNumber;
+        if (empty && text.length > 40) self.runParse(true);
+      }, 500);
     },
 
     handleParseClick: function () {
+      this.runParse(false);
+    },
+
+    runParse: function (isAuto) {
       var parsed = parseQuickPaste(this.state.quickPasteText);
       var current = this.getValue();
       var filled = [];
 
       var replacing =
         (parsed.ingredients && current.ingredients.length) || (parsed.steps && current.steps.length);
-      if (replacing && !window.confirm("This replaces the ingredients and steps already filled in below. Continue?")) {
+      if (replacing && !isAuto && !window.confirm("This replaces the ingredients and steps already filled in below. Continue?")) {
         return;
       }
 
@@ -235,7 +251,7 @@ if (typeof module !== "undefined" && module.exports) {
       this.emit(next);
       this.setState({
         parseMessage: filled.length
-          ? "Filled in: " + filled.join(", ") + ". Review below, then Publish."
+          ? (isAuto ? "Filled in for you: " : "Filled in: ") + filled.join(", ") + ". Check it below, then Publish."
           : "Nothing recognized in that text — check the format in the CMS guide, or fill the fields below by hand.",
       });
     },
@@ -409,4 +425,14 @@ if (typeof module !== "undefined" && module.exports) {
   });
 
   CMS.registerWidget("quickpaste", QuickPasteControl, QuickPastePreview);
+
+  // A new recipe has no date until it's saved; stamp it with today's, so nobody
+  // has to pick one. An existing date is never touched.
+  CMS.registerEventListener({
+    name: "preSave",
+    handler: function (args) {
+      var data = args.entry.get("data");
+      return data.get("date") ? data : data.set("date", new Date().toISOString());
+    },
+  });
 })();

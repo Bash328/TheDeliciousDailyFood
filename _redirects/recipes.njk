@@ -3,7 +3,7 @@ pagination:
   data: collections.recipes
   size: 1
   alias: recipe
-permalink: "recipes/{{ recipe.data.slug }}.html"
+permalink: "recipes/{{ recipe.data.slug or recipe.fileSlug }}.html"
 eleventyExcludeFromCollections: true
 ---
 {%- from "partials/redirect-stub.njk" import stub -%}

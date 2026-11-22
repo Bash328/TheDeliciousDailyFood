@@ -30,9 +30,9 @@ themselves. Needs a one-time setup first; see
 ### Edit a recipe
 1. Open it from the Recipes list.
 2. Change whatever you like, click **Publish**.
-3. Don't change the **URL slug** field on an existing recipe — that's the web
-   address, and changing it breaks the old link (including anything already
-   pinned on Pinterest). Everything else is safe to edit anytime.
+3. A recipe's web address comes from its title **when it's first created**, and
+   renaming the recipe later does not change it (so links, and anything pinned
+   on Pinterest, keep working). Everything else is safe to edit anytime.
 
 ### Delete a recipe
 Open it, click the menu next to Publish → **Delete entry**. It disappears from
@@ -43,8 +43,7 @@ the live site on the next rebuild.
 | Field | What it does |
 |---|---|
 | Title | The recipe name shown everywhere. |
-| URL slug | Sets the page address (`recipes/<slug>/`). Only change on new recipes, never after publishing. |
-| Publish date | Controls sort order and which recipe is the homepage "Latest" feature — the most recent date wins. |
+| Publish date | Leave it blank on a new recipe: today's date is filled in when you save. It controls sort order and which recipe is the homepage "Latest" feature — the most recent date wins. |
 | Category | Which of the 5 homepage sections (Dinner, Lunch, Baking & Dessert, Breakfast, Soup) it appears under. |
 | Tag | Optional short word/phrase shown next to the category on the recipe page (e.g. "One Skillet", "Weeknight"). Leave blank if you don't want one. |
 | Short description | Used as the card blurb on the homepage, the intro line on the recipe page, the browser/search description, and the Pinterest pin description. One or two sentences. |
@@ -127,6 +126,25 @@ whatever's in the box at that moment.
   browser a GitHub access token after you approve the login — GitHub Pages can't
   do this by itself, hence the extra service. See the setup steps below for how
   it's wired up.
+
+## Posting quickly (for a collaborator, or from your phone)
+
+**Quick post** (`/quick/`, or the **+ Quick post** button on the admin's recipe
+list; on an installed app, long-press the icon for the same shortcut) is one
+screen: pick a photo, type the title, tap a category, write a one-line
+description, paste the recipe, tap **Post recipe**. It picks the prep time, cook
+time, servings, ingredients and steps out of the pasted text by itself, shows
+what it found before you post, and resizes the photo to the site's standard size.
+
+- **Draft or live:** by default a quick post is saved as a **draft** (hidden from
+  the homepage and the sitemap, not indexed). Switch **Publish right away** on
+  and it goes live in about a minute; the choice is remembered on that phone.
+  To publish a draft, open it in the admin and switch **Draft** off.
+- It needs the admin's GitHub sign-in: open the admin and sign in once, then use
+  Quick post. The person needs write access to the repo, as for the admin.
+- In the full editor the same things are automatic: the web address is made from
+  the title, the date is filled in on save, and pasting into **Quick Paste** fills
+  the recipe in without pressing **Parse & Fill**.
 
 ## Photos: the photo library
 

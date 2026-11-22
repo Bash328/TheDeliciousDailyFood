@@ -10,9 +10,13 @@ const site = require("../_data/site.js");
 
 module.exports = {
   layout: "layouts/recipe.njk",
-  permalink: "recipes/{{ slug }}/",
-
   eleventyComputed: {
+    // The page address. A recipe can pin one with a `slug:` in its front matter
+    // (older recipes do), but nobody has to: without one it comes from the file
+    // name, which the CMS builds from the title ("Lemon Blueberry Muffins" ->
+    // lemon-blueberry-muffins.md -> /recipes/lemon-blueberry-muffins/).
+    permalink: (data) => "recipes/" + (data.slug || data.page.fileSlug) + "/",
+
     // A single ~1200px-wide JPEG per photo, written to a stable slug-based
     // path (img/og/<slug>-1200.jpeg). This is what og:image and the Recipe
     // JSON-LD's `image` point at — several of the source uploads are

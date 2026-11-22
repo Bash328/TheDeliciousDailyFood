@@ -265,6 +265,16 @@
     "[class*='ControlContainer'] [class*='-option'][aria-selected='true'] { background: " + HIGHLIGHT + " !important; font-weight: 600; }",
     "[class*='ControlContainer'] input[aria-autocomplete='list'] { caret-color: transparent; cursor: pointer; opacity: 0 !important; }",
 
+    /* ---- Floating "Quick post" button on the list screens ---- */
+    "a.dd-fab {",
+    "  position: fixed; right: 16px; bottom: calc(16px + env(safe-area-inset-bottom)); z-index: 50;",
+    "  display: inline-flex; align-items: center; min-height: 54px; padding: 0 22px;",
+    "  background: " + ACCENT + "; color: #fff !important; border: 1.5px solid " + ACCENT_DARK + "; border-radius: 2px;",
+    "  box-shadow: 3px 3px 0 " + INK + "; font: 500 15px " + MONO + "; text-decoration: none;",
+    "}",
+    "a.dd-fab:active { transform: translate(1px, 1px); box-shadow: 2px 2px 0 " + INK + "; }",
+    "a.dd-fab[hidden] { display: none !important; }",
+
     /* ---- Pop-ups (the media library) ---- */
     "[class*='StyledModal'] { background: " + SHEET + " !important; border-radius: 3px !important; box-shadow: 0 24px 60px -20px rgba(42, 38, 32, 0.55) !important; }",
     "[class*='LibraryTitle'] { font-family: " + MONO + " !important; font-weight: 600 !important; font-size: 22px !important; color: " + INK + "; }",
@@ -359,8 +369,23 @@
       }
     }
   }
+  // The "Quick post" shortcut: shown on the recipe list screens only (not inside
+  // an editor, and not on the login screen, which has no header).
+  var fab = document.createElement("a");
+  fab.className = "dd-fab";
+  fab.href = "/quick/";
+  fab.textContent = "+ Quick post";
+  fab.hidden = true;
+  document.body.appendChild(fab);
+  function syncFab() {
+    var onList = /^#\/?(collections\/[^\/]+)?\/?$/.test(location.hash);
+    var signedIn = !!document.querySelector("header[class*='AppHeader']");
+    fab.hidden = !(onList && signedIn);
+  }
+  window.addEventListener("hashchange", syncFab);
+
   new MutationObserver(function () {
-    if (!lockTimer) lockTimer = setTimeout(lockPickers, 50);
+    if (!lockTimer) lockTimer = setTimeout(function () { lockPickers(); syncFab(); }, 50);
   }).observe(document.body, { childList: true, subtree: true });
 
   var favicon = document.createElement("link");

@@ -141,8 +141,17 @@ module.exports = function (eleventyConfig) {
   // Decap's image widget writes the public_folder-prefixed path
   // (e.g. "/images/x.jpg"); older recipes migrated by hand just store the
   // bare filename (e.g. "x.jpg"). Handle both.
+  //
+  // A photo that isn't in images/ (deleted in the CMS while a recipe still
+  // pointed at it, say) gives "" here, so the recipe shows the plain placeholder
+  // instead of the image step throwing and stopping the whole site from building.
+  const photoExists = (image) => {
+    const file = image.startsWith("/") ? image.slice(1) : path.join("images", image);
+    return fs.existsSync(file);
+  };
+
   eleventyConfig.addFilter("imageUrl", (image) => {
-    if (!image) return "";
+    if (!image || !photoExists(image)) return "";
     if (image.startsWith("/")) return site.url + image;
     return `${site.url}/images/${image}`;
   });
@@ -152,7 +161,7 @@ module.exports = function (eleventyConfig) {
   // full URL for contexts read by outside services: og:image, JSON-LD,
   // the Pinterest share link.)
   eleventyConfig.addFilter("imageSrc", (image) => {
-    if (!image) return "";
+    if (!image || !photoExists(image)) return "";
     if (image.startsWith("/")) return image;
     return `/images/${image}`;
   });

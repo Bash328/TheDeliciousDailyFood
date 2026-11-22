@@ -15,12 +15,13 @@
 // same place the built-in library wrote to. Registered in config.yml as
 // `media_library: { name: dd-photos }`.
 //
+// The resizing and GitHub helpers are also exposed as window.DDPhotoTools, for
+// the Quick post page.
+//
 // For local testing a page can set window.DD_PHOTOS_TEST = { api, token } to
 // point it at a fake GitHub.
 
 (function () {
-  if (typeof CMS === "undefined" || !CMS.registerMediaLibrary) return; // not running inside the CMS
-
   var TEST = window.DD_PHOTOS_TEST || null;
   var API = (TEST && TEST.api) || "https://api.github.com";
   var MAX_WIDTH = 1600;
@@ -165,6 +166,13 @@
     while (taken[name]) name = base + "-" + n++ + ".jpg";
     return name;
   }
+
+  // Shared with the Quick post page (admin/quick/), which has no CMS around it.
+  window.DDPhotoTools = {
+    token: token, gh: gh, explain: explain, standardise: standardise, toBase64: toBase64, slugName: slugName,
+  };
+
+  if (typeof CMS === "undefined" || !CMS.registerMediaLibrary) return; // not running inside the CMS
 
   // ------------------------------------------------------------------- the UI
   var overlay = null;
@@ -329,8 +337,8 @@
       var names = selectedNames();
       if (!names.length) return;
       var msg = names.length === 1
-        ? "Delete " + names[0] + "? Any recipe using this photo will lose it."
-        : "Delete " + names.length + " photos? Any recipe using them will lose them.";
+        ? "Delete " + names[0] + "? A recipe using this photo will show a plain placeholder until you give it another."
+        : "Delete " + names.length + " photos? Recipes using them will show a plain placeholder until you give them another.";
       if (!window.confirm(msg)) return;
       busy = true;
       refreshButtons();

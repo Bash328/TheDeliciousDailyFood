@@ -18,3 +18,5 @@
   Cache-Control: no-cache
 /config.yml
   Cache-Control: no-cache
+/quick/
+  Cache-Control: no-cache
