@@ -889,6 +889,7 @@ input:focus-visible, select:focus-visible, textarea:focus-visible {
     margin: 0 -20px;
     padding: 0 20px 8px;
     scroll-snap-type: x mandatory;
+    scroll-padding-inline: 20px; /* snap with the 20px gutter, not flush to the edge */
     scrollbar-width: none;
   }
   .more-recipes .grid::-webkit-scrollbar { display: none; }
