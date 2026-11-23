@@ -416,7 +416,8 @@
   }
 
   new MutationObserver(function () {
-    if (!lockTimer) lockTimer = setTimeout(function () { lockPickers(); syncFab(); fitMenus(); }, 50);
+    fitMenus(); // right away, before the browser paints, so a menu never shows overflowing first
+    if (!lockTimer) lockTimer = setTimeout(function () { lockPickers(); syncFab(); }, 50);
   }).observe(document.body, { childList: true, subtree: true });
 
   var favicon = document.createElement("link");
