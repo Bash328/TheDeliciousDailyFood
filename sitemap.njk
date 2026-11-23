@@ -13,6 +13,9 @@ eleventyExcludeFromCollections: true
   {%- if site.submitEndpoint %}
   <url><loc>{{ site.url }}/submit-recipe/</loc><lastmod>{{ "submit-recipe.njk" | lastUpdated }}</lastmod></url>
   {%- endif %}
+  {%- for s in sections | sectionsWithRecipes(collections.recipes) %}
+  <url><loc>{{ site.url }}/{{ s.id }}/</loc></url>
+  {%- endfor %}
   {%- for recipe in collections.recipes %}
   <url>
     <loc>{{ site.url }}{{ recipe.url }}</loc>

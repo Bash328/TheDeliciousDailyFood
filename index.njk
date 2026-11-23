@@ -101,12 +101,15 @@ permalink: index.html
     </a>
     {%- if group.items.length > 1 %}
     <div class="rows">
-      {%- for recipe in group.items %}{% if not loop.first %}
+      {%- for recipe in group.items %}{% if not loop.first and loop.index <= 5 %}
       <a class="row" href="{{ recipe.url }}">
         {{ photo(recipe, "96px") }}
         <div><h3>{{ recipe.data.title }}</h3><span class="meta">{{ meta(recipe) }}</span></div>
       </a>
       {%- endif %}{% endfor %}
+      {%- if group.items.length > 5 %}
+      <a class="underlink" href="/{{ group.id }}/">All {{ group.items.length }} {{ group.heading | lower }} recipes</a>
+      {%- endif %}
     </div>
     {%- endif %}
   </div>

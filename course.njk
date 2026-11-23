@@ -1,0 +1,21 @@
+---
+layout: layouts/page.njk
+pagination:
+  data: sections
+  size: 1
+  alias: section
+permalink: "{{ section.id }}/"
+eleventyComputed:
+  title: "{{ section.heading }} recipes"
+  description: "Every {{ section.heading | lower }} recipe on The Delicious Daily, newest first."
+eleventyExcludeFromCollections: true
+---
+{%- from "partials/card.njk" import photo, meta -%}
+<div class="rows">
+  {%- for recipe in collections.recipes | byCategories(section.categories) %}
+  <a class="row" href="{{ recipe.url }}">
+    {{ photo(recipe, "96px") }}
+    <div><h3>{{ recipe.data.title }}</h3><span class="meta">{{ meta(recipe) }}</span></div>
+  </a>
+  {%- endfor %}
+</div>
