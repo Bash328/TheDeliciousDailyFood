@@ -393,8 +393,30 @@
   }
   window.addEventListener("hashchange", syncFab);
 
+  // Decap opens every drop-down flush with the LEFT edge of its button. Near the
+  // right edge of a phone that runs off the screen and makes the page scroll
+  // sideways (Group by, Publish). Whenever a menu is open, flip it to open
+  // leftward if it overflows on the right, and keep it inside on the left too.
+  function fitMenus() {
+    var menus = document.querySelectorAll("[class*='DropdownList']");
+    for (var i = 0; i < menus.length; i++) {
+      var m = menus[i];
+      m.style.left = "";
+      m.style.right = "";
+      var r = m.getBoundingClientRect();
+      if (!r.width) continue;
+      var edge = document.documentElement.clientWidth - 8;
+      if (r.right > edge) {
+        m.style.left = "auto";
+        m.style.right = "0";
+        r = m.getBoundingClientRect();
+        if (r.left < 8) { m.style.left = "0"; m.style.right = "auto"; m.style.maxWidth = (edge - 8) + "px"; }
+      }
+    }
+  }
+
   new MutationObserver(function () {
-    if (!lockTimer) lockTimer = setTimeout(function () { lockPickers(); syncFab(); }, 50);
+    if (!lockTimer) lockTimer = setTimeout(function () { lockPickers(); syncFab(); fitMenus(); }, 50);
   }).observe(document.body, { childList: true, subtree: true });
 
   var favicon = document.createElement("link");

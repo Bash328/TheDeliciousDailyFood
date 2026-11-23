@@ -21,6 +21,55 @@
 // For local testing a page can set window.DD_PHOTOS_TEST = { api, token } to
 // point it at a fake GitHub.
 
+// ---------------------------------------------------------------------------
+// Stay up to date. An admin installed on a phone is resumed from memory, not
+// reloaded, so after a deploy it can keep running old files for days. When the
+// app comes back to the foreground, compare this file's version (the ?v= in its
+// <script> tag) with the one the server's index page now names. If it's newer:
+// reload straight away, unless someone is mid-edit (an open recipe, or a filled-in
+// Quick post), in which case show a banner and let them tap when ready.
+(function () {
+  var src = document.currentScript && document.currentScript.src;
+  var mine = src && (src.match(/[?&]v=(\d+)/) || [])[1];
+  if (!mine) return;
+
+  function busy() {
+    if (/\/(entries\/|new)/.test(location.hash)) return true; // a recipe is open in the editor
+    var form = document.getElementById("qp"); // the Quick post page
+    if (form && !form.hidden) {
+      var filled = ["title", "desc", "raw"].some(function (id) { var e = document.getElementById(id); return e && e.value.trim(); });
+      var photo = document.getElementById("photo");
+      return filled || !!(photo && photo.files && photo.files.length);
+    }
+    return false;
+  }
+
+  function banner() {
+    if (document.getElementById("dd-update")) return;
+    var b = document.createElement("button");
+    b.id = "dd-update";
+    b.type = "button";
+    b.textContent = "A new version is ready \u2014 tap to update";
+    b.style.cssText = "position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom));z-index:100000;min-height:52px;padding:0 16px;" +
+      "background:#2a2620;color:#f7f1e3;border:2px solid #a8553a;border-radius:3px;font:500 15px 'IBM Plex Mono',ui-monospace,monospace;cursor:pointer";
+    b.addEventListener("click", function () { location.reload(); });
+    document.body.appendChild(b);
+  }
+
+  var checking = false;
+  function check() {
+    if (checking) return;
+    checking = true;
+    fetch("/", { cache: "no-store" }).then(function (r) { return r.text(); }).then(function (html) {
+      var latest = (html.match(/photo-library\.js\?v=(\d+)/) || [])[1];
+      if (latest && latest !== mine) { busy() ? banner() : location.reload(); }
+    }).catch(function () { /* offline: try again next time */ }).then(function () { checking = false; });
+  }
+
+  document.addEventListener("visibilitychange", function () { if (document.visibilityState === "visible") check(); });
+  window.addEventListener("pageshow", function (e) { if (e.persisted) check(); });
+})();
+
 (function () {
   var TEST = window.DD_PHOTOS_TEST || null;
   var API = (TEST && TEST.api) || "https://api.github.com";
