@@ -16,11 +16,16 @@
        runs with full access to the signed-in editor's GitHub token. When
        upgrading Decap, replace both the version and the sha384 hash (the
        browser refuses to run the bundle if they disagree). -->
+  <!-- Start Decap by hand, after our own scripts: it reads config.yml as soon as it
+       starts, and if that beats photo-library.js it fails with "Missing external
+       media library 'dd-photos'". -->
+  <script>window.CMS_MANUAL_INIT = true;</script>
   <script src="https://unpkg.com/decap-cms@3.0.0/dist/decap-cms.js"
           integrity="sha384-XHBfDQ1YTdjkb8wj/zJCx1vQHqDKKebww8oqgWdiTh0/FVtN133ZLsefUaUQhfrR"
           crossorigin="anonymous"></script>
   <script src="quickpaste-widget.js?v=18"></script>
   <script src="photo-library.js?v=18"></script>
   <script src="theme.js?v=18"></script>
+  <script>CMS.init();</script>
 </body>
 </html>
