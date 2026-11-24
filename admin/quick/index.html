@@ -79,7 +79,7 @@
 </head>
 <body>
   <header class="bar">
-    <a href="/#/collections/recipes" aria-label="Back to the admin">&larr; Admin</a>
+    <a href="/#/collections/dinner" aria-label="Back to the admin">&larr; Admin</a>
     <h1>Quick post</h1>
     <span style="width:60px"></span>
   </header>
@@ -292,7 +292,7 @@
         link.href = SITE + "/recipes/" + slug + "/";
         link.textContent = live ? "See it on the site (after a minute)" : "Preview the page (draft)";
         var admin = $("doneAdmin");
-        admin.href = "/#/collections/recipes/entries/" + slug;
+        admin.href = "/#/collections/" + catEl.value.toLowerCase() + "/entries/" + slug;
         admin.textContent = "Open in the admin";
         window.scrollTo(0, 0);
       }).catch(function (err) {

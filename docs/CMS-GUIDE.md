@@ -17,10 +17,13 @@ themselves. Needs a one-time setup first; see
 
 1. Go to `https://admin.thedeliciousdaily.com/` (the old `/admin/` address on the main site redirects there). On a phone or in Chrome/Edge you can **install it as an app** from the browser menu.
 2. Click **Login with GitHub** and authorize the app (first time only).
-3. You'll see a **Recipes** collection listing every recipe on the site.
+3. The sidebar has one list per category (**Dinner, Lunch, Dessert, Breakfast, Soup**), plus **Submitted**
+   for recipes sent in through the public form. Every recipe is under its own category, so there is
+   nothing to group or sort by category.
 
 ### Add a recipe
-1. Click **New Recipe**.
+1. Open the category it belongs to and click **New Recipe**. The Category is already picked
+   for you (change it and the recipe moves to that list).
 2. Fill in the form — see the field reference below.
 3. Click **Publish** (top right).
 4. That's it. A commit lands in the GitHub repo automatically, which triggers a
@@ -28,7 +31,7 @@ themselves. Needs a one-time setup first; see
    live in roughly 1-2 minutes. Refresh the site to see it.
 
 ### Edit a recipe
-1. Open it from the Recipes list.
+1. Open it from its category list.
 2. Change whatever you like, click **Publish**.
 3. A recipe's web address comes from its title **when it's first created**, and
    renaming the recipe later does not change it (so links, and anything pinned

@@ -34,53 +34,159 @@ editor:
   preview: false
 
 # --- collections block ------------------------------------------------------
-# Two views onto the same _recipes folder: everything, and just the ones that
-# came in through the public form. The second is a filter, not a separate
-# place — a submitted recipe is an ordinary recipe file, so publishing it is
-# the same job as publishing any other.
+# One collection per category (Dinner, Lunch, Dessert, Breakfast, Soup), all
+# reading the same _recipes folder, plus a Submitted list for recipes that came in
+# through the public form. A category collection is a filter on the category
+# field, so every recipe shows up under its own category in the sidebar: there is
+# nothing to group or sort by category. A recipe file is an ordinary recipe
+# whichever list you open it from, and a new recipe made inside a category starts
+# with that category already picked (change it and the recipe moves lists).
 #
 # Field order is the order you fill a recipe in: what it is, a photo, the recipe
 # itself, then the fiddly details (web address, date, credit, draft) at the end.
 # Decap adds "(optional)" to the label of any field marked required: false, so
-# labels don't say it themselves.
+# labels don't say it themselves. The fields are written out once, in the first
+# collection, and the others point back at them (&name / *name) so that only the
+# Category field's starting value differs.
 collections:
-  - name: "recipes"
-    label: "Recipes"
+  - name: "dinner"
+    label: "Dinner"
     folder: "_recipes"
     create: true
     slug: "{{slug}}"
     identifier_field: title
-    summary: "{{title}} · {{category}}"
-    sortable_fields: ["date", "title", "category"]
-    view_filters:
+    summary: "{{title}}"
+    filter: { field: "category", value: "Dinner" }
+    sortable_fields: &recipe_sort ["date", "title"]
+    view_filters: &recipe_filters
       - { label: "Drafts (not live yet)", field: "draft", pattern: true }
-    view_groups:
-      - { label: "Category", field: "category" }
     fields: &recipe_fields
-      - { label: "Title", name: "title", widget: "string" }
-      - { label: "Photo", name: "image", widget: "image", required: false, hint: "Leave blank to use a plain placeholder until you have a photo." }
-      - label: "Category"
-        name: "category"
-        widget: "select"
-        options: ["Dinner", "Lunch", "Dessert", "Breakfast", "Soup"]
-      - { label: "Short description", name: "description", widget: "text", hint: "Used as the card blurb, the page intro, and the search/Pinterest description. 1-2 sentences." }
-      - label: "Recipe"
+      - &f_title { label: "Title", name: "title", widget: "string" }
+      - &f_image { label: "Photo", name: "image", widget: "image", required: false, hint: "Optional. A recipe without a photo shows as a text-only card, so there is no need to add one just to fill a gap." }
+      - { label: "Category", name: "category", widget: "select", options: ["Dinner", "Lunch", "Dessert", "Breakfast", "Soup"], default: "Dinner" }
+      - &f_description { label: "Short description", name: "description", widget: "text", hint: "Used as the card blurb, the page intro, and the search/Pinterest description. 1-2 sentences." }
+      - &f_recipe
+        label: "Recipe"
         name: "recipeContent"
         widget: "quickpaste"
         default: { servingsUnit: "Servings", ingredients: [], steps: [] }
-      - { label: "Note", name: "note", widget: "text", required: false, hint: "A tip shown at the end of the method." }
-      - { label: "Tag", name: "tag", widget: "string", required: false, hint: "A short word shown next to the category, e.g. One Skillet or Weeknight." }
-      - { label: "Cuisine", name: "cuisine", widget: "string", required: false, hint: "e.g. Italian, Indian, Thai. Used in the recipe's search-result data. Leave blank when it isn't a clear fit; a wrong cuisine is worse than none." }
-      - { label: "Publish date", name: "date", widget: "datetime", required: false, hint: "Leave this blank for a new recipe: today's date is filled in when you save." }
+      - &f_note { label: "Note", name: "note", widget: "text", required: false, hint: "A tip shown at the end of the method." }
+      - &f_tag { label: "Tag", name: "tag", widget: "string", required: false, hint: "A short word shown above the title in the recipe lists, e.g. One Skillet or Weeknight." }
+      - &f_cuisine { label: "Cuisine", name: "cuisine", widget: "string", required: false, hint: "e.g. Italian, Indian, Thai. Used in the recipe's search-result data. Leave blank when it isn't a clear fit; a wrong cuisine is worse than none." }
+      - &f_date { label: "Publish date", name: "date", widget: "datetime", required: false, hint: "Leave this blank for a new recipe: today's date is filled in when you save." }
       # No slug field to fill in: a recipe's web address comes from its title
       # (the file name), e.g. "Lemon Blueberry Muffins" -> /recipes/lemon-blueberry-muffins/.
       # Older recipes that pin an address with `slug:` keep it; this hidden field
       # just stops the CMS dropping it when one of them is saved.
-      - { label: "URL slug", name: "slug", widget: "hidden", required: false }
-      - { label: "Credit name", name: "creditName", widget: "string", required: false, hint: "Shown on the recipe as who sent it in. Filled in from the submission form; clear it to publish without a credit." }
-      - { label: "Credit Instagram handle", name: "creditInstagram", widget: "string", required: false, hint: "Just the handle, no @, e.g. jamieoliver. Linked from the credit line (nofollow). Clear it to drop the link." }
-      - { label: "Draft — keep off the live site", name: "draft", widget: "boolean", default: false, required: false, hint: "On = hidden from the homepage. Recipes sent in through the public form arrive with this on; turn it off when you're happy with the recipe, then publish." }
-      - { label: "Came in through the submission form", name: "submitted", widget: "boolean", default: false, required: false, hint: "Set automatically for recipes sent in at /submit-recipe/; it's what puts them in the Submitted list. Turn it off when you've finished with one to clear it from that list." }
+      - &f_slug { label: "URL slug", name: "slug", widget: "hidden", required: false }
+      - &f_creditName { label: "Credit name", name: "creditName", widget: "string", required: false, hint: "Shown on the recipe as who sent it in. Filled in from the submission form; clear it to publish without a credit." }
+      - &f_creditIg { label: "Credit Instagram handle", name: "creditInstagram", widget: "string", required: false, hint: "Just the handle, no @, e.g. jamieoliver. Linked from the credit line (nofollow). Clear it to drop the link." }
+      - &f_draft { label: "Draft — keep off the live site", name: "draft", widget: "boolean", default: false, required: false, hint: "On = hidden from the homepage. Recipes sent in through the public form arrive with this on; turn it off when you're happy with the recipe, then publish." }
+      - &f_submitted { label: "Came in through the submission form", name: "submitted", widget: "boolean", default: false, required: false, hint: "Set automatically for recipes sent in at /submit-recipe/; it's what puts them in the Submitted list. Turn it off when you've finished with one to clear it from that list." }
+
+  - name: "lunch"
+    label: "Lunch"
+    folder: "_recipes"
+    create: true
+    slug: "{{slug}}"
+    identifier_field: title
+    summary: "{{title}}"
+    filter: { field: "category", value: "Lunch" }
+    sortable_fields: *recipe_sort
+    view_filters: *recipe_filters
+    fields:
+      - *f_title
+      - *f_image
+      - { label: "Category", name: "category", widget: "select", options: ["Dinner", "Lunch", "Dessert", "Breakfast", "Soup"], default: "Lunch" }
+      - *f_description
+      - *f_recipe
+      - *f_note
+      - *f_tag
+      - *f_cuisine
+      - *f_date
+      - *f_slug
+      - *f_creditName
+      - *f_creditIg
+      - *f_draft
+      - *f_submitted
+
+  - name: "dessert"
+    label: "Dessert"
+    folder: "_recipes"
+    create: true
+    slug: "{{slug}}"
+    identifier_field: title
+    summary: "{{title}}"
+    filter: { field: "category", value: "Dessert" }
+    sortable_fields: *recipe_sort
+    view_filters: *recipe_filters
+    fields:
+      - *f_title
+      - *f_image
+      - { label: "Category", name: "category", widget: "select", options: ["Dinner", "Lunch", "Dessert", "Breakfast", "Soup"], default: "Dessert" }
+      - *f_description
+      - *f_recipe
+      - *f_note
+      - *f_tag
+      - *f_cuisine
+      - *f_date
+      - *f_slug
+      - *f_creditName
+      - *f_creditIg
+      - *f_draft
+      - *f_submitted
+
+  - name: "breakfast"
+    label: "Breakfast"
+    folder: "_recipes"
+    create: true
+    slug: "{{slug}}"
+    identifier_field: title
+    summary: "{{title}}"
+    filter: { field: "category", value: "Breakfast" }
+    sortable_fields: *recipe_sort
+    view_filters: *recipe_filters
+    fields:
+      - *f_title
+      - *f_image
+      - { label: "Category", name: "category", widget: "select", options: ["Dinner", "Lunch", "Dessert", "Breakfast", "Soup"], default: "Breakfast" }
+      - *f_description
+      - *f_recipe
+      - *f_note
+      - *f_tag
+      - *f_cuisine
+      - *f_date
+      - *f_slug
+      - *f_creditName
+      - *f_creditIg
+      - *f_draft
+      - *f_submitted
+
+  - name: "soup"
+    label: "Soup"
+    folder: "_recipes"
+    create: true
+    slug: "{{slug}}"
+    identifier_field: title
+    summary: "{{title}}"
+    filter: { field: "category", value: "Soup" }
+    sortable_fields: *recipe_sort
+    view_filters: *recipe_filters
+    fields:
+      - *f_title
+      - *f_image
+      - { label: "Category", name: "category", widget: "select", options: ["Dinner", "Lunch", "Dessert", "Breakfast", "Soup"], default: "Soup" }
+      - *f_description
+      - *f_recipe
+      - *f_note
+      - *f_tag
+      - *f_cuisine
+      - *f_date
+      - *f_slug
+      - *f_creditName
+      - *f_creditIg
+      - *f_draft
+      - *f_submitted
 
   - name: "submitted"
     label: "Submitted (from the public form)"
