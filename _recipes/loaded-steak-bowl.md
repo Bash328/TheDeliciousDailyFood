@@ -3,6 +3,7 @@ title: Loaded Chicken Bacon Pasta Salad Bowl
 slug: loaded-steak-bowl
 date: 2026-09-16T20:20:00.000+02:00
 category: Dinner
+cuisine: "American"
 tag: Weeknight
 description: A pasta salad bowl piled high with seasoned chicken, crispy bacon
   and crisp veggies, finished with a creamy garlic sauce and a spicy drizzle.

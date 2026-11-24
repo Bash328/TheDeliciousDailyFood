@@ -3,6 +3,7 @@ title: Homemade Blueberry Bread Recipe
 slug: deliciously-easy-homemade-blueberry-bread-recipe
 date: 2026-08-19
 category: Dessert
+cuisine: "American"
 tag: Baking
 description: A soft, chewy loaf studded with whole blueberries in every slice —
   good toasted with butter or plain, still warm.

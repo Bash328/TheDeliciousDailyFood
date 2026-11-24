@@ -2,7 +2,7 @@
 title: "Creamy Carrot Soup"
 date: 2026-11-25
 category: Soup
-cuisine: ""
+cuisine: "American"
 description: "Sweet carrots simmered in broth and blended silky with a little cream, topped with crisp bacon."
 image: ""
 recipeContent:

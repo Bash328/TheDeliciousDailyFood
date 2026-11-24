@@ -3,6 +3,7 @@ title: "Beef and Barley Soup"
 slug: beef-and-barley-soup
 date: 2026-01-01
 category: Soup
+cuisine: "American"
 description: "A rich, hearty soup with tender beef, barley and vegetables."
 image: ""
 recipeContent:

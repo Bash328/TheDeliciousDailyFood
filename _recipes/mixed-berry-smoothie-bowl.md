@@ -3,6 +3,7 @@ title: "Mixed Berry Smoothie Bowl"
 slug: mixed-berry-smoothie-bowl
 date: 2026-07-13
 category: Breakfast
+cuisine: "American"
 tag: "No-Cook"
 description: "Frozen fruit and a splash of milk, blended thick enough to eat with a spoon instead of drink through a straw."
 image: "mixed-berry-smoothie-bowl.jpg"

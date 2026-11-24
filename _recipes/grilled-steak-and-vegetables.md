@@ -3,6 +3,7 @@ title: Grilled Steak and Vegetables
 slug: grilled-steak
 date: 2026-08-31T17:25:00.000+02:00
 category: Dinner
+cuisine: "American"
 description: Juicy, perfectly grilled steak paired with smoky, charred
   vegetables for a simple, hearty meal packed with savoury flavour.
 image: /images/grilled-steak-and-vegetables.jpg
