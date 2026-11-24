@@ -3,7 +3,7 @@ title: "Chicken Alfredo"
 slug: chicken-alfredo
 date: 2026-01-01
 category: Dinner
-tag: "Classic"
+cuisine: "Italian"
 description: "Fettuccine in a silky garlic Parmesan cream sauce with sliced chicken."
 image: ""
 recipeContent:

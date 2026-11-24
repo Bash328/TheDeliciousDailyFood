@@ -3,7 +3,7 @@ title: "Borscht with Beef"
 slug: borscht-with-beef
 date: 2026-01-01
 category: Soup
-tag: "Ukrainian"
+cuisine: "Eastern European"
 description: "A deep-red beet soup with beef, cabbage and potatoes, finished with garlic and fresh herbs."
 image: ""
 recipeContent:

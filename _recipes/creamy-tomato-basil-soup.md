@@ -3,7 +3,6 @@ title: "Creamy Tomato Basil Soup"
 slug: creamy-tomato-basil-soup
 date: 2026-01-01
 category: Soup
-tag: "Classic"
 description: "Silky tomato soup with fresh basil and a swirl of cream."
 image: ""
 recipeContent:

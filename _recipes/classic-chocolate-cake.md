@@ -3,7 +3,7 @@ title: "Classic Chocolate Cake"
 slug: classic-chocolate-cake
 date: 2026-01-01
 category: Dessert
-tag: "Classic"
+cuisine: "American"
 description: "A moist, deeply chocolatey layer cake with silky chocolate frosting."
 image: ""
 recipeContent:

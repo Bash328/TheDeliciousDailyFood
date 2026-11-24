@@ -3,7 +3,7 @@ title: "Snickerdoodles"
 slug: snickerdoodles
 date: 2026-01-01
 category: Dessert
-tag: "Classic"
+cuisine: "American"
 description: "Soft, tangy cookies rolled in cinnamon sugar."
 image: ""
 recipeContent:

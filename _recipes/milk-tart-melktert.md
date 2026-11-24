@@ -3,7 +3,7 @@ title: "Milk Tart (Melktert)"
 slug: milk-tart-melktert
 date: 2026-01-01
 category: Dessert
-tag: "South African"
+cuisine: "South African"
 description: "A sweet shortcrust shell filled with silky, vanilla-scented milk custard and dusted with cinnamon."
 image: ""
 recipeContent:

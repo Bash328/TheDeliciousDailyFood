@@ -3,7 +3,7 @@ title: "Pulled Pork Sandwich"
 slug: pulled-pork-sandwich
 date: 2026-01-01
 category: Lunch
-tag: "Classic"
+cuisine: "American"
 description: "Slow-cooked, smoky-sweet pork shredded onto soft buns with coleslaw."
 image: ""
 recipeContent:

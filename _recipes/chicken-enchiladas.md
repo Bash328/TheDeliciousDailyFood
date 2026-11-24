@@ -3,7 +3,7 @@ title: "Chicken Enchiladas"
 slug: chicken-enchiladas
 date: 2026-01-01
 category: Dinner
-tag: "Mexican"
+cuisine: "Mexican"
 description: "Creamy cheese-and-chicken enchiladas baked in red sauce under melted cheese."
 image: ""
 recipeContent:

@@ -3,7 +3,7 @@ title: "Boerewors with Pap and Tomato Gravy"
 slug: boerewors-with-pap-and-tomato-gravy
 date: 2026-01-01
 category: Dinner
-tag: "South African"
+cuisine: "South African"
 description: "Grilled boerewors sausage with stiff maize porridge and a sweet-tangy tomato gravy, the heart of a South African braai."
 image: ""
 recipeContent:

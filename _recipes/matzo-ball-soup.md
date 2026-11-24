@@ -3,7 +3,7 @@ title: "Matzo Ball Soup"
 slug: matzo-ball-soup
 date: 2026-01-01
 category: Soup
-tag: "Classic"
+cuisine: "Jewish"
 description: "Light, fluffy matzo balls in a golden chicken broth."
 image: ""
 recipeContent:

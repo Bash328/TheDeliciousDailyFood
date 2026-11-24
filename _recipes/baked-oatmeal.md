@@ -3,7 +3,7 @@ title: "Baked Oatmeal"
 slug: baked-oatmeal
 date: 2026-01-01
 category: Breakfast
-tag: "American"
+cuisine: "American"
 description: "A one-bowl, berry-studded baked oatmeal that's soft in the middle with golden edges."
 image: ""
 recipeContent:

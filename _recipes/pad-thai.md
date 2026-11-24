@@ -3,7 +3,7 @@ title: "Pad Thai"
 slug: pad-thai
 date: 2026-01-01
 category: Dinner
-tag: "Thai"
+cuisine: "Thai"
 description: "Chewy rice noodles tossed with egg, peanuts and a sweet-sour-salty tamarind-style sauce."
 image: ""
 recipeContent:

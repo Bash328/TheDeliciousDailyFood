@@ -3,7 +3,7 @@ title: "Chicken Shawarma"
 slug: chicken-shawarma
 date: 2026-01-01
 category: Dinner
-tag: "Middle Eastern"
+cuisine: "Middle Eastern"
 description: "Spiced chicken thighs seared in a skillet, ready for wraps, rice bowls or salads."
 image: ""
 recipeContent:

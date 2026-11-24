@@ -3,7 +3,7 @@ title: "Bread Pudding with Vanilla Sauce"
 slug: bread-pudding-with-vanilla-sauce
 date: 2026-01-01
 category: Dessert
-tag: "Classic"
+cuisine: "American"
 description: "Soft, custardy bread pudding with warm vanilla sauce."
 image: ""
 recipeContent:

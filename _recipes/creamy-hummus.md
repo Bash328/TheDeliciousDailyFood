@@ -3,7 +3,7 @@ title: "Creamy Hummus"
 slug: creamy-hummus
 date: 2026-01-01
 category: Lunch
-tag: "Middle Eastern"
+cuisine: "Middle Eastern"
 description: "Smooth, tahini-rich hummus with a lemony, garlicky kick."
 image: ""
 recipeContent:

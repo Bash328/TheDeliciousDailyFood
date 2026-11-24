@@ -3,7 +3,6 @@ title: "Overnight Oats"
 slug: overnight-oats
 date: 2026-01-01
 category: Breakfast
-tag: "Classic"
 description: "No-cook creamy oats you assemble at night and eat cold in the morning."
 image: ""
 recipeContent:

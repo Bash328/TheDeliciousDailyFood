@@ -3,7 +3,7 @@ title: "Hot and Sour Soup"
 slug: hot-and-sour-soup
 date: 2026-01-01
 category: Soup
-tag: "Chinese"
+cuisine: "Chinese"
 description: "A quick, peppery, tangy soup with mushrooms, tofu and silky egg ribbons."
 image: ""
 recipeContent:

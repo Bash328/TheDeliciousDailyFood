@@ -3,7 +3,7 @@ title: "Spaghetti Carbonara"
 slug: spaghetti-carbonara
 date: 2026-01-01
 category: Dinner
-tag: "Italian"
+cuisine: "Italian"
 description: "Silky egg-and-cheese sauce clinging to spaghetti with crisp pancetta, with no cream."
 image: ""
 recipeContent:

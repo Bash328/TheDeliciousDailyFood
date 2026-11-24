@@ -3,7 +3,7 @@ title: "Gazpacho"
 slug: gazpacho
 date: 2026-01-01
 category: Soup
-tag: "Spanish"
+cuisine: "Spanish"
 description: "A chilled, no-cook blended tomato and cucumber soup, perfect for hot days."
 image: ""
 recipeContent:

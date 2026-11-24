@@ -3,7 +3,7 @@ title: "Italian Sub"
 slug: italian-sub
 date: 2026-01-01
 category: Lunch
-tag: "Classic"
+cuisine: "American"
 description: "Layers of cured meats, provolone and a tangy oil and vinegar dressing."
 image: ""
 recipeContent:

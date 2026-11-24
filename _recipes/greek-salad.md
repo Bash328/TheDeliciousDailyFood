@@ -3,7 +3,7 @@ title: "Greek Salad"
 slug: greek-salad
 date: 2026-01-01
 category: Lunch
-tag: "Classic"
+cuisine: "Greek"
 description: "Cucumbers, tomatoes, olives and feta in a simple lemon-oregano dressing."
 image: ""
 recipeContent:

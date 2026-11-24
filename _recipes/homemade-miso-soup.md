@@ -3,7 +3,7 @@ title: "Homemade Miso Soup"
 slug: homemade-miso-soup
 date: 2026-01-01
 category: Soup
-tag: "Japanese"
+cuisine: "Japanese"
 description: "Classic miso soup with kombu and bonito dashi, soft tofu and wakame."
 image: ""
 recipeContent:

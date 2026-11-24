@@ -3,7 +3,7 @@ title: "Chickpea Salad Sandwich"
 slug: chickpea-salad-sandwich
 date: 2026-01-01
 category: Lunch
-tag: "Classic"
+cuisine: "American"
 description: "A creamy, smashed chickpea filling that stands in for chicken salad."
 image: ""
 recipeContent:

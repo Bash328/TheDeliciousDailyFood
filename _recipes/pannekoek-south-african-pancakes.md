@@ -3,7 +3,7 @@ title: "Pannekoek (South African Pancakes)"
 slug: pannekoek-south-african-pancakes
 date: 2026-01-01
 category: Breakfast
-tag: "South African"
+cuisine: "South African"
 description: "Thin, crepe-like pancakes rolled up with cinnamon sugar and a squeeze of lemon."
 image: ""
 recipeContent:

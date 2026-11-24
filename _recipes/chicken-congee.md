@@ -3,7 +3,7 @@ title: "Chicken Congee"
 slug: chicken-congee
 date: 2026-01-01
 category: Breakfast
-tag: "Chinese"
+cuisine: "Chinese"
 description: "Silky, comforting rice porridge cooked in chicken stock with tender chicken and ginger."
 image: ""
 recipeContent:

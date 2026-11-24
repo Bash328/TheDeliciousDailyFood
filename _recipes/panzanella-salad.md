@@ -3,7 +3,7 @@ title: "Panzanella Salad"
 slug: panzanella-salad
 date: 2026-01-01
 category: Lunch
-tag: "Italian"
+cuisine: "Italian"
 description: "Crisp toasted bread tossed with ripe tomatoes, peppers, capers and basil."
 image: ""
 recipeContent:

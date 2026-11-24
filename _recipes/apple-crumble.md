@@ -3,7 +3,7 @@ title: "Apple Crumble"
 slug: apple-crumble
 date: 2026-01-01
 category: Dessert
-tag: "British"
+cuisine: "British"
 description: "Tender spiced apples under a golden oat crumble topping."
 image: ""
 recipeContent:

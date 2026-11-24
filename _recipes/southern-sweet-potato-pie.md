@@ -3,7 +3,7 @@ title: "Southern Sweet Potato Pie"
 slug: southern-sweet-potato-pie
 date: 2026-01-01
 category: Dessert
-tag: "Classic"
+cuisine: "American"
 description: "A silky, spiced sweet potato custard in a flaky crust."
 image: ""
 recipeContent:

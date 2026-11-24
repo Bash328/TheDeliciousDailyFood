@@ -3,7 +3,7 @@ title: "Chicken Katsu Curry"
 slug: chicken-katsu-curry
 date: 2026-01-01
 category: Dinner
-tag: "Japanese"
+cuisine: "Japanese"
 description: "Crispy panko-crusted chicken cutlets with a mild, rich Japanese curry sauce over rice."
 image: ""
 recipeContent:

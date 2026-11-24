@@ -3,7 +3,7 @@ title: "Red Velvet Cake"
 slug: red-velvet-cake
 date: 2026-01-01
 category: Dessert
-tag: "Classic"
+cuisine: "American"
 description: "A soft, tangy red layer cake with cream cheese frosting."
 image: ""
 recipeContent:

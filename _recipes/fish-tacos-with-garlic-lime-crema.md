@@ -3,7 +3,7 @@ title: "Fish Tacos with Garlic Lime Crema"
 slug: fish-tacos-with-garlic-lime-crema
 date: 2026-01-01
 category: Lunch
-tag: "Mexican"
+cuisine: "Mexican"
 description: "Seasoned baked tilapia in corn tortillas with cabbage, avocado and a tangy sriracha-lime sauce."
 image: ""
 recipeContent:

@@ -3,7 +3,7 @@ title: "Chana Masala"
 slug: chana-masala
 date: 2026-01-01
 category: Dinner
-tag: "Indian"
+cuisine: "Indian"
 description: "Chickpeas simmered in a thick, aromatic tomato and spice sauce."
 image: ""
 recipeContent:

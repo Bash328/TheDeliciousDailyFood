@@ -3,7 +3,7 @@ title: "Egg and Cheese Breakfast Sandwich"
 slug: egg-and-cheese-breakfast-sandwich
 date: 2026-01-01
 category: Breakfast
-tag: "Classic"
+cuisine: "American"
 description: "A fried egg and melty cheese on a toasted English muffin or biscuit."
 image: ""
 recipeContent:

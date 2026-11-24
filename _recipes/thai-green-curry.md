@@ -3,7 +3,7 @@ title: "Thai Green Curry"
 slug: thai-green-curry
 date: 2026-01-01
 category: Dinner
-tag: "Thai"
+cuisine: "Thai"
 description: "Creamy coconut curry with tender chicken, eggplant and snow peas, brightened with Thai basil and lime."
 image: ""
 recipeContent:

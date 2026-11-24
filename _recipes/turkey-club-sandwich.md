@@ -3,7 +3,7 @@ title: "Turkey Club Sandwich"
 slug: turkey-club-sandwich
 date: 2026-01-01
 category: Lunch
-tag: "Classic"
+cuisine: "American"
 description: "A triple-decker stack of turkey, bacon, lettuce and tomato."
 image: ""
 recipeContent:

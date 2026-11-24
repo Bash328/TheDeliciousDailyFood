@@ -3,7 +3,7 @@ title: "Dutch Baby Pancake"
 slug: dutch-baby-pancake
 date: 2026-01-01
 category: Breakfast
-tag: "Classic"
+cuisine: "American"
 description: "A giant puffed oven pancake with crisp edges and a custardy middle."
 image: ""
 recipeContent:

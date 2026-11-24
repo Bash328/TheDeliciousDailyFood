@@ -3,7 +3,7 @@ title: "Breakfast Burritos"
 slug: breakfast-burritos
 date: 2026-01-01
 category: Breakfast
-tag: "Classic"
+cuisine: "Mexican"
 description: "Scrambled eggs, sausage, potatoes and cheese in a warm tortilla."
 image: ""
 recipeContent:

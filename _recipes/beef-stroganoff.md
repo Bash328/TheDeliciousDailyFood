@@ -3,7 +3,7 @@ title: "Beef Stroganoff"
 slug: beef-stroganoff
 date: 2026-01-01
 category: Dinner
-tag: "Russian"
+cuisine: "Eastern European"
 description: "Seared strips of sirloin and mushrooms in a creamy sour cream sauce, ready in 30 minutes."
 image: ""
 recipeContent:

@@ -3,7 +3,7 @@ title: "Easy Banana Bread"
 slug: easy-banana-bread
 date: 2026-01-01
 category: Dessert
-tag: "Classic"
+cuisine: "American"
 description: "Moist, sweet banana bread with a tender crumb and golden crust."
 image: ""
 recipeContent:

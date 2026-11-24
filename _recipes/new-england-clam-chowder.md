@@ -3,7 +3,7 @@ title: "New England Clam Chowder"
 slug: new-england-clam-chowder
 date: 2026-01-01
 category: Soup
-tag: "Classic"
+cuisine: "American"
 description: "Creamy chowder with tender clams, potatoes and bacon."
 image: ""
 recipeContent:

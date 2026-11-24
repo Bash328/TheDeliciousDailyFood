@@ -3,7 +3,7 @@ title: "Baklava"
 slug: baklava
 date: 2026-01-01
 category: Dessert
-tag: "Middle Eastern"
+cuisine: "Middle Eastern"
 description: "Flaky phyllo layers filled with spiced walnuts, finished with a lemon-honey syrup."
 image: ""
 recipeContent:

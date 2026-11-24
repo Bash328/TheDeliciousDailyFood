@@ -3,7 +3,7 @@ title: "Banana Pancakes"
 slug: banana-pancakes
 date: 2026-01-01
 category: Breakfast
-tag: "Classic"
+cuisine: "American"
 description: "Sweet, soft pancakes with mashed banana mixed right into the batter."
 image: ""
 recipeContent:

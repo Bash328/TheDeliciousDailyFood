@@ -3,7 +3,7 @@ title: "Teriyaki Chicken"
 slug: teriyaki-chicken
 date: 2026-01-01
 category: Dinner
-tag: "Japanese"
+cuisine: "Japanese"
 description: "Juicy chicken thighs glazed in a simple homemade teriyaki sauce, ready in 15 minutes."
 image: ""
 recipeContent:

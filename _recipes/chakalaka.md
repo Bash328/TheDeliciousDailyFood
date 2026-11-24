@@ -3,7 +3,7 @@ title: "Chakalaka"
 slug: chakalaka
 date: 2026-01-01
 category: Lunch
-tag: "South African"
+cuisine: "South African"
 description: "A spicy South African vegetable relish with beans, served with pap, bread or grilled meat."
 image: ""
 recipeContent:

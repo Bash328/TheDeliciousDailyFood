@@ -3,7 +3,7 @@ title: "Chicken Caesar Wrap"
 slug: chicken-caesar-wrap
 date: 2026-01-01
 category: Lunch
-tag: "Classic"
+cuisine: "American"
 description: "Grilled chicken, romaine and Parmesan in a creamy Caesar dressing, rolled in a tortilla."
 image: ""
 recipeContent:

@@ -3,7 +3,7 @@ title: "Rice Krispie Treats"
 slug: rice-krispie-treats
 date: 2026-01-01
 category: Dessert
-tag: "Classic"
+cuisine: "American"
 description: "Gooey marshmallow cereal bars, made in 10 minutes."
 image: ""
 recipeContent:

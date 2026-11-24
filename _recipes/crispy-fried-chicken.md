@@ -3,7 +3,7 @@ title: "Crispy Fried Chicken"
 slug: crispy-fried-chicken
 date: 2026-01-01
 category: Dinner
-tag: "Classic"
+cuisine: "American"
 description: "Buttermilk-brined chicken with a crunchy, well-seasoned crust."
 image: ""
 recipeContent:

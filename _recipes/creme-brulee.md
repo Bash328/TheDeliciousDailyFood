@@ -3,7 +3,7 @@ title: "Crème Brûlée"
 slug: creme-brulee
 date: 2026-01-01
 category: Dessert
-tag: "French"
+cuisine: "French"
 description: "Silky vanilla custard under a crackling caramelized sugar crust."
 image: ""
 recipeContent:

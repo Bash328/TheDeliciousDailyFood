@@ -3,7 +3,7 @@ title: "Thai Chicken Satay with Peanut Sauce"
 slug: thai-chicken-satay-with-peanut-sauce
 date: 2026-01-01
 category: Lunch
-tag: "Thai"
+cuisine: "Thai"
 description: "Coconut-curry marinated chicken skewers with a rich, pourable peanut sauce."
 image: ""
 recipeContent:

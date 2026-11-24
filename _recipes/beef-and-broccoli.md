@@ -3,7 +3,7 @@ title: "Beef and Broccoli"
 slug: beef-and-broccoli
 date: 2026-01-01
 category: Dinner
-tag: "Chinese"
+cuisine: "Chinese"
 description: "Tender flank steak and crisp broccoli in a glossy garlic-ginger soy sauce."
 image: ""
 recipeContent:

@@ -4,7 +4,6 @@ slug: irresistible-greek-souvlaki-a-flavorful-feast
 date: 2026-08-21
 category: Dinner
 cuisine: "Greek"
-tag: "Greek"
 description: "Charred pork skewers, crisp fries, warm pita, and a cool spoonful of tzatziki — a taverna platter you can build at home."
 image: "irresistible-greek-souvlaki-a-flavorful-feast.jpg"
 recipeContent:

@@ -3,7 +3,7 @@ title: "Chicken Salad Sandwich"
 slug: chicken-salad-sandwich
 date: 2026-01-01
 category: Lunch
-tag: "Classic"
+cuisine: "American"
 description: "Tender chicken, crunchy celery and sweet grapes in a creamy dressing."
 image: ""
 recipeContent:

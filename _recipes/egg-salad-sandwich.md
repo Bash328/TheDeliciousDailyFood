@@ -3,7 +3,7 @@ title: "Egg Salad Sandwich"
 slug: egg-salad-sandwich
 date: 2026-01-01
 category: Lunch
-tag: "Classic"
+cuisine: "American"
 description: "Creamy egg salad with a touch of mustard and fresh chives."
 image: ""
 recipeContent:

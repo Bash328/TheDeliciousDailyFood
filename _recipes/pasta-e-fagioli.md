@@ -3,7 +3,7 @@ title: "Pasta e Fagioli"
 slug: pasta-e-fagioli
 date: 2026-01-01
 category: Soup
-tag: "Italian"
+cuisine: "Italian"
 description: "A hearty tomato soup with beef, two kinds of beans and ditalini pasta."
 image: ""
 recipeContent:

@@ -3,7 +3,7 @@ title: "Chicken Tortilla Soup"
 slug: chicken-tortilla-soup
 date: 2026-01-01
 category: Soup
-tag: "Classic"
+cuisine: "Mexican"
 description: "A smoky tomato-chile broth with chicken, black beans and crunchy tortilla strips."
 image: ""
 recipeContent:

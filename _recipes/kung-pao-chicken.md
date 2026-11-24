@@ -3,7 +3,7 @@ title: "Kung Pao Chicken"
 slug: kung-pao-chicken
 date: 2026-01-01
 category: Dinner
-tag: "Chinese"
+cuisine: "Chinese"
 description: "Quick wok-fried chicken with peanuts and dried chilies in a glossy, tangy-sweet sauce."
 image: ""
 recipeContent:

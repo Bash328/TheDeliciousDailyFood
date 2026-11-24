@@ -3,7 +3,7 @@ title: "Cuban Sandwich"
 slug: cuban-sandwich
 date: 2026-01-01
 category: Lunch
-tag: "Classic"
+cuisine: "Cuban"
 description: "Roast pork, ham, Swiss and pickles pressed until crisp and gooey."
 image: ""
 recipeContent:

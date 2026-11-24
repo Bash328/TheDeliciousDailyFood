@@ -3,7 +3,7 @@ title: "Peppermint Crisp Tart"
 slug: peppermint-crisp-tart
 date: 2026-01-01
 category: Dessert
-tag: "South African"
+cuisine: "South African"
 description: "A no-bake fridge tart of caramel cream, biscuits and crushed peppermint chocolate."
 image: ""
 recipeContent:

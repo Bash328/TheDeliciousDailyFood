@@ -3,7 +3,7 @@ title: "Smothered Pork Chops with Gravy"
 slug: smothered-pork-chops-with-gravy
 date: 2026-01-01
 category: Dinner
-tag: "Classic"
+cuisine: "American"
 description: "Pan-seared pork chops simmered in a rich onion gravy."
 image: ""
 recipeContent:

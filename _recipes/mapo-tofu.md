@@ -3,7 +3,7 @@ title: "Mapo Tofu"
 slug: mapo-tofu
 date: 2026-01-01
 category: Dinner
-tag: "Chinese"
+cuisine: "Chinese"
 description: "Silky tofu and pork in a fiery, numbing Sichuan chili-bean sauce."
 image: ""
 recipeContent:

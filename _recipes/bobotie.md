@@ -3,7 +3,7 @@ title: "Bobotie"
 slug: bobotie
 date: 2026-01-01
 category: Dinner
-tag: "South African"
+cuisine: "South African"
 description: "Spiced, lightly sweet curried mince baked under a golden egg custard, South Africa's national dish."
 image: ""
 recipeContent:

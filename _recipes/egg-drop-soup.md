@@ -3,7 +3,7 @@ title: "Egg Drop Soup"
 slug: egg-drop-soup
 date: 2026-01-01
 category: Soup
-tag: "Classic"
+cuisine: "Chinese"
 description: "Silky ribbons of egg in a gingery broth, done in 10 minutes."
 image: ""
 recipeContent:

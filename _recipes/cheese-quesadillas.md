@@ -3,7 +3,7 @@ title: "Cheese Quesadillas"
 slug: cheese-quesadillas
 date: 2026-01-01
 category: Lunch
-tag: "Classic"
+cuisine: "Mexican"
 description: "Crisp golden tortillas with gooey melted cheese, ready in minutes."
 image: ""
 recipeContent:

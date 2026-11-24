@@ -3,7 +3,7 @@ title: "Dashimaki Tamago (Japanese Rolled Omelette)"
 slug: dashimaki-tamago-japanese-rolled-omelette
 date: 2026-01-01
 category: Breakfast
-tag: "Japanese"
+cuisine: "Japanese"
 description: "A tender, savory-sweet omelette rolled into a log with dashi."
 image: ""
 recipeContent:

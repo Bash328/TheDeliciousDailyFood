@@ -3,7 +3,7 @@ title: "Crispy Belgian Waffles"
 slug: crispy-belgian-waffles
 date: 2026-01-01
 category: Breakfast
-tag: "Classic"
+cuisine: "Belgian"
 description: "Light, crisp-outside waffles with a fluffy center."
 image: ""
 recipeContent:

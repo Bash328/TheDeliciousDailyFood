@@ -3,7 +3,6 @@ title: "Roasted Butternut Squash Soup"
 slug: roasted-butternut-squash-soup
 date: 2026-01-01
 category: Soup
-tag: "Classic"
 description: "A smooth, sweet-savory squash soup roasted for extra depth."
 image: ""
 recipeContent:

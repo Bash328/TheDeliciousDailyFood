@@ -3,7 +3,7 @@ title: "Bacon and Egg Breakfast Casserole"
 slug: bacon-and-egg-breakfast-casserole
 date: 2026-01-01
 category: Breakfast
-tag: "Classic"
+cuisine: "American"
 description: "A make-ahead bake with eggs, bacon, cheese and hash browns."
 image: ""
 recipeContent:

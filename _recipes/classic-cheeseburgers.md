@@ -3,7 +3,7 @@ title: "Classic Cheeseburgers"
 slug: classic-cheeseburgers
 date: 2026-01-01
 category: Dinner
-tag: "Classic"
+cuisine: "American"
 description: "Juicy griddled patties with melted cheese on a toasted bun."
 image: ""
 recipeContent:

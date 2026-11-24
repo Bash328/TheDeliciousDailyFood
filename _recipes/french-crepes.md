@@ -3,7 +3,7 @@ title: "French Crêpes"
 slug: french-crepes
 date: 2026-01-01
 category: Breakfast
-tag: "French"
+cuisine: "French"
 description: "Thin, tender blender crêpes that fold around sweet or savory fillings."
 image: ""
 recipeContent:

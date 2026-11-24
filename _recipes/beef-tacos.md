@@ -3,7 +3,7 @@ title: "Beef Tacos"
 slug: beef-tacos
 date: 2026-01-01
 category: Dinner
-tag: "Classic"
+cuisine: "Mexican"
 description: "Well-seasoned ground beef in warm tortillas with all the toppings."
 image: ""
 recipeContent:

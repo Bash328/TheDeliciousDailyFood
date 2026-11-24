@@ -3,7 +3,7 @@ title: "Carrot Cake"
 slug: carrot-cake
 date: 2026-01-01
 category: Dessert
-tag: "Classic"
+cuisine: "American"
 description: "A moist, warmly spiced carrot cake with toasted nuts and tangy cream cheese frosting."
 image: ""
 recipeContent:

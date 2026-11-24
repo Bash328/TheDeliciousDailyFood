@@ -3,7 +3,7 @@ title: "Reuben Sandwich"
 slug: reuben-sandwich
 date: 2026-01-01
 category: Lunch
-tag: "Classic"
+cuisine: "American"
 description: "Corned beef, sauerkraut, Swiss and Russian dressing on griddled rye."
 image: ""
 recipeContent:

@@ -3,7 +3,7 @@ title: "Homemade Chicken Noodle Soup"
 slug: homemade-chicken-noodle-soup
 date: 2026-01-01
 category: Soup
-tag: "Classic"
+cuisine: "American"
 description: "Golden broth, tender chicken, vegetables and egg noodles."
 image: ""
 recipeContent:

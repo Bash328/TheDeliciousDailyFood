@@ -3,7 +3,7 @@ title: "Oven Baby Back Ribs"
 slug: oven-baby-back-ribs
 date: 2026-01-01
 category: Dinner
-tag: "Classic"
+cuisine: "American"
 description: "Fall-off-the-bone ribs with a sticky barbecue glaze, made entirely in the oven."
 image: ""
 recipeContent:

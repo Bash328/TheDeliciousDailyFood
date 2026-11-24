@@ -3,7 +3,7 @@ title: "Potato Leek Soup"
 slug: potato-leek-soup
 date: 2026-01-01
 category: Soup
-tag: "Classic"
+cuisine: "French"
 description: "Silky and mild, with buttery leeks and tender potatoes."
 image: ""
 recipeContent:

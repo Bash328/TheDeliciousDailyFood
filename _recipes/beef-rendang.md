@@ -3,7 +3,7 @@ title: "Beef Rendang"
 slug: beef-rendang
 date: 2026-01-01
 category: Dinner
-tag: "Indonesian"
+cuisine: "Indonesian"
 description: "Chuck beef slow-cooked in coconut milk and fragrant spices until it turns tender, dark and dry-glazed."
 image: ""
 recipeContent:

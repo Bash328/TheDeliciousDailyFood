@@ -3,7 +3,7 @@ title: "Chilaquiles Rojos"
 slug: chilaquiles-rojos
 date: 2026-01-01
 category: Breakfast
-tag: "Classic"
+cuisine: "Mexican"
 description: "Crisp tortilla chips simmered briefly in a red chile sauce and topped with eggs."
 image: ""
 recipeContent:

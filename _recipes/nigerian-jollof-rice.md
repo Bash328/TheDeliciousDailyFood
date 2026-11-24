@@ -3,7 +3,7 @@ title: "Nigerian Jollof Rice"
 slug: nigerian-jollof-rice
 date: 2026-01-01
 category: Dinner
-tag: "West African"
+cuisine: "West African"
 description: "Smoky party-style rice cooked in a rich roasted tomato and pepper base."
 image: ""
 recipeContent:

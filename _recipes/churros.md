@@ -3,7 +3,7 @@ title: "Churros"
 slug: churros
 date: 2026-01-01
 category: Dessert
-tag: "Spanish"
+cuisine: "Spanish"
 description: "Crisp, cinnamon-sugared fried dough ridges with a soft, custardy center."
 image: ""
 recipeContent:

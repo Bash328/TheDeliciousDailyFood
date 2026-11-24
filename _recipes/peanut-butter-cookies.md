@@ -3,7 +3,7 @@ title: "Peanut Butter Cookies"
 slug: peanut-butter-cookies
 date: 2026-01-01
 category: Dessert
-tag: "Classic"
+cuisine: "American"
 description: "Soft and chewy peanut butter cookies with the classic crisscross top."
 image: ""
 recipeContent:

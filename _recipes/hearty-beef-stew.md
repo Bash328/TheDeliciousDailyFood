@@ -3,7 +3,6 @@ title: "Hearty Beef Stew"
 slug: hearty-beef-stew
 date: 2026-01-01
 category: Dinner
-tag: "Classic"
 description: "Tender chunks of beef, potatoes and carrots in a rich, glossy gravy."
 image: ""
 recipeContent:

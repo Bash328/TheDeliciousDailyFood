@@ -3,7 +3,7 @@ title: "Smoky Black Bean Soup"
 slug: smoky-black-bean-soup
 date: 2026-01-01
 category: Soup
-tag: "Latin American"
+cuisine: "Latin American"
 description: "A thick, smoky black bean soup with chipotle, cumin and lime, half blended for creaminess."
 image: ""
 recipeContent:

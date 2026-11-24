@@ -3,7 +3,7 @@ title: "Shakshuka"
 slug: shakshuka
 date: 2026-01-01
 category: Breakfast
-tag: "Middle Eastern"
+cuisine: "Middle Eastern"
 description: "Eggs poached in a cumin-spiced tomato and red pepper sauce, with feta and herbs."
 image: ""
 recipeContent:

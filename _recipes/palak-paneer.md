@@ -3,7 +3,7 @@ title: "Palak Paneer"
 slug: palak-paneer
 date: 2026-01-01
 category: Dinner
-tag: "Indian"
+cuisine: "Indian"
 description: "Cubes of paneer in a creamy, mildly spiced spinach sauce."
 image: ""
 recipeContent:

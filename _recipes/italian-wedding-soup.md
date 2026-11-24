@@ -3,7 +3,7 @@ title: "Italian Wedding Soup"
 slug: italian-wedding-soup
 date: 2026-01-01
 category: Soup
-tag: "Classic"
+cuisine: "Italian"
 description: "Tiny meatballs, greens and pasta in a light chicken broth."
 image: ""
 recipeContent:

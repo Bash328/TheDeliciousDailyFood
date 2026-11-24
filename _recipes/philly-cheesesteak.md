@@ -3,7 +3,7 @@ title: "Philly Cheesesteak"
 slug: philly-cheesesteak
 date: 2026-01-01
 category: Lunch
-tag: "Classic"
+cuisine: "American"
 description: "Thinly sliced steak, peppers and onions with melted provolone on a soft roll."
 image: ""
 recipeContent:

@@ -3,7 +3,7 @@ title: "Quiche Lorraine"
 slug: quiche-lorraine
 date: 2026-01-01
 category: Breakfast
-tag: "Classic"
+cuisine: "French"
 description: "A creamy egg custard with bacon and Gruyère in a flaky crust."
 image: ""
 recipeContent:

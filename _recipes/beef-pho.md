@@ -3,7 +3,7 @@ title: "Beef Pho"
 slug: beef-pho
 date: 2026-01-01
 category: Soup
-tag: "Vietnamese"
+cuisine: "Vietnamese"
 description: "A fragrant, slow-simmered beef broth with charred ginger and onion, rice noodles and rare beef."
 image: ""
 recipeContent:

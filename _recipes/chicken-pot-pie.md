@@ -3,7 +3,7 @@ title: "Chicken Pot Pie"
 slug: chicken-pot-pie
 date: 2026-01-01
 category: Dinner
-tag: "Classic"
+cuisine: "American"
 description: "A creamy chicken and vegetable filling under a flaky golden crust."
 image: ""
 recipeContent:

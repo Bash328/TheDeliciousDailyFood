@@ -3,7 +3,7 @@ title: "Mango Sticky Rice"
 slug: mango-sticky-rice
 date: 2026-01-01
 category: Dessert
-tag: "Thai"
+cuisine: "Thai"
 description: "Sweet, sticky coconut rice served with ripe mango and a warm coconut sauce."
 image: ""
 recipeContent:

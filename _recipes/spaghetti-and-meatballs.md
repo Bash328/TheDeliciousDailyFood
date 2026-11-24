@@ -3,7 +3,7 @@ title: "Spaghetti and Meatballs"
 slug: spaghetti-and-meatballs
 date: 2026-01-01
 category: Dinner
-tag: "Classic"
+cuisine: "Italian"
 description: "Soft, herby meatballs simmered in a simple tomato sauce."
 image: ""
 recipeContent:

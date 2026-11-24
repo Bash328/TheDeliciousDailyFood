@@ -3,7 +3,7 @@ title: "Niçoise Salad"
 slug: nicoise-salad
 date: 2026-01-01
 category: Lunch
-tag: "French"
+cuisine: "French"
 description: "A classic French salad of tuna, potatoes, green beans, eggs and olives with a Dijon-lemon dressing."
 image: ""
 recipeContent:

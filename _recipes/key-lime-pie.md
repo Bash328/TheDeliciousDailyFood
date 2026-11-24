@@ -3,7 +3,7 @@ title: "Key Lime Pie"
 slug: key-lime-pie
 date: 2026-01-01
 category: Dessert
-tag: "American"
+cuisine: "American"
 description: "A tangy, creamy lime pie in a graham cracker crust, topped with whipped cream."
 image: ""
 recipeContent:

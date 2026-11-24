@@ -3,7 +3,7 @@ title: "Classic Tuna Salad Sandwich"
 slug: classic-tuna-salad-sandwich
 date: 2026-01-01
 category: Lunch
-tag: "Classic"
+cuisine: "American"
 description: "Creamy tuna salad with celery crunch and a squeeze of lemon, piled on toasted bread."
 image: ""
 recipeContent:

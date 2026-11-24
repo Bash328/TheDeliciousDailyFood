@@ -3,7 +3,7 @@ title: "Peach Cobbler"
 slug: peach-cobbler
 date: 2026-01-01
 category: Dessert
-tag: "Classic"
+cuisine: "American"
 description: "Juicy, lemony peaches under golden, buttery biscuit topping."
 image: ""
 recipeContent:

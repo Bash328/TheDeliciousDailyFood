@@ -3,7 +3,7 @@ title: "Hearty Minestrone"
 slug: hearty-minestrone
 date: 2026-01-01
 category: Soup
-tag: "Classic"
+cuisine: "Italian"
 description: "An Italian vegetable soup with beans, pasta and a tomato broth."
 image: ""
 recipeContent:

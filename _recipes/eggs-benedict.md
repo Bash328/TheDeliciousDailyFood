@@ -3,7 +3,7 @@ title: "Eggs Benedict"
 slug: eggs-benedict
 date: 2026-01-01
 category: Breakfast
-tag: "Classic"
+cuisine: "American"
 description: "Poached eggs and Canadian bacon on English muffins with silky hollandaise."
 image: ""
 recipeContent:

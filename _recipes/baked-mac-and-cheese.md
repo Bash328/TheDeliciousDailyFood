@@ -3,7 +3,7 @@ title: "Baked Mac and Cheese"
 slug: baked-mac-and-cheese
 date: 2026-01-01
 category: Dinner
-tag: "Classic"
+cuisine: "American"
 description: "Creamy cheddar sauce, tender pasta and a golden breadcrumb top."
 image: ""
 recipeContent:

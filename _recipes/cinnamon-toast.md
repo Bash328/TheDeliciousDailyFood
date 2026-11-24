@@ -3,7 +3,7 @@ title: "Cinnamon Toast"
 slug: cinnamon-toast
 date: 2026-01-01
 category: Breakfast
-tag: "Classic"
+cuisine: "American"
 description: "Buttery toast with a crackly cinnamon-sugar top."
 image: ""
 recipeContent:

@@ -3,7 +3,7 @@ title: "Chicken and Dumplings"
 slug: chicken-and-dumplings
 date: 2026-01-01
 category: Soup
-tag: "Classic"
+cuisine: "American"
 description: "Tender chicken and vegetables in a creamy broth with fluffy dumplings."
 image: ""
 recipeContent:

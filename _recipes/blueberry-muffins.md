@@ -3,7 +3,7 @@ title: "Blueberry Muffins"
 slug: blueberry-muffins
 date: 2026-01-01
 category: Breakfast
-tag: "Classic"
+cuisine: "American"
 description: "Bakery-style muffins with a tall golden top and bursts of blueberry."
 image: ""
 recipeContent:

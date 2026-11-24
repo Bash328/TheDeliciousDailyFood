@@ -3,7 +3,7 @@ title: "Fluffy Buttermilk Pancakes"
 slug: fluffy-buttermilk-pancakes
 date: 2026-01-01
 category: Breakfast
-tag: "Classic"
+cuisine: "American"
 description: "Tall, tender pancakes with golden edges and a slight tang."
 image: ""
 recipeContent:

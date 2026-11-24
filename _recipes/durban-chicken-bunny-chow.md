@@ -3,7 +3,7 @@ title: "Durban Chicken Bunny Chow"
 slug: durban-chicken-bunny-chow
 date: 2026-01-01
 category: Dinner
-tag: "South African"
+cuisine: "South African"
 description: "A Durban street-food classic: spicy chicken curry served in a hollowed-out loaf of bread."
 image: ""
 recipeContent:

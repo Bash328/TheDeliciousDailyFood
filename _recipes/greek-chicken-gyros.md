@@ -3,7 +3,7 @@ title: "Greek Chicken Gyros"
 slug: greek-chicken-gyros
 date: 2026-01-01
 category: Lunch
-tag: "Greek"
+cuisine: "Greek"
 description: "Yogurt-marinated chicken tenders in warm pita with tzatziki and fresh vegetables."
 image: ""
 recipeContent:

@@ -3,7 +3,7 @@ title: "Egg Fried Rice"
 slug: egg-fried-rice
 date: 2026-01-01
 category: Dinner
-tag: "Chinese"
+cuisine: "Chinese"
 description: "Takeout-style fried rice with scrambled egg, vegetables and a savory oyster-soy seasoning."
 image: ""
 recipeContent:

@@ -3,7 +3,7 @@ title: "Classic Lasagna"
 slug: classic-lasagna
 date: 2026-01-01
 category: Dinner
-tag: "Classic"
+cuisine: "Italian"
 description: "Layers of meat sauce, ricotta and mozzarella baked until bubbling."
 image: ""
 recipeContent:

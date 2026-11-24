@@ -3,7 +3,7 @@ title: "Classic Caesar Salad"
 slug: classic-caesar-salad
 date: 2026-01-01
 category: Lunch
-tag: "Classic"
+cuisine: "American"
 description: "Crisp romaine, homemade croutons and a punchy garlic-anchovy dressing."
 image: ""
 recipeContent:

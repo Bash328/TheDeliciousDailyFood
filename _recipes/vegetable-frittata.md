@@ -3,7 +3,7 @@ title: "Vegetable Frittata"
 slug: vegetable-frittata
 date: 2026-01-01
 category: Breakfast
-tag: "Italian"
+cuisine: "Italian"
 description: "A fluffy, cheesy skillet frittata you can make with whatever vegetables you have."
 image: ""
 recipeContent:

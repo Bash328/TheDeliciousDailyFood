@@ -3,7 +3,7 @@ title: "Sheet Pan Sausage and Vegetables"
 slug: sheet-pan-sausage-and-vegetables
 date: 2026-01-01
 category: Dinner
-tag: "Classic"
+cuisine: "American"
 description: "Smoked sausage with potatoes, peppers and broccoli, roasted on one pan."
 image: ""
 recipeContent:

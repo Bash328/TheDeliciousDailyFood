@@ -3,7 +3,7 @@ title: "Broccoli Cheddar Soup"
 slug: broccoli-cheddar-soup
 date: 2026-01-01
 category: Soup
-tag: "Classic"
+cuisine: "American"
 description: "A thick, creamy cheddar soup with tender broccoli and carrots."
 image: ""
 recipeContent:

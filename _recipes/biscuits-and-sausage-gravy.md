@@ -3,7 +3,7 @@ title: "Biscuits and Sausage Gravy"
 slug: biscuits-and-sausage-gravy
 date: 2026-01-01
 category: Breakfast
-tag: "Classic"
+cuisine: "American"
 description: "Flaky buttermilk biscuits under creamy, peppery sausage gravy."
 image: ""
 recipeContent:

@@ -3,7 +3,7 @@ title: "Italian Pasta Salad"
 slug: italian-pasta-salad
 date: 2026-01-01
 category: Lunch
-tag: "Classic"
+cuisine: "American"
 description: "Rotini with pepperoni, olives and vegetables in a zesty Italian dressing."
 image: ""
 recipeContent:

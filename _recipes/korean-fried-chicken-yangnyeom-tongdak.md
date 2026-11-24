@@ -3,7 +3,7 @@ title: "Korean Fried Chicken (Yangnyeom-Tongdak)"
 slug: korean-fried-chicken-yangnyeom-tongdak
 date: 2026-01-01
 category: Dinner
-tag: "Korean"
+cuisine: "Korean"
 description: "Double-fried, ultra-crunchy chicken wings tossed in a sweet, sour and spicy gochujang sauce."
 image: ""
 recipeContent:

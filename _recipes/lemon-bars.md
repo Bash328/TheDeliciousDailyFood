@@ -3,7 +3,7 @@ title: "Lemon Bars"
 slug: lemon-bars
 date: 2026-01-01
 category: Dessert
-tag: "Classic"
+cuisine: "American"
 description: "A buttery shortbread crust under a bright, tangy lemon filling."
 image: ""
 recipeContent:

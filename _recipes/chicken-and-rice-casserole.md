@@ -3,7 +3,7 @@ title: "Chicken and Rice Casserole"
 slug: chicken-and-rice-casserole
 date: 2026-01-01
 category: Dinner
-tag: "Classic"
+cuisine: "American"
 description: "A creamy one-dish bake of chicken, rice and vegetables."
 image: ""
 recipeContent:

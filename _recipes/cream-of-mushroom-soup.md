@@ -3,7 +3,6 @@ title: "Cream of Mushroom Soup"
 slug: cream-of-mushroom-soup
 date: 2026-01-01
 category: Soup
-tag: "Classic"
 description: "A velvety soup with deeply browned mushrooms and a touch of thyme."
 image: ""
 recipeContent:

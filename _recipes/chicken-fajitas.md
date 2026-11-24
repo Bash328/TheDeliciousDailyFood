@@ -3,7 +3,7 @@ title: "Chicken Fajitas"
 slug: chicken-fajitas
 date: 2026-01-01
 category: Dinner
-tag: "Tex-Mex"
+cuisine: "Mexican"
 description: "Lime-marinated chicken thighs charred with peppers and onions, served with warm tortillas and avocado."
 image: ""
 recipeContent:

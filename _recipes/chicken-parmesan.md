@@ -3,7 +3,7 @@ title: "Chicken Parmesan"
 slug: chicken-parmesan
 date: 2026-01-01
 category: Dinner
-tag: "Classic"
+cuisine: "Italian"
 description: "Crispy breaded chicken cutlets topped with marinara and melted mozzarella."
 image: ""
 recipeContent:

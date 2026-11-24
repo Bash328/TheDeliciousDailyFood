@@ -3,7 +3,7 @@ title: "Cobb Salad"
 slug: cobb-salad
 date: 2026-01-01
 category: Lunch
-tag: "Classic"
+cuisine: "American"
 description: "A rows-of-toppings salad with chicken, bacon, egg, avocado and blue cheese."
 image: ""
 recipeContent:

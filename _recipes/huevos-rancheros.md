@@ -3,7 +3,7 @@ title: "Huevos Rancheros"
 slug: huevos-rancheros
 date: 2026-01-01
 category: Breakfast
-tag: "Classic"
+cuisine: "Mexican"
 description: "Fried eggs on crisp tortillas with warm beans and a smoky tomato salsa."
 image: ""
 recipeContent:

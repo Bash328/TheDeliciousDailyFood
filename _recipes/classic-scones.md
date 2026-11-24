@@ -3,7 +3,7 @@ title: "Classic Scones"
 slug: classic-scones
 date: 2026-01-01
 category: Breakfast
-tag: "British"
+cuisine: "British"
 description: "Tall, buttery scones with a tender, flaky crumb, best warm from the oven."
 image: ""
 recipeContent:

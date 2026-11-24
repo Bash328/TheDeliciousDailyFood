@@ -3,7 +3,7 @@ title: "Baked Chicken Thighs"
 slug: baked-chicken-thighs
 date: 2026-01-01
 category: Dinner
-tag: "Classic"
+cuisine: "American"
 description: "Crispy-skinned chicken thighs with juicy meat, ready with almost no effort."
 image: ""
 recipeContent:

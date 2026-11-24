@@ -3,7 +3,7 @@ title: "Salisbury Steak"
 slug: salisbury-steak
 date: 2026-01-01
 category: Dinner
-tag: "Classic"
+cuisine: "American"
 description: "Seasoned beef patties smothered in mushroom onion gravy."
 image: ""
 recipeContent:

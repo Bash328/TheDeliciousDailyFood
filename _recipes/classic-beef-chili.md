@@ -3,7 +3,7 @@ title: "Classic Beef Chili"
 slug: classic-beef-chili
 date: 2026-01-01
 category: Dinner
-tag: "Classic"
+cuisine: "American"
 description: "A big pot of beef and beans with a deep, smoky chili-powder base that tastes better the next day."
 image: ""
 recipeContent:

@@ -3,7 +3,7 @@ title: "Fudgy Brownies"
 slug: fudgy-brownies
 date: 2026-01-01
 category: Dessert
-tag: "Classic"
+cuisine: "American"
 description: "Dense, chocolatey brownies with a shiny crackly top."
 image: ""
 recipeContent:

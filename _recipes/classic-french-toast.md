@@ -3,7 +3,7 @@ title: "Classic French Toast"
 slug: classic-french-toast
 date: 2026-01-01
 category: Breakfast
-tag: "Classic"
+cuisine: "American"
 description: "Golden, custardy slices with crisp edges and cinnamon vanilla flavor."
 image: ""
 recipeContent:

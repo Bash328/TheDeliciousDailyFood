@@ -3,7 +3,7 @@ title: "Chicken Burrito Bowl"
 slug: chicken-burrito-bowl
 date: 2026-01-01
 category: Lunch
-tag: "Classic"
+cuisine: "Mexican"
 description: "Seasoned chicken over cilantro-lime rice with beans, corn and fresh toppings."
 image: ""
 recipeContent:

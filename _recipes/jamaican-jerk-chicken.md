@@ -3,7 +3,7 @@ title: "Jamaican Jerk Chicken"
 slug: jamaican-jerk-chicken
 date: 2026-01-01
 category: Dinner
-tag: "Caribbean"
+cuisine: "Caribbean"
 description: "Fiery, aromatic chicken marinated with scotch bonnet, allspice and thyme, baked or grilled."
 image: ""
 recipeContent:

@@ -3,7 +3,7 @@ title: "Malva Pudding"
 slug: malva-pudding
 date: 2026-01-01
 category: Dessert
-tag: "South African"
+cuisine: "South African"
 description: "A spongy, caramelized baked pudding soaked in a warm cream sauce."
 image: ""
 recipeContent:

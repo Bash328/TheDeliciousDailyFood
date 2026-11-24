@@ -3,7 +3,7 @@ title: "Chocolate Chip Cookies"
 slug: chocolate-chip-cookies
 date: 2026-01-01
 category: Dessert
-tag: "Classic"
+cuisine: "American"
 description: "Chewy centers, crisp edges and plenty of melty chocolate."
 image: ""
 recipeContent:

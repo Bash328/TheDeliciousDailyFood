@@ -3,7 +3,7 @@ title: "Creamy Corn Chowder"
 slug: creamy-corn-chowder
 date: 2026-01-01
 category: Soup
-tag: "Classic"
+cuisine: "American"
 description: "Sweet corn, potatoes and bacon in a creamy broth."
 image: ""
 recipeContent:

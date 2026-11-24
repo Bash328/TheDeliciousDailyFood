@@ -3,7 +3,7 @@ title: "Vetkoek with Curried Mince"
 slug: vetkoek-with-curried-mince
 date: 2026-01-01
 category: Lunch
-tag: "South African"
+cuisine: "South African"
 description: "Crisp, golden fried bread rolls split and stuffed with spiced curried mince."
 image: ""
 recipeContent:

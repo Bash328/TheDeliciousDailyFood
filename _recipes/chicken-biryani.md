@@ -3,7 +3,7 @@ title: "Chicken Biryani"
 slug: chicken-biryani
 date: 2026-01-01
 category: Dinner
-tag: "Indian"
+cuisine: "Indian"
 description: "Layered basmati rice and yogurt-marinated chicken, fragrant with whole spices, mint and fried onions."
 image: ""
 recipeContent:

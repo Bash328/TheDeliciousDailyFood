@@ -3,7 +3,7 @@ title: "Classic Apple Pie"
 slug: classic-apple-pie
 date: 2026-01-01
 category: Dessert
-tag: "Classic"
+cuisine: "American"
 description: "Tender cinnamon apples in a buttery, flaky double crust."
 image: ""
 recipeContent:

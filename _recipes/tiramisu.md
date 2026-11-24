@@ -3,7 +3,7 @@ title: "Tiramisu"
 slug: tiramisu
 date: 2026-01-01
 category: Dessert
-tag: "Italian"
+cuisine: "Italian"
 description: "A no-bake layered dessert of espresso-dipped ladyfingers and a light mascarpone cream."
 image: ""
 recipeContent:

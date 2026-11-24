@@ -3,7 +3,7 @@ title: "Blondies"
 slug: blondies
 date: 2026-01-01
 category: Dessert
-tag: "Classic"
+cuisine: "American"
 description: "Chewy brown sugar bars with butterscotch flavor and chocolate chips."
 image: ""
 recipeContent:

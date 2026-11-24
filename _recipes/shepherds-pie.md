@@ -3,7 +3,7 @@ title: "Shepherd's Pie"
 slug: shepherds-pie
 date: 2026-01-01
 category: Dinner
-tag: "Classic"
+cuisine: "British"
 description: "Savory meat and vegetable filling under a blanket of buttery mashed potatoes."
 image: ""
 recipeContent:

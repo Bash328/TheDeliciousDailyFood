@@ -3,7 +3,7 @@ title: "Ham and Bean Soup"
 slug: ham-and-bean-soup
 date: 2026-01-01
 category: Soup
-tag: "Classic"
+cuisine: "American"
 description: "A smoky, creamy white bean soup that turns a leftover ham bone into dinner."
 image: ""
 recipeContent:

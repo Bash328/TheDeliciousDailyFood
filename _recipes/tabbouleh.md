@@ -3,7 +3,7 @@ title: "Tabbouleh"
 slug: tabbouleh
 date: 2026-01-01
 category: Lunch
-tag: "Lebanese"
+cuisine: "Middle Eastern"
 description: "A bright, parsley-packed salad with tomatoes, mint and a little bulgur in lemony olive oil."
 image: ""
 recipeContent:

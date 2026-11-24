@@ -3,7 +3,7 @@ title: "Vanilla Pound Cake"
 slug: vanilla-pound-cake
 date: 2026-01-01
 category: Dessert
-tag: "Classic"
+cuisine: "American"
 description: "A buttery, dense and tender cake that keeps well for days."
 image: ""
 recipeContent:

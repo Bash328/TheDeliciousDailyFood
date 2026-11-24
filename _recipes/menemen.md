@@ -3,7 +3,7 @@ title: "Menemen"
 slug: menemen
 date: 2026-01-01
 category: Breakfast
-tag: "Turkish"
+cuisine: "Turkish"
 description: "Soft Turkish scrambled eggs cooked into a tomato and pepper base, served with bread."
 image: ""
 recipeContent:

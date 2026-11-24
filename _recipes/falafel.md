@@ -3,7 +3,7 @@ title: "Falafel"
 slug: falafel
 date: 2026-01-01
 category: Lunch
-tag: "Middle Eastern"
+cuisine: "Middle Eastern"
 description: "Crisp, herb-green chickpea fritters, fried or baked, for pita, bowls or salads."
 image: ""
 recipeContent:

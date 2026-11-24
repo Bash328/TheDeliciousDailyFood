@@ -3,7 +3,7 @@ title: "Oatmeal Raisin Cookies"
 slug: oatmeal-raisin-cookies
 date: 2026-01-01
 category: Dessert
-tag: "Classic"
+cuisine: "American"
 description: "Chewy, cinnamon-spiced cookies packed with oats and plump raisins."
 image: ""
 recipeContent:

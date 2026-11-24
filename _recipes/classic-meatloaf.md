@@ -3,7 +3,7 @@ title: "Classic Meatloaf"
 slug: classic-meatloaf
 date: 2026-01-01
 category: Dinner
-tag: "Classic"
+cuisine: "American"
 description: "A tender, juicy meatloaf with a sweet tangy ketchup glaze."
 image: ""
 recipeContent:

@@ -3,7 +3,7 @@ title: "Bibimbap"
 slug: bibimbap
 date: 2026-01-01
 category: Dinner
-tag: "Korean"
+cuisine: "Korean"
 description: "A rice bowl topped with seasoned vegetables, a fried egg and spicy gochujang sauce."
 image: ""
 recipeContent:

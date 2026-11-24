@@ -3,7 +3,7 @@ title: "Fresh Spring Rolls with Peanut Sauce"
 slug: fresh-spring-rolls-with-peanut-sauce
 date: 2026-01-01
 category: Lunch
-tag: "Vietnamese"
+cuisine: "Vietnamese"
 description: "Rice paper rolls filled with crisp vegetables, noodles and herbs, served with a creamy peanut dipping sauce."
 image: ""
 recipeContent:

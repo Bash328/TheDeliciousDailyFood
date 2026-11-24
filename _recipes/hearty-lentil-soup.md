@@ -3,7 +3,6 @@ title: "Hearty Lentil Soup"
 slug: hearty-lentil-soup
 date: 2026-01-01
 category: Soup
-tag: "Classic"
 description: "A thick, savory soup of lentils, vegetables and warm spices."
 image: ""
 recipeContent:

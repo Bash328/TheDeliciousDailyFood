@@ -3,7 +3,7 @@ title: "Split Pea Soup with Ham"
 slug: split-pea-soup-with-ham
 date: 2026-01-01
 category: Soup
-tag: "Classic"
+cuisine: "American"
 description: "A thick, smoky soup of split peas, ham and vegetables."
 image: ""
 recipeContent:

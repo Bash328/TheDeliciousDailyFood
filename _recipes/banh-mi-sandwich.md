@@ -3,7 +3,7 @@ title: "Banh Mi Sandwich"
 slug: banh-mi-sandwich
 date: 2026-01-01
 category: Lunch
-tag: "Classic"
+cuisine: "Vietnamese"
 description: "Crisp baguette with savory pork, pickled carrot and daikon, cilantro and chili."
 image: ""
 recipeContent:

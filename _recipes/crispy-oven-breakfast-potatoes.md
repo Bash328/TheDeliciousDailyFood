@@ -3,7 +3,7 @@ title: "Crispy Oven Breakfast Potatoes"
 slug: crispy-oven-breakfast-potatoes
 date: 2026-01-01
 category: Breakfast
-tag: "American"
+cuisine: "American"
 description: "Golden, crisp-edged roasted potato cubes seasoned with paprika."
 image: ""
 recipeContent:

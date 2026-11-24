@@ -3,7 +3,7 @@ title: "Pavlova"
 slug: pavlova
 date: 2026-01-01
 category: Dessert
-tag: "Australian"
+cuisine: "Australian"
 description: "Crisp-shelled, marshmallow-centered meringue nests topped with whipped cream and fresh fruit."
 image: ""
 recipeContent:

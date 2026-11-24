@@ -3,7 +3,7 @@ title: "Sticky Toffee Pudding"
 slug: sticky-toffee-pudding
 date: 2026-01-01
 category: Dessert
-tag: "British"
+cuisine: "British"
 description: "A moist date sponge soaked in warm butterscotch sauce, best with ice cream."
 image: ""
 recipeContent:

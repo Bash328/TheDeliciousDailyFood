@@ -3,7 +3,7 @@ title: "New York Cheesecake"
 slug: new-york-cheesecake
 date: 2026-01-01
 category: Dessert
-tag: "Classic"
+cuisine: "American"
 description: "A rich, creamy cheesecake on a graham cracker crust."
 image: ""
 recipeContent:

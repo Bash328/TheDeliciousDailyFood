@@ -3,7 +3,7 @@ title: "Diner-Style Cheese Omelet"
 slug: diner-style-cheese-omelet
 date: 2026-01-01
 category: Breakfast
-tag: "Classic"
+cuisine: "American"
 description: "A fluffy folded omelet with melted cheese."
 image: ""
 recipeContent:

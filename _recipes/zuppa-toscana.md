@@ -3,7 +3,7 @@ title: "Zuppa Toscana"
 slug: zuppa-toscana
 date: 2026-01-01
 category: Soup
-tag: "Italian"
+cuisine: "Italian"
 description: "Italian sausage, potato and kale soup in a creamy broth."
 image: ""
 recipeContent:

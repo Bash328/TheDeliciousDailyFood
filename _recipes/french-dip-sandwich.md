@@ -3,7 +3,7 @@ title: "French Dip Sandwich"
 slug: french-dip-sandwich
 date: 2026-01-01
 category: Lunch
-tag: "Classic"
+cuisine: "American"
 description: "Thin-sliced roast beef on a crusty roll with warm au jus for dipping."
 image: ""
 recipeContent:

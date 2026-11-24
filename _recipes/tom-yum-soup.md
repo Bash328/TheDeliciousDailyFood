@@ -3,7 +3,7 @@ title: "Tom Yum Soup"
 slug: tom-yum-soup
 date: 2026-01-01
 category: Soup
-tag: "Thai"
+cuisine: "Thai"
 description: "A hot and sour Thai soup of shrimp, lemongrass, galangal, lime leaves and lime juice."
 image: ""
 recipeContent:

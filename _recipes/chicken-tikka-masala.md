@@ -3,7 +3,7 @@ title: "Chicken Tikka Masala"
 slug: chicken-tikka-masala
 date: 2026-01-01
 category: Dinner
-tag: "Indian"
+cuisine: "Indian"
 description: "Yogurt-marinated chicken in a rich, creamy spiced tomato sauce."
 image: ""
 recipeContent:

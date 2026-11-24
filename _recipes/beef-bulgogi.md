@@ -3,7 +3,7 @@ title: "Beef Bulgogi"
 slug: beef-bulgogi
 date: 2026-01-01
 category: Dinner
-tag: "Korean"
+cuisine: "Korean"
 description: "Thin slices of beef marinated in soy, garlic and sesame, then seared until caramelized."
 image: ""
 recipeContent:

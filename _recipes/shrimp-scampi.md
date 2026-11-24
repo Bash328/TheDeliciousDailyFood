@@ -3,7 +3,7 @@ title: "Shrimp Scampi"
 slug: shrimp-scampi
 date: 2026-01-01
 category: Dinner
-tag: "Italian"
+cuisine: "Italian"
 description: "Garlicky shrimp in a quick white wine, butter and lemon sauce, over pasta or with crusty bread."
 image: ""
 recipeContent:

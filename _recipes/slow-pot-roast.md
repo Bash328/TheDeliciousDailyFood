@@ -3,7 +3,7 @@ title: "Slow Pot Roast"
 slug: slow-pot-roast
 date: 2026-01-01
 category: Dinner
-tag: "Classic"
+cuisine: "American"
 description: "Fall-apart beef with carrots and potatoes in a savory gravy."
 image: ""
 recipeContent:

@@ -3,7 +3,7 @@ title: "Classic French Onion Soup"
 slug: classic-french-onion-soup
 date: 2026-01-01
 category: Soup
-tag: "Classic"
+cuisine: "French"
 description: "Deeply caramelized onions in rich beef broth with a gooey Gruyère crouton."
 image: ""
 recipeContent:

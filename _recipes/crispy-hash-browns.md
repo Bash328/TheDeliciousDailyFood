@@ -3,7 +3,7 @@ title: "Crispy Hash Browns"
 slug: crispy-hash-browns
 date: 2026-01-01
 category: Breakfast
-tag: "Classic"
+cuisine: "American"
 description: "Golden shredded potatoes with a crunchy crust and soft middle."
 image: ""
 recipeContent:

@@ -3,7 +3,7 @@ title: "Tom Kha Gai"
 slug: tom-kha-gai
 date: 2026-01-01
 category: Soup
-tag: "Thai"
+cuisine: "Thai"
 description: "Fragrant Thai coconut chicken soup with galangal, lemongrass, mushrooms and lime."
 image: ""
 recipeContent:

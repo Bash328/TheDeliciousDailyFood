@@ -3,7 +3,7 @@ title: "Perfect Scrambled Eggs"
 slug: perfect-scrambled-eggs
 date: 2026-01-01
 category: Breakfast
-tag: "Classic"
+cuisine: "American"
 description: "Soft, creamy curds, cooked low and slow."
 image: ""
 recipeContent:

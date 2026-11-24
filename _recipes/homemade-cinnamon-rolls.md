@@ -3,7 +3,7 @@ title: "Homemade Cinnamon Rolls"
 slug: homemade-cinnamon-rolls
 date: 2026-01-01
 category: Dessert
-tag: "Classic"
+cuisine: "American"
 description: "Soft, fluffy rolls swirled with cinnamon sugar and topped with cream cheese icing."
 image: ""
 recipeContent:

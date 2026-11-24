@@ -3,7 +3,7 @@ title: "BLT Sandwich"
 slug: blt-sandwich
 date: 2026-01-01
 category: Lunch
-tag: "Classic"
+cuisine: "American"
 description: "Crisp bacon, ripe tomato and cool lettuce on toasted bread with mayo."
 image: ""
 recipeContent:

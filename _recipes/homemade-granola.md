@@ -3,7 +3,7 @@ title: "Homemade Granola"
 slug: homemade-granola
 date: 2026-01-01
 category: Breakfast
-tag: "Classic"
+cuisine: "American"
 description: "Crunchy oat clusters with honey, nuts and cinnamon."
 image: ""
 recipeContent:

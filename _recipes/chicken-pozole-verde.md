@@ -3,7 +3,7 @@ title: "Chicken Pozole Verde"
 slug: chicken-pozole-verde
 date: 2026-01-01
 category: Soup
-tag: "Mexican"
+cuisine: "Mexican"
 description: "A bright green tomatillo broth with shredded chicken, hominy and crunchy garnishes."
 image: ""
 recipeContent:

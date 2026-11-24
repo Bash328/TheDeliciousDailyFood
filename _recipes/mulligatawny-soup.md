@@ -3,7 +3,7 @@ title: "Mulligatawny Soup"
 slug: mulligatawny-soup
 date: 2026-01-01
 category: Soup
-tag: "Indian"
+cuisine: "Indian"
 description: "A lightly curried, creamy red lentil and chicken soup with apple and coconut milk."
 image: ""
 recipeContent:

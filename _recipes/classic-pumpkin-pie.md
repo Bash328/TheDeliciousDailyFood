@@ -3,7 +3,7 @@ title: "Classic Pumpkin Pie"
 slug: classic-pumpkin-pie
 date: 2026-01-01
 category: Dessert
-tag: "Classic"
+cuisine: "American"
 description: "Smooth, spiced pumpkin custard in a flaky crust."
 image: ""
 recipeContent:

@@ -3,7 +3,7 @@ title: "Cape Malay Chicken Curry"
 slug: cape-malay-chicken-curry
 date: 2026-01-01
 category: Dinner
-tag: "South African"
+cuisine: "South African"
 description: "A fragrant, gently spiced chicken curry with tomatoes and potatoes that gets better overnight."
 image: ""
 recipeContent:
