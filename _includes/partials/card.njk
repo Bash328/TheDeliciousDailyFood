@@ -3,6 +3,13 @@
     <div class="photo"><img src="{{ recipe.data.image | imageSrc }}" alt="{{ recipe.data.title }}" sizes="{{ sizes }}"{% if eager %} loading="eager" fetchpriority="high"{% endif %}></div>
   {%- endif -%}
 {%- endmacro -%}
+{#- The optional thumbnail on the right of a list row. Decorative (alt=""), since the
+    row's title already names the recipe; renders nothing without a photo. -#}
+{%- macro thumb(recipe) -%}
+  {%- if recipe.data.image | imageSrc -%}
+    <img class="thumb" src="{{ recipe.data.image | imageSrc }}" alt="" sizes="84px" loading="lazy">
+  {%- endif -%}
+{%- endmacro -%}
 {#- "35 min · 4 servings", leaving out whichever half the recipe doesn't have yet
     (a freshly merged submission has neither). -#}
 {%- macro meta(recipe) -%}
