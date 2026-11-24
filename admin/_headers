@@ -16,6 +16,8 @@
   Cache-Control: no-cache
 /quickpaste-widget.js
   Cache-Control: no-cache
+/bloom.js
+  Cache-Control: no-cache
 /config.yml
   Cache-Control: no-cache
 /quick/

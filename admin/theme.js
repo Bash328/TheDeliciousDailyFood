@@ -426,3 +426,28 @@
   favicon.href = "https://thedeliciousdaily.com/favicon-light.png";
   document.head.appendChild(favicon);
 })();
+
+// A small surprise: searching for "paulette" in any search box opens a bouquet.
+// bloom.js is only fetched at that moment, so the admin loads exactly as before.
+(function () {
+  var armed = true;   // fires once per typing of the word, not on every keystroke after
+  var loading = false;
+  function show() {
+    if (window.Bloom) { window.Bloom.open(); return; }
+    if (loading) return;
+    loading = true;
+    var tag = document.createElement("script");
+    tag.src = "/bloom.js?v=1";
+    tag.onload = function () { loading = false; if (window.Bloom) window.Bloom.open(); };
+    tag.onerror = function () { loading = false; armed = true; };
+    document.head.appendChild(tag);
+  }
+  document.addEventListener("input", function (e) {
+    var el = e.target;
+    if (!el || el.tagName !== "INPUT" || !/search/i.test(el.placeholder || "")) return;
+    if (el.value.trim().toLowerCase() !== "paulette") { armed = true; return; }
+    if (!armed) return;
+    armed = false;
+    show();
+  }, true);
+})();
