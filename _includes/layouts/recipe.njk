@@ -116,24 +116,24 @@
       <a class="btn btn-solid" href="#recipe-body">Jump to recipe</a>
       {#- Shown by the scripts below only where they can work. -#}
       <button type="button" class="btn" id="print-btn" hidden>Print</button>
+      {%- if imageUrl %}
       <a class="btn" data-pin-do="buttonPin" data-pin-custom="true"
          href="https://www.pinterest.com/pin/create/button/?url={{ pageUrl | urlencode }}&media={{ imageUrl | urlencode }}&description={{ description | urlencode }}">
         Save to Pinterest
       </a>
+      {%- endif %}
       <button type="button" class="btn cook-mode-btn" id="cook-mode-btn" aria-pressed="false" hidden>Keep screen on</button>
     </div>
   </div>
 </div>
 
+{% if imageUrl %}
 <div class="wrap recipe-photo">
-  {% if imageUrl %}
   <img class="hero-photo" src="{{ image | imageSrc }}" alt="{{ title }}" sizes="(max-width: 1240px) 100vw, 1176px" loading="eager" fetchpriority="high">
-  {% else %}
-  <div class="hero-photo"></div>
-  {% endif %}
 </div>
+{% endif %}
 
-<div class="wrap">
+<div class="wrap{% if not imageUrl %} no-hero{% endif %}">
   <div class="recipe-grid" id="recipe-body">
     <aside class="ingredients">
       <h2>Ingredients</h2>
