@@ -59,6 +59,31 @@ permalink: index.html
 <main>
 {%- set groups = sections | sectionsWithRecipes(collections.recipes) %}
 
+{%- if collections.quickPicks.length or collections.cuisines.length %}
+<section class="wrap browse" aria-label="Browse by time, ingredients or cuisine">
+  {%- if collections.quickPicks.length %}
+  <div class="browse-row">
+    <h2 class="browse-label">Quick picks</h2>
+    <div class="cuisine-chips">
+      {%- for p in collections.quickPicks %}
+      <a href="/{{ p.slug }}/"><span>{{ p.name }}</span><span class="n">{{ p.items.length }}</span></a>
+      {%- endfor %}
+    </div>
+  </div>
+  {%- endif %}
+  {%- if collections.cuisines.length %}
+  <div class="browse-row">
+    <h2 class="browse-label">By cuisine</h2>
+    <div class="cuisine-chips">
+      {%- for c in collections.cuisines %}
+      <a href="/cuisine/{{ c.slug }}/"><span>{{ c.name }}</span><span class="n">{{ c.items.length }}</span></a>
+      {%- endfor %}
+    </div>
+  </div>
+  {%- endif %}
+</section>
+{%- endif %}
+
 {% if latest %}
 <section class="wrap">
   <a class="featured" href="{{ latest.url }}">
@@ -123,32 +148,6 @@ permalink: index.html
   </div>
 </section>
 {% endfor %}
-
-{%- if collections.quickPicks.length %}
-<section class="wrap course" id="quick-picks" aria-labelledby="quick-picks-heading">
-  <div class="course-head">
-    <span class="num">0{{ groups.length + 1 }}</span><h2 id="quick-picks-heading">Quick picks</h2><span class="small-caps count">for busy days</span>
-  </div>
-  <div class="cuisine-chips">
-    {%- for p in collections.quickPicks %}
-    <a href="/{{ p.slug }}/"><span>{{ p.name }}</span><span class="n">{{ p.items.length }}</span></a>
-    {%- endfor %}
-  </div>
-</section>
-{%- endif %}
-
-{%- if collections.cuisines.length %}
-<section class="wrap course cuisines" id="cuisines" aria-labelledby="cuisines-heading">
-  <div class="course-head">
-    <span class="num">0{{ groups.length + 2 }}</span><h2 id="cuisines-heading">By cuisine</h2><span class="small-caps count">{{ collections.cuisines.length }} cuisines</span>
-  </div>
-  <div class="cuisine-chips">
-    {%- for c in collections.cuisines %}
-    <a href="/cuisine/{{ c.slug }}/"><span>{{ c.name }}</span><span class="n">{{ c.items.length }}</span></a>
-    {%- endfor %}
-  </div>
-</section>
-{%- endif %}
 
 {%- if site.submitEndpoint %}
 <section class="wrap">
