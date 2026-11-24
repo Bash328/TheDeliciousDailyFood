@@ -270,6 +270,7 @@ module.exports = function (eleventyConfig) {
   // strip; a cuisine with a single recipe is just a label on that recipe.
   const cuisineSlug = (name) =>
     String(name).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+  const CUISINES_FIRST = ["West African", "South African", "French", "Middle Eastern"];
   eleventyConfig.addCollection("cuisines", (collectionApi) => {
     const byCuisine = new Map();
     for (const recipe of collectionApi.getFilteredByGlob("_recipes/*.md").filter((r) => !r.data.draft).sort(photoFirst)) {
@@ -281,7 +282,11 @@ module.exports = function (eleventyConfig) {
     return [...byCuisine]
       .filter(([, items]) => items.length >= 2)
       .map(([name, items]) => ({ name, slug: cuisineSlug(name), items }))
-      .sort((a, b) => b.items.length - a.items.length || a.name.localeCompare(b.name));
+      .sort((a, b) => {
+        // These four lead the strip, in this order; everything else follows, biggest first.
+        const rank = (n) => { const i = CUISINES_FIRST.indexOf(n); return i < 0 ? CUISINES_FIRST.length : i; };
+        return rank(a.name) - rank(b.name) || b.items.length - a.items.length || a.name.localeCompare(b.name);
+      });
   });
   // My Kitchen (kitchen.njk): the ingredient list and swaps for the picker, and
   // each recipe's ingredient lines mapped to those names, worked out here at
