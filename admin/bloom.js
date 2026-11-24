@@ -14,7 +14,7 @@
 
   var TAU = Math.PI * 2;
   var FPS = 30;
-  var SETTLE = 14; // seconds into the animation used for the static reduced-motion frame
+  var SETTLE = 16; // seconds into the animation used for the static reduced-motion frame
   var RAMP = ".:'-~+ilrxzYUJCLQ0OZmwqpdbkhao*#MW&8%B@$"; // light to dense
   var LINES = "|/\\_";
   var ALL = RAMP + LINES + "o";
@@ -138,11 +138,14 @@
     var ROSE_SPECS = [
       [0.0, 0.34, 0.7, 0.36, 0.5, 0], [-0.55, -0.22, 0.68, 0.32, 0.9, 1], [0.57, -0.17, 0.68, 0.32, 1.3, 2],
       [0.0, -0.7, 0.7, 0.32, 1.7, 3], [-0.05, 1.0, 0.66, 0.27, 2.1, 4], [-0.95, 0.52, 0.62, 0.26, 2.5, 3],
-      [1.0, 0.47, 0.62, 0.26, 2.9, 1], [-0.95, -0.66, 0.62, 0.26, 3.3, 2], [0.97, -0.66, 0.62, 0.26, 3.7, 0]
+      [1.0, 0.47, 0.62, 0.26, 2.9, 1], [-0.95, -0.66, 0.62, 0.26, 3.3, 2], [0.97, -0.66, 0.62, 0.26, 3.7, 0],
+      [0.0, -0.3, 0.72, 0.32, 4.0, 0], [-1.05, -1.35, 0.6, 0.28, 4.3, 3], [1.1, -1.4, 0.6, 0.28, 4.6, 1],
+      [-1.4, -0.24, 0.62, 0.26, 4.9, 2], [-1.4, -0.7, 0.62, 0.26, 5.2, 4], [1.5, -0.3, 0.62, 0.26, 5.5, 3], [1.5, -0.8, 0.62, 0.26, 5.8, 0]
     ];
     var LILY_SPECS = [
       [-0.5, 0.5, 0.6, 0.62, 2.0], [0.56, 0.44, 0.56, 0.58, 2.5], [-1.0, -0.05, 0.54, 0.58, 3.0],
-      [1.05, -0.1, 0.58, 0.56, 3.5], [-0.45, -0.95, 0.52, 0.56, 4.0], [0.5, -1.0, 0.5, 0.54, 4.5]
+      [1.05, -0.1, 0.58, 0.56, 3.5], [-0.45, -0.95, 0.52, 0.56, 4.0], [0.5, -1.0, 0.5, 0.54, 4.5],
+      [-1.3, -0.85, 0.5, 0.5, 5.0], [1.3, -1.0, 0.5, 0.5, 5.5]
     ];
 
     // On a phone the layout is squeezed sideways and stretched upward so it fills a tall screen.
@@ -168,8 +171,8 @@
       });
       lilySpecs.forEach(function (f, n2) {
         var fr = frame3(f[0], f[1], 0.5), A = fr[0], E1 = fr[1], E2 = fr[2];
-        var L = f[3], nu = clamp(Math.ceil(L * 1.2 * scale / cellH * 3), 12, 140);
-        var nv = clamp(Math.ceil(L * 0.5 * scale / cellW * 2.4), 6, 70);
+        var L = f[3], nu = clamp(Math.ceil(L * 1.2 * scale / cellH * 2.2), 12, 140);
+        var nv = clamp(Math.ceil(L * 0.5 * scale / cellW * 1.8), 6, 70);
         var prof = new Float32Array(nu), k, u, v, j, i;
         for (i = 0; i < nu; i++) prof[i] = Math.pow(Math.sin(Math.PI * Math.pow((i + 0.5) / nu, 0.78)), 0.85);
         var tepals = [];
@@ -241,7 +244,7 @@
         var Rk = R * (1 - k * 0.12) * (0.38 + 0.62 * o);
         var hk = R * 0.12 * k * (0.5 + 0.5 * o) + (1 - o) * R * 0.6;
         var mk = PETALS[k], hw = Math.PI / mk * 1.25;
-        var nu = clamp(Math.ceil(Rk * scale / cellH * 2.6), 3, 48), nv = clamp(Math.ceil(Rk * hw * scale / cellW * 2.6), 4, 64);
+        var nu = clamp(Math.ceil(Rk * scale / cellH * 2.1), 3, 48), nv = clamp(Math.ceil(Rk * hw * scale / cellW * 2.1), 4, 64);
         for (var j = 0; j < mk; j++) {
           var phi = k * 2.4 + j * TAU / mk + (1 - o) * 0.5 + m.rot, id = ++curId;
           for (var ii = 0; ii < nu; ii++) {
