@@ -104,7 +104,7 @@
       // on a tall phone screen the bouquet is drawn narrower and taller, and sized to fill the width
       portrait = W / H < 0.8;
       var Ly = layout(), span = Ly.top - Ly.base;
-      scale = Math.min(usableH / span, W * (portrait ? 0.38 : 0.3));
+      scale = Math.min(usableH / span, W * (portrait ? 0.38 : 0.3)) * (portrait ? 0.93 : 1); // a touch of air round the edge on a phone
       cx = W / 2; cy = (usableH - scale * span) / 2 + scale * Ly.top;
       buildModel(Ly);
     }
@@ -138,10 +138,10 @@
     // Big lilies lead, smaller roses fill between them. [x, y, z, size, delay, palette]
     var ROSE_SPECS = [
       [0.0, 0.3, 0.35, 0.4, 0.5, 0], [-0.5, -0.25, 0.32, 0.36, 1.0, 5], [0.52, -0.2, 0.32, 0.36, 1.4, 3],
-      [0.0, -0.8, 0.34, 0.34, 1.8, 2], [-0.05, 1.0, 0.3, 0.3, 2.2, 0]
+      [0.0, -0.8, 0.34, 0.34, 1.8, 2], [-0.05, 0.82, 0.3, 0.3, 2.2, 0]
     ];
     var LILY_SPECS = [
-      [-0.55, 0.95, 0.6, 0.62, 2.0], [0.62, 0.85, 0.56, 0.58, 2.5], [-1.0, -0.05, 0.54, 0.58, 3.0],
+      [-0.55, 0.74, 0.6, 0.62, 2.0], [0.62, 0.66, 0.56, 0.58, 2.5], [-1.0, -0.05, 0.54, 0.58, 3.0],
       [1.05, -0.1, 0.58, 0.56, 3.5], [-0.45, -0.95, 0.52, 0.56, 4.0], [0.5, -1.0, 0.5, 0.54, 4.5]
     ];
 
