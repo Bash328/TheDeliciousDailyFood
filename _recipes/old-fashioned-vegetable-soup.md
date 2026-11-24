@@ -3,6 +3,7 @@ title: "Old-Fashioned Vegetable Soup"
 slug: old-fashioned-vegetable-soup
 date: 2026-01-01
 category: Soup
+cuisine: "American"
 description: "A simple, comforting soup with whatever vegetables you have on hand."
 image: ""
 recipeContent:

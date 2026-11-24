@@ -3,6 +3,7 @@ title: "Berry Crepes with Whipped Cream"
 slug: berry-crepes
 date: 2026-07-06
 category: Breakfast
+cuisine: "French"
 tag: "Brunch"
 description: "Thin, lacy crepes rolled around strawberries and raspberries, piled with softly whipped cream."
 image: "berry-crepes-whipped-cream.jpg"

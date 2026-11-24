@@ -3,6 +3,7 @@ title: "Brown Butter Chocolate Chip Cookies"
 slug: brown-butter-cookies
 date: 2026-06-29
 category: Dessert
+cuisine: "American"
 tag: "Cookies"
 description: "Nutty brown butter, flaky salt, and a chew that holds up for days."
 image: ""

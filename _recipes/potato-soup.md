@@ -3,6 +3,7 @@ title: "Loaded Baked Potato Soup"
 slug: potato-soup
 date: 2026-06-08
 category: Soup
+cuisine: "American"
 tag: "Comfort Food"
 description: "Everything a loaded baked potato has, in soup form, plus the leftover bacon fat doing the work of building flavor."
 image: ""

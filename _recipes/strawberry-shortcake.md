@@ -3,6 +3,7 @@ title: "Skillet Strawberry Shortcake"
 slug: strawberry-shortcake
 date: 2026-06-01
 category: Dessert
+cuisine: "American"
 tag: "Baking"
 description: "One buttery skillet biscuit, macerated berries, and softly whipped cream."
 image: ""

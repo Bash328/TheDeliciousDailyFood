@@ -3,6 +3,7 @@ title: Delicious Blueberry Orange Pancakes
 slug: blueberry-orange-pancakes
 date: 2026-08-23T16:20:00.000+02:00
 category: Breakfast
+cuisine: "American"
 description: Fluffy, golden pancakes bursting with juicy blueberries and bright
   orange zest, finished with a drizzle of maple syrup for a sweet and refreshing
   breakfast.

@@ -3,6 +3,7 @@ title: "Gourmet Grilled Cheese with Arugula"
 slug: ultimate-gourmet-grilled-cheese-with-arugula
 date: 2026-08-20
 category: Lunch
+cuisine: "American"
 tag: "Sandwich"
 description: "Deeply golden mushrooms folded into a creamy filling, roasted peppers and arugula, pressed between crisp, buttery sourdough."
 image: "ultimate-gourmet-grilled-cheese-with-arugula.jpg"
