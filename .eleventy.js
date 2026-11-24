@@ -152,6 +152,10 @@ module.exports = function (eleventyConfig) {
     return fs.existsSync(file);
   };
 
+  // Every recipe list: recipes with a photo first, then newest first within each half.
+  const hasPhoto = (r) => (r.data.image && photoExists(r.data.image) ? 1 : 0);
+  const photoFirst = (a, b) => hasPhoto(b) - hasPhoto(a) || b.date - a.date;
+
   eleventyConfig.addFilter("imageUrl", (image) => {
     if (!image || !photoExists(image)) return "";
     if (image.startsWith("/")) return site.url + image;
@@ -213,7 +217,7 @@ module.exports = function (eleventyConfig) {
       // until the draft flag comes off. This is what keeps a recipe merged
       // from the public-submission PR flow off the live site until it's ready.
       .filter((recipe) => !recipe.data.draft)
-      .sort((a, b) => b.date - a.date)
+      .sort(photoFirst)
   );
 
   // "Quick picks": two fixed ways to slice the recipes, each with its own page (quick.njk)
@@ -241,7 +245,7 @@ module.exports = function (eleventyConfig) {
       return !PANTRY.some((re) => re.test(item));
     }).length;
   eleventyConfig.addCollection("quickPicks", (collectionApi) => {
-    const recipes = collectionApi.getFilteredByGlob("_recipes/*.md").filter((r) => !r.data.draft).sort((a, b) => b.date - a.date);
+    const recipes = collectionApi.getFilteredByGlob("_recipes/*.md").filter((r) => !r.data.draft).sort(photoFirst);
     return [
       {
         slug: "quick",
@@ -267,7 +271,7 @@ module.exports = function (eleventyConfig) {
     String(name).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
   eleventyConfig.addCollection("cuisines", (collectionApi) => {
     const byCuisine = new Map();
-    for (const recipe of collectionApi.getFilteredByGlob("_recipes/*.md").filter((r) => !r.data.draft).sort((a, b) => b.date - a.date)) {
+    for (const recipe of collectionApi.getFilteredByGlob("_recipes/*.md").filter((r) => !r.data.draft).sort(photoFirst)) {
       const name = String(recipe.data.cuisine || "").trim();
       if (!name) continue;
       if (!byCuisine.has(name)) byCuisine.set(name, []);
