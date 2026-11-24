@@ -353,7 +353,11 @@
     "  [class*='ButtonsContainer'] { flex-wrap: wrap !important; gap: 8px; margin-left: 0 !important; width: auto !important; max-width: 100% !important; }",
     "  [class*='ButtonsContainer'] { margin-bottom: 10px !important; }",
     "  [class*='ButtonsContainer'] > *, [class*='ActionButton'], [class*='DeleteButton'], [class*='UploadButton'] { margin-left: 0 !important; margin-right: 8px !important; }",
-    "  [class*='SearchContainer'], [class*='SearchInput'] { width: 100% !important; max-width: 100% !important; }",
+    "  [class*='StyledModal'] [class*='SearchContainer'], [class*='StyledModal'] [class*='SearchInput'] { width: 100% !important; max-width: 100% !important; }",
+    /* The list's "Search all" box: Decap gives its container 12px side margins, so at
+       full width it ran 12px past the card on the right and sat off-centre. */
+    "  [class*='SidebarContainer'] [class*='SearchContainer'] { width: auto !important; box-sizing: border-box; margin: 0 12px !important; }",
+    "  [class*='SidebarContainer'] [class*='SearchInput'] { width: 100% !important; box-sizing: border-box; }",
 
     /* Bigger touch targets, and 16px text so iOS doesn't zoom in on tap. */
     "  input, textarea, select { font-size: 16px !important; }",
