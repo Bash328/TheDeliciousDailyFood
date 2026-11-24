@@ -687,6 +687,17 @@ h1, h2, h3 { margin: 0; font-family: var(--serif); font-weight: 400; }
 .kitchen-results-title { font-size: 2rem; scroll-margin-top: 80px; }
 .kitchen-results-title:focus { outline: none; }
 .kitchen-results .rows { flex: none; }
+/* group labels ("Ready to cook", "Missing 1 thing"): small accent caps, so they don't read as one more recipe title */
+.kitchen-results .pick-heading {
+  align-items: center;
+  margin: 44px 0 0; padding-bottom: 10px;
+  font: 600 0.8125rem var(--sans); letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--accent); border-bottom: 2px solid var(--accent);
+}
+.kitchen-results .pick-heading .small-caps {
+  min-width: 28px; padding: 3px 9px; border-radius: 999px; text-align: center;
+  background: var(--accent); color: var(--on-accent); letter-spacing: 0.04em;
+}
 .kitchen-hit { border-bottom: 1px solid var(--rule); }
 .kitchen-hit .row { border-bottom: none; }
 .kitchen-hit .btn { margin: -8px 0 20px; }
