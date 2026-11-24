@@ -224,10 +224,11 @@ module.exports = function (eleventyConfig) {
   // "Quick picks": two fixed ways to slice the recipes, each with its own page (quick.njk)
   // and a chip on the homepage. Both are worked out from the recipe's own numbers, so there
   // is nothing extra to fill in.
-  //   - 30 minutes or less: prep + cook (chilling, resting and rising aren't counted, which
+  //   - 15 / 30 minutes or less: prep + cook (chilling, resting and rising aren't counted, which
   //     is how the site shows times everywhere).
   //   - 6 ingredients or fewer: not counting salt, pepper, water and plain oil, anything
   //     marked optional, or "to serve / for frying" extras.
+  const FAST_MINUTES = 15;
   const QUICK_MINUTES = 30;
   const SIMPLE_INGREDIENTS = 6;
   const PANTRY = [
@@ -236,6 +237,19 @@ module.exports = function (eleventyConfig) {
     /^(?:warm |cold |hot |boiling |ice )*water\b/i,
     /^(?:extra[- ]?virgin |extra[- ]?light |light |neutral |vegetable |canola |olive |cooking |peanut |corn )*(?:or )?(?:vegetable |canola |olive )?oil\b/i,
   ];
+  // Vegetarian: no meat, poultry, fish or shellfish named anywhere in the ingredient list
+  // (optional lines included, so "chicken, shrimp or tofu" doesn't count). Eggs and dairy are fine.
+  const MEAT = /\b(chicken|beef|pork|lamb|mutton|goat|veal|turkey|duck|bacon|ham|prosciutto|pancetta|chorizo|sausages?|salami|pepperoni|hot dogs?|steak|ribs?|brisket|mince|ground (?:beef|pork|turkey|lamb|meat)|meatballs?|oxtail|liver|tripe|anchov(?:y|ies)|fish|salmon|tuna|cod|haddock|tilapia|sardines?|mackerel|trout|shrimp|prawns?|crab|lobster|scallops?|clams?|mussels?|oysters?|squid|calamari|octopus|gelatin|lard|suet|bone broth|bouillon|fish sauce|oyster sauce|worcestershire|boerewors|biltong|droewors|gammon|spam|nduja|guanciale|jerky|bacon bits)\b/i;
+  const isVegetarian = (r) => {
+    const ing = (r.data.recipeContent || {}).ingredients || [];
+    return ing.length > 0 && !ing.some((i) => MEAT.test(String(i.item || "")));
+  };
+  // One pot / one pan: the recipe says so in its title, description or method.
+  const ONE_POT = /\b(one[- ](?:pot|pan|skillet|dish|bowl and pan)|sheet[- ]pan|single (?:pot|pan|skillet)|same (?:pot|pan|skillet)|dutch oven)\b/i;
+  const isOnePot = (r) => {
+    const c = r.data.recipeContent || {};
+    return ONE_POT.test([r.data.title, r.data.description, ...(c.steps || [])].join(" \n "));
+  };
   const minutesOf = (r) => ((r.data.recipeContent || {}).prepTimeMinutes || 0) + ((r.data.recipeContent || {}).cookTimeMinutes || 0);
   const coreIngredients = (r) =>
     ((r.data.recipeContent || {}).ingredients || []).filter((i) => {
@@ -249,6 +263,13 @@ module.exports = function (eleventyConfig) {
     const recipes = collectionApi.getFilteredByGlob("_recipes/*.md").filter((r) => !r.data.draft).sort(photoFirst);
     return [
       {
+        slug: "quick-15",
+        name: `${FAST_MINUTES} minutes or less`,
+        title: `Ready in ${FAST_MINUTES} minutes or less`,
+        blurb: `Recipes where prep and cooking together take ${FAST_MINUTES} minutes or less. Time spent chilling, resting or rising isn't counted, so check the recipe if it needs any.`,
+        items: recipes.filter((r) => minutesOf(r) > 0 && minutesOf(r) <= FAST_MINUTES),
+      },
+      {
         slug: "quick",
         name: `${QUICK_MINUTES} minutes or less`,
         title: `Ready in ${QUICK_MINUTES} minutes or less`,
@@ -261,6 +282,20 @@ module.exports = function (eleventyConfig) {
         title: `${SIMPLE_INGREDIENTS} ingredients or fewer`,
         blurb: `Recipes that need ${SIMPLE_INGREDIENTS} ingredients or fewer, not counting salt, pepper, water, plain cooking oil, optional extras or things to serve alongside.`,
         items: recipes.filter((r) => coreIngredients(r) <= SIMPLE_INGREDIENTS),
+      },
+      {
+        slug: "vegetarian",
+        name: "Vegetarian",
+        title: "Vegetarian recipes",
+        blurb: "Recipes with no meat, poultry, fish or shellfish in the ingredient list. Eggs and dairy are fine. Check the recipe for stock or sauces if you're strict.",
+        items: recipes.filter(isVegetarian),
+      },
+      {
+        slug: "one-pot",
+        name: "One pot or one pan",
+        title: "One pot and one pan recipes",
+        blurb: "Recipes made in a single pot, pan, skillet or sheet pan, so there's less washing up.",
+        items: recipes.filter(isOnePot),
       },
     ].filter((p) => p.items.length);
   });
