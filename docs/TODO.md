@@ -35,20 +35,13 @@ else from that audit is done.
       `1/2`, `1 1/2`, `¼` and ranges, and a rule for units that shouldn't
       scale (pinch, to taste). Worth an `npm test` case per amount format.
 
-- [ ] **My Fridge.** A fourth bottom-bar tab (Recipes, Fridge, Grocery, Submit)
-      where you tick what you have and the site shows what you can make now, or
-      with 1-2 missing, with a button to add the missing items to the Grocery
-      list. Decided so far:
-      - Runs entirely in the browser, saved on the phone (no accounts, no server).
-      - Needs each ingredient line given a standard name (onion, chicken thigh)
-        at build time, so nothing extra to fill in for new recipes. Step 1 is an
-        audit: run a normalizer over all recipes and review how well it matches
-        and what is left over, before building any screen.
-      - Quantities ignored; salt, pepper, oil and water assumed, switchable.
-      - Substitutions (buttermilk = milk + lemon, thighs <-> breasts...) come
-        later from a hand-checked table, not in the first version.
+- [ ] **My Kitchen follow-ups** (the page itself is live at `/my-kitchen/`;
+      ingredient list, matcher and swap table in `lib/kitchen.js`):
+      - After adding recipes, run `node scripts/kitchen-audit.js`. Lines that
+        match nothing always show as "missing", so add a word for them.
+      - A line that both lists and offers a choice ("sour cream and parsley or
+        dill") is read as "any one of these". Good enough so far.
       - Possible later: a "use up this ingredient" mode.
-      - Name still open: "My Fridge" or something wider like "My Kitchen".
 - [ ] **Quick picks (done) follow-ups:** "30 minutes or less" does not count
       chilling or rising. If that misleads, add an optional "active time" field.
 

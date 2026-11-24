@@ -1,0 +1,56 @@
+---
+layout: layouts/page.njk
+title: "My Kitchen"
+description: "Pick the ingredients you have and see which recipes you can make now, what's missing, and what you could swap in."
+permalink: my-kitchen/
+---
+{%- from "partials/card.njk" import thumb, meta -%}
+<p class="intro">Add what's in your fridge and cupboards, then see what you can cook. Your list stays on this device.</p>
+
+<div class="kitchen">
+  <div class="kitchen-search">
+    <label for="k-search" class="kitchen-label">Search ingredients</label>
+    <input type="search" id="k-search" placeholder="Try chicken, rice, eggs…" autocomplete="off" autocapitalize="off" spellcheck="false"
+      role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="k-suggest">
+    <ul id="k-suggest" class="kitchen-suggest" role="listbox" aria-label="Matching ingredients" hidden></ul>
+  </div>
+
+  <h2 class="pick-heading">In my kitchen<span class="small-caps" id="k-count">0</span></h2>
+  <p id="k-empty" class="kitchen-empty">Nothing added yet. Search above, or browse the full list.</p>
+  <ul id="k-chosen" class="kitchen-chips" aria-label="Ingredients you have"></ul>
+
+  <label class="kitchen-staples"><input type="checkbox" id="k-staples" checked> I always have salt, pepper, oil and water</label>
+
+  <details class="kitchen-browse">
+    <summary>Browse all {{ kitchen.items.length }} ingredients</summary>
+    <div id="k-browse"></div>
+  </details>
+
+  <div class="kitchen-actions">
+    <button type="button" id="k-go" class="btn btn-solid">What can I make?</button>
+    <button type="button" id="k-clear" class="btn">Clear all</button>
+  </div>
+  <p id="k-status" class="kitchen-status" role="status"></p>
+
+  <div id="k-results" class="kitchen-results" hidden></div>
+</div>
+
+<noscript><p>My Kitchen needs JavaScript turned on.</p></noscript>
+
+{#- Every recipe's row, built here so the photos go through the image step like
+    everywhere else; kitchen.js moves the ones that fit into the results. -#}
+<div id="k-pool" hidden>
+  {%- for recipe in collections.recipes %}
+  <a class="row" href="{{ recipe.url }}" data-k="{{ recipe | kitchenLines }}">
+    <div class="row-text">
+      <h3>{{ recipe.data.title }}</h3>
+      <span class="meta">{{ meta(recipe) }}</span>
+    </div>
+    {{ thumb(recipe) }}
+  </a>
+  {%- endfor %}
+</div>
+
+<script type="application/json" id="k-data">{{ kitchen | jsonld | safe }}</script>
+<script src="/grocery-list.js"></script>
+<script src="/kitchen.js"></script>

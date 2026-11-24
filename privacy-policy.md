@@ -46,7 +46,8 @@ including:
   pinterest.com when used.
 - **Grocery list data** you build on the [Grocery List
   tool](/tools/grocery-list/) is stored only in your own browser's
-  local storage — it is never sent to us or to any server.
+  local storage — it is never sent to us or to any server. The same goes
+  for the ingredients you pick in [My Kitchen](/my-kitchen/).
 
 This site does not currently run advertising or participate in any
 affiliate programs. If that changes, this policy will be updated to

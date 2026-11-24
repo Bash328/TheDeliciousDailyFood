@@ -1,6 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 const site = require("./_data/site.js");
+const kitchen = require("./lib/kitchen.js");
 const { eleventyImageTransformPlugin } = require("@11ty/eleventy-img");
 
 module.exports = function (eleventyConfig) {
@@ -62,6 +63,7 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy("grocery-list.js");
   eleventyConfig.addPassthroughCopy("sprinkles.js");
   eleventyConfig.addPassthroughCopy("app.js");
+  eleventyConfig.addPassthroughCopy("kitchen.js");
   eleventyConfig.addPassthroughCopy("manifest.webmanifest");
 
   // Those two are passthrough copies, so nothing was stripping their comments
@@ -71,7 +73,7 @@ module.exports = function (eleventyConfig) {
   // style.css wasn't (docs/PERFORMANCE-NOTES.md explains why not), because
   // terser is already in the tree for the HTML minifier above — no new
   // dependency, and the source keeps its comments either way.
-  const PASSTHROUGH_SCRIPTS = ["grocery-list.js", "sprinkles.js", "app.js"];
+  const PASSTHROUGH_SCRIPTS = ["grocery-list.js", "sprinkles.js", "app.js", "kitchen.js"];
   eleventyConfig.on("eleventy.after", async ({ dir }) => {
     const { minify } = require("terser");
     await Promise.all(
@@ -276,6 +278,14 @@ module.exports = function (eleventyConfig) {
       .map(([name, items]) => ({ name, slug: cuisineSlug(name), items }))
       .sort((a, b) => b.items.length - a.items.length || a.name.localeCompare(b.name));
   });
+  // My Kitchen (kitchen.njk): the ingredient list and swaps for the picker, and
+  // each recipe's ingredient lines mapped to those names, worked out here at
+  // build time so new recipes need nothing extra. See lib/kitchen.js.
+  eleventyConfig.addGlobalData("kitchen", () => kitchen.pageData());
+  eleventyConfig.addFilter("kitchenLines", (recipe) =>
+    JSON.stringify(kitchen.recipeKitchen((recipe.data.recipeContent || {}).ingredients))
+  );
+
   // "/cuisine/thai/" when that cuisine has a page, otherwise "" (so the label stays plain text)
   eleventyConfig.addFilter("cuisinePage", (name, cuisines) => {
     const hit = (cuisines || []).find((c) => c.name === name);
