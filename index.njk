@@ -103,11 +103,13 @@ permalink: index.html
     <div class="rows">
       {%- for recipe in group.items %}{% if not loop.first and loop.index <= 5 %}
       <a class="row" href="{{ recipe.url }}">
+        {%- set noPhoto = not (recipe.data.image | imageSrc) %}
         <div class="row-text">
-          {%- if recipe.data.tag %}<span class="eyebrow">{{ recipe.data.tag }}</span>{% endif %}
+          {#- A recipe with a photo is just title and time, the thumbnail lining up with the title.
+              One without gets a short description, so the row has the same weight. -#}
           <h3>{{ recipe.data.title }}</h3>
           <span class="meta">{{ meta(recipe) }}</span>
-          {%- if recipe.data.description %}<p class="excerpt">{{ recipe.data.description }}</p>{% endif %}
+          {%- if noPhoto and recipe.data.description %}<p class="excerpt">{{ recipe.data.description }}</p>{% endif %}
         </div>
         {{ thumb(recipe) }}
       </a>
