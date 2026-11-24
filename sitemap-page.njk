@@ -18,6 +18,15 @@ permalink: sitemap/
 {% endif %}
 {% endfor %}
 
+{% if collections.cuisines.length %}
+<h2>By cuisine</h2>
+<ul class="sitemap-list">
+  {% for c in collections.cuisines %}
+  <li><a href="/cuisine/{{ c.slug }}/">{{ c.name }} recipes</a></li>
+  {% endfor %}
+</ul>
+{% endif %}
+
 <h2>Pages</h2>
 <ul class="sitemap-list">
   <li><a href="/">Home</a></li>

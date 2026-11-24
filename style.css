@@ -140,6 +140,8 @@ h1, h2, h3 { margin: 0; font-family: var(--serif); font-weight: 400; }
   color: var(--accent);
 }
 
+.eyebrow a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
+
 .small-caps {
   font-size: 0.75rem;
   letter-spacing: 0.22em;
@@ -347,6 +349,11 @@ h1, h2, h3 { margin: 0; font-family: var(--serif); font-weight: 400; }
 .lead h3 { font-size: clamp(2rem, 4vw, 2.625rem); line-height: 1.05; }
 
 .rows { flex: 1 1 420px; display: flex; flex-direction: column; }
+/* "By cuisine": a wrapping set of pill links to each cuisine page, with its recipe count */
+.cuisine-chips { display: flex; flex-wrap: wrap; gap: 10px; }
+.cuisine-chips a { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 18px; border: 1px solid var(--rule); border-radius: 999px; font-size: 0.9375rem; color: var(--ink); }
+.cuisine-chips .n { font-size: 0.8125rem; letter-spacing: 0.08em; color: var(--ink-soft); }
+
 /* One row layout for every recipe: the text column leads, and the photo (when there is
    one) is just a small thumbnail on the right. No separate "no photo" style. */
 .row { display: flex; gap: 16px; align-items: flex-start; padding: 22px 0; min-height: 44px; border-bottom: 1px solid var(--rule); }
@@ -736,6 +743,7 @@ input:focus-visible, select:focus-visible, textarea:focus-visible {
   .theme-toggle:hover { color: var(--accent); border-color: var(--accent); }
   .featured:hover h2 { color: var(--accent); }
   .courses a:hover .name { color: var(--accent); }
+  .cuisine-chips a:hover { border-color: var(--accent); color: var(--accent); }
   .footer-links a:hover { color: var(--accent); }
   .recipe-credit .credit-instagram:hover { opacity: 0.75; }
   .page-content a:hover { opacity: 0.78; }
@@ -862,6 +870,27 @@ input:focus-visible, select:focus-visible, textarea:focus-visible {
   .courses .num, .courses .small-caps { display: none; }
   .courses .name { font: inherit; }
   .courses a[aria-current="true"] { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+
+  /* -- By cuisine: the same swipeable row of pills as the category chips, running off the screen edge */
+  .cuisine-chips {
+    flex-wrap: nowrap;
+    gap: 8px;
+    overflow-x: auto;
+    margin: 0 -20px;
+    padding: 2px 20px 6px;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+  }
+  .cuisine-chips::-webkit-scrollbar { display: none; }
+  .cuisine-chips a {
+    flex: 0 0 auto;
+    min-height: 40px;
+    padding: 0 16px;
+    gap: 6px;
+    scroll-snap-align: center;
+    font: 500 0.875rem var(--sans);
+    letter-spacing: 0.03em;
+  }
 
   /* -- Course sections: a big lead card, then a compact list under it */
   .course { padding-bottom: 40px; scroll-margin-top: calc(var(--bar-h) + 58px + env(safe-area-inset-top)); }

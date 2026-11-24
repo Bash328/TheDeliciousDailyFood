@@ -16,6 +16,9 @@ eleventyExcludeFromCollections: true
   {%- for s in sections | sectionsWithRecipes(collections.recipes) %}
   <url><loc>{{ site.url }}/{{ s.id }}/</loc></url>
   {%- endfor %}
+  {%- for c in collections.cuisines %}
+  <url><loc>{{ site.url }}/cuisine/{{ c.slug }}/</loc></url>
+  {%- endfor %}
   {%- for recipe in collections.recipes %}
   <url>
     <loc>{{ site.url }}{{ recipe.url }}</loc>

@@ -214,6 +214,30 @@ module.exports = function (eleventyConfig) {
       .sort((a, b) => b.date - a.date)
   );
 
+  // One entry per cuisine that has at least two (published) recipes, biggest first.
+  // Each gets its own page (cuisine.njk) and a chip in the homepage's "By cuisine"
+  // strip; a cuisine with a single recipe is just a label on that recipe.
+  const cuisineSlug = (name) =>
+    String(name).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+  eleventyConfig.addCollection("cuisines", (collectionApi) => {
+    const byCuisine = new Map();
+    for (const recipe of collectionApi.getFilteredByGlob("_recipes/*.md").filter((r) => !r.data.draft).sort((a, b) => b.date - a.date)) {
+      const name = String(recipe.data.cuisine || "").trim();
+      if (!name) continue;
+      if (!byCuisine.has(name)) byCuisine.set(name, []);
+      byCuisine.get(name).push(recipe);
+    }
+    return [...byCuisine]
+      .filter(([, items]) => items.length >= 2)
+      .map(([name, items]) => ({ name, slug: cuisineSlug(name), items }))
+      .sort((a, b) => b.items.length - a.items.length || a.name.localeCompare(b.name));
+  });
+  // "/cuisine/thai/" when that cuisine has a page, otherwise "" (so the label stays plain text)
+  eleventyConfig.addFilter("cuisinePage", (name, cuisines) => {
+    const hit = (cuisines || []).find((c) => c.name === name);
+    return hit ? "/cuisine/" + hit.slug + "/" : "";
+  });
+
   return {
     dir: {
       input: ".",

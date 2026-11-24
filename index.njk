@@ -123,6 +123,19 @@ permalink: index.html
 </section>
 {% endfor %}
 
+{%- if collections.cuisines.length %}
+<section class="wrap course cuisines" id="cuisines" aria-labelledby="cuisines-heading">
+  <div class="course-head">
+    <span class="num">0{{ groups.length + 1 }}</span><h2 id="cuisines-heading">By cuisine</h2><span class="small-caps count">{{ collections.cuisines.length }} cuisines</span>
+  </div>
+  <div class="cuisine-chips">
+    {%- for c in collections.cuisines %}
+    <a href="/cuisine/{{ c.slug }}/"><span>{{ c.name }}</span><span class="n">{{ c.items.length }}</span></a>
+    {%- endfor %}
+  </div>
+</section>
+{%- endif %}
+
 {%- if site.submitEndpoint %}
 <section class="wrap">
   <div class="cta">

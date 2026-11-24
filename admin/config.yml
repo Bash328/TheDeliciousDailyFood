@@ -71,8 +71,8 @@ collections:
         widget: "quickpaste"
         default: { servingsUnit: "Servings", ingredients: [], steps: [] }
       - &f_note { label: "Note", name: "note", widget: "text", required: false, hint: "A tip shown at the end of the method." }
-      - &f_tag { label: "Tag", name: "tag", widget: "string", required: false, hint: "A short word shown above the title in the recipe lists, e.g. One Skillet or Weeknight." }
-      - &f_cuisine { label: "Cuisine", name: "cuisine", widget: "string", required: false, hint: "e.g. Italian, Indian, Thai. Used in the recipe's search-result data. Leave blank when it isn't a clear fit; a wrong cuisine is worse than none." }
+      - &f_tag { label: "Tag", name: "tag", widget: "string", required: false, hint: "A short style word shown on the recipe page, e.g. One Skillet or Weeknight. Leave blank if there isn't one. The cuisine goes in the Cuisine field below, not here." }
+      - &f_cuisine { label: "Cuisine", name: "cuisine", widget: "string", required: false, hint: "e.g. Italian, Indian, Thai, South African. Shown above the title and links to that cuisine's page, and it joins the homepage's By cuisine strip once two recipes share it. Use an existing name so spellings match. Also used in the recipe's search-result data. Leave blank when it isn't a clear fit; a wrong cuisine is worse than none." }
       - &f_date { label: "Publish date", name: "date", widget: "datetime", required: false, hint: "Leave this blank for a new recipe: today's date is filled in when you save." }
       # No slug field to fill in: a recipe's web address comes from its title
       # (the file name), e.g. "Lemon Blueberry Muffins" -> /recipes/lemon-blueberry-muffins/.

@@ -1,0 +1,26 @@
+---
+layout: layouts/page.njk
+pagination:
+  data: collections.cuisines
+  size: 1
+  alias: cuisine
+permalink: "cuisine/{{ cuisine.slug }}/"
+eleventyComputed:
+  title: "{{ cuisine.name }} recipes"
+  description: "{{ cuisine.items.length }} {{ cuisine.name }} recipes on The Delicious Daily: dinners, lunches, bakes, breakfasts and soups, newest first."
+eleventyExcludeFromCollections: true
+---
+{%- from "partials/card.njk" import thumb, meta -%}
+<div class="rows">
+  {%- for recipe in cuisine.items %}
+  <a class="row" href="{{ recipe.url }}">
+    {%- set noPhoto = not (recipe.data.image | imageSrc) %}
+    <div class="row-text">
+      <h3>{{ recipe.data.title }}</h3>
+      <span class="meta">{{ recipe.data.category }} · {{ meta(recipe) }}</span>
+      {%- if noPhoto and recipe.data.description %}<p class="excerpt">{{ recipe.data.description }}</p>{% endif %}
+    </div>
+    {{ thumb(recipe) }}
+  </a>
+  {%- endfor %}
+</div>

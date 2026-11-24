@@ -48,7 +48,8 @@ the live site on the next rebuild.
 | Title | The recipe name shown everywhere. |
 | Publish date | Leave it blank on a new recipe: today's date is filled in when you save. It controls sort order and which recipe is the homepage "Latest" feature — the most recent date wins. |
 | Category | Which of the 5 homepage sections (Dinner, Lunch, Baking & Dessert, Breakfast, Soup) it appears under. |
-| Tag | Optional short word/phrase shown next to the category on the recipe page (e.g. "One Skillet", "Weeknight"). Leave blank if you don't want one. |
+| Tag | Optional short style word shown on the recipe page (e.g. "One Skillet", "Weeknight"). Leave blank if you don't want one. |
+| Cuisine | The recipe's cuisine (e.g. Italian, Thai, South African). It shows above the title and links to that cuisine's page, and the homepage's "By cuisine" strip lists every cuisine with two or more recipes. Use an existing spelling so recipes group together; leave it blank if no cuisine fits. |
 | Short description | Used as the card blurb on the homepage, the intro line on the recipe page, the browser/search description, and the Pinterest pin description. One or two sentences. |
 | Photo | Upload an image here — it's saved into the `images/` folder automatically and used everywhere the recipe's photo appears. Leave blank and the recipe shows a plain placeholder until you add one. |
 | Recipe | Prep/cook time, servings, ingredients, and steps, all in one field — see **Quick Paste** below, it's the fast way to fill this in. |
