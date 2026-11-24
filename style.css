@@ -873,6 +873,8 @@ input:focus-visible, select:focus-visible, textarea:focus-visible {
   .lead .photo { border-radius: 16px; }
   .lead h3 { font-size: 1.75rem; }
   .rows { flex-basis: 100%; }
+  /* stacked under the big photo, the list needs its own dividing line (rows only draw one below themselves) */
+  .lead + .rows { border-top: 1px solid var(--rule); }
   .cta { padding: 28px 22px; margin-bottom: 24px; }
 
   /* -- Recipe page: photo first, edge to edge, like opening a recipe in an app */
