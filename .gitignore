@@ -19,3 +19,6 @@ desktop.ini
 
 # Wrangler scratch
 .wrangler/
+
+# Browser test screenshots and logs
+.playwright-mcp/
