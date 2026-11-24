@@ -214,6 +214,50 @@ module.exports = function (eleventyConfig) {
       .sort((a, b) => b.date - a.date)
   );
 
+  // "Quick picks": two fixed ways to slice the recipes, each with its own page (quick.njk)
+  // and a chip on the homepage. Both are worked out from the recipe's own numbers, so there
+  // is nothing extra to fill in.
+  //   - 30 minutes or less: prep + cook (chilling, resting and rising aren't counted, which
+  //     is how the site shows times everywhere).
+  //   - 6 ingredients or fewer: not counting salt, pepper, water and plain oil, anything
+  //     marked optional, or "to serve / for frying" extras.
+  const QUICK_MINUTES = 30;
+  const SIMPLE_INGREDIENTS = 6;
+  const PANTRY = [
+    /^(?:kosher |sea |table |flaky )?salt\b/i,
+    /^(?:freshly |ground |black |white )*pepper\b/i,
+    /^(?:warm |cold |hot |boiling |ice )*water\b/i,
+    /^(?:extra[- ]?virgin |extra[- ]?light |light |neutral |vegetable |canola |olive |cooking |peanut |corn )*(?:or )?(?:vegetable |canola |olive )?oil\b/i,
+  ];
+  const minutesOf = (r) => ((r.data.recipeContent || {}).prepTimeMinutes || 0) + ((r.data.recipeContent || {}).cookTimeMinutes || 0);
+  const coreIngredients = (r) =>
+    ((r.data.recipeContent || {}).ingredients || []).filter((i) => {
+      const item = String(i.item || "").trim();
+      const amount = String(i.amount || "").trim();
+      if (/\boptional\b/i.test(item)) return false;
+      if (/^(to|for) /i.test(amount)) return false;
+      return !PANTRY.some((re) => re.test(item));
+    }).length;
+  eleventyConfig.addCollection("quickPicks", (collectionApi) => {
+    const recipes = collectionApi.getFilteredByGlob("_recipes/*.md").filter((r) => !r.data.draft).sort((a, b) => b.date - a.date);
+    return [
+      {
+        slug: "quick",
+        name: `${QUICK_MINUTES} minutes or less`,
+        title: `Ready in ${QUICK_MINUTES} minutes or less`,
+        blurb: `Recipes where prep and cooking together take ${QUICK_MINUTES} minutes or less. Time spent chilling, resting or rising isn't counted, so check the recipe if it needs any.`,
+        items: recipes.filter((r) => minutesOf(r) > 0 && minutesOf(r) <= QUICK_MINUTES),
+      },
+      {
+        slug: "simple",
+        name: `${SIMPLE_INGREDIENTS} ingredients or fewer`,
+        title: `${SIMPLE_INGREDIENTS} ingredients or fewer`,
+        blurb: `Recipes that need ${SIMPLE_INGREDIENTS} ingredients or fewer, not counting salt, pepper, water, plain cooking oil, optional extras or things to serve alongside.`,
+        items: recipes.filter((r) => coreIngredients(r) <= SIMPLE_INGREDIENTS),
+      },
+    ].filter((p) => p.items.length);
+  });
+
   // One entry per cuisine that has at least two (published) recipes, biggest first.
   // Each gets its own page (cuisine.njk) and a chip in the homepage's "By cuisine"
   // strip; a cuisine with a single recipe is just a label on that recipe.

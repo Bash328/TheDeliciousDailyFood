@@ -1,0 +1,31 @@
+---
+layout: layouts/page.njk
+pagination:
+  data: collections.quickPicks
+  size: 1
+  alias: pick
+permalink: "{{ pick.slug }}/"
+eleventyComputed:
+  title: "{{ pick.title }}"
+  description: "{{ pick.items.length }} recipes. {{ pick.blurb }}"
+eleventyExcludeFromCollections: true
+---
+{%- from "partials/card.njk" import thumb, meta -%}
+<p class="intro">{{ pick.blurb }}</p>
+
+{%- for s in sections | sectionsWithRecipes(pick.items) %}
+<h2 class="pick-heading">{{ s.heading }}<span class="small-caps">{{ s.items.length }}</span></h2>
+<div class="rows">
+  {%- for recipe in s.items %}
+  <a class="row" href="{{ recipe.url }}">
+    {%- set noPhoto = not (recipe.data.image | imageSrc) %}
+    <div class="row-text">
+      <h3>{{ recipe.data.title }}</h3>
+      <span class="meta">{{ meta(recipe) }}</span>
+      {%- if noPhoto and recipe.data.description %}<p class="excerpt">{{ recipe.data.description }}</p>{% endif %}
+    </div>
+    {{ thumb(recipe) }}
+  </a>
+  {%- endfor %}
+</div>
+{%- endfor %}

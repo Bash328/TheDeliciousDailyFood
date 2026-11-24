@@ -20,6 +20,7 @@ permalink: index.html
 <meta property="og:image:alt" content="{{ site.title }} — {{ site.tagline }}">
 <meta name="twitter:card" content="summary_large_image">
 {% include "partials/head-common.njk" %}
+{% include "partials/launch-screens.njk" %}
 <script type="application/ld+json">
 {
   "@context": "https://schema.org/",
@@ -123,10 +124,23 @@ permalink: index.html
 </section>
 {% endfor %}
 
+{%- if collections.quickPicks.length %}
+<section class="wrap course" id="quick-picks" aria-labelledby="quick-picks-heading">
+  <div class="course-head">
+    <span class="num">0{{ groups.length + 1 }}</span><h2 id="quick-picks-heading">Quick picks</h2><span class="small-caps count">for busy days</span>
+  </div>
+  <div class="cuisine-chips">
+    {%- for p in collections.quickPicks %}
+    <a href="/{{ p.slug }}/"><span>{{ p.name }}</span><span class="n">{{ p.items.length }}</span></a>
+    {%- endfor %}
+  </div>
+</section>
+{%- endif %}
+
 {%- if collections.cuisines.length %}
 <section class="wrap course cuisines" id="cuisines" aria-labelledby="cuisines-heading">
   <div class="course-head">
-    <span class="num">0{{ groups.length + 1 }}</span><h2 id="cuisines-heading">By cuisine</h2><span class="small-caps count">{{ collections.cuisines.length }} cuisines</span>
+    <span class="num">0{{ groups.length + 2 }}</span><h2 id="cuisines-heading">By cuisine</h2><span class="small-caps count">{{ collections.cuisines.length }} cuisines</span>
   </div>
   <div class="cuisine-chips">
     {%- for c in collections.cuisines %}

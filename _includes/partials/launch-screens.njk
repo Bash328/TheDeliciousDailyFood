@@ -1,0 +1,6 @@
+{#- iPhone/iPad launch pictures for the home-screen app. Made by scripts/make-launch-screens.js,
+    which also writes _data/launchScreens.json. Only the homepage carries these: it is the page
+    that gets pinned, and 26 tags on every recipe page would just add weight. -#}
+{%- for s in launchScreens %}
+<link rel="apple-touch-startup-image" media="{{ s.media }}" href="{{ s.href }}">
+{%- endfor %}

@@ -140,6 +140,9 @@ h1, h2, h3 { margin: 0; font-family: var(--serif); font-weight: 400; }
   color: var(--accent);
 }
 
+.pick-heading { display: flex; justify-content: space-between; align-items: baseline; font-size: 1.75rem; margin: 40px 0 4px; padding-bottom: 12px; border-bottom: 1px solid var(--ink); }
+.pick-heading:first-of-type { margin-top: 8px; }
+
 .eyebrow a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
 
 .small-caps {

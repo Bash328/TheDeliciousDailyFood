@@ -18,6 +18,15 @@ permalink: sitemap/
 {% endif %}
 {% endfor %}
 
+{% if collections.quickPicks.length %}
+<h2>Quick picks</h2>
+<ul class="sitemap-list">
+  {% for p in collections.quickPicks %}
+  <li><a href="/{{ p.slug }}/">{{ p.title }}</a></li>
+  {% endfor %}
+</ul>
+{% endif %}
+
 {% if collections.cuisines.length %}
 <h2>By cuisine</h2>
 <ul class="sitemap-list">
