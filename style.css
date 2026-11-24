@@ -183,6 +183,8 @@ h1, h2, h3 { margin: 0; font-family: var(--serif); font-weight: 400; }
   border-bottom: 1px solid var(--accent);
   padding-bottom: 6px;
 }
+/* the "All N recipes" link under a section's short list: a little air below the last row */
+.rows .underlink { margin-top: 18px; }
 
 /* ---------- Top bars ---------- */
 
