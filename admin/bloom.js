@@ -38,14 +38,13 @@
 
   // Rose palettes: shadow at the heart of a petal, body, light at the rim.
   var ROSES = [
-    pal(["#9a2f4c", "#ee7f98", "#ffd3da"]), // salmon
-    pal(["#9a2f4c", "#ee7f98", "#ffd3da"]),
-    pal(["#b0366f", "#f06fa6", "#ffd6e6"]), // pink
-    pal(["#b8582a", "#f7ae78", "#ffead0"]), // peach
-    pal(["#b8582a", "#f7ae78", "#ffead0"]),
-    pal(["#a98657", "#f4dfb6", "#fffcf4"]), // ivory
-    pal(["#a98657", "#f4dfb6", "#fffcf4"])
+    pal(["#a01535", "#e8305a", "#ff8aa0"]), // crimson
+    pal(["#a82460", "#ee4a92", "#ffa8cc"]), // hot pink
+    pal(["#b8402c", "#f4634a", "#ffb09c"]), // coral
+    pal(["#a23c62", "#f58fb0", "#ffd0e0"]), // blush
+    pal(["#a8742e", "#f6d089", "#fff1cf"])  // cream
   ];
+
   var PETALS = [6, 5, 5, 4, 4, 3, 3];
 
   // Stargazer lily: yellow-green throat, magenta flare, white-pink margins.
@@ -137,8 +136,9 @@
 
     // Big lilies lead, smaller roses fill between them. [x, y, z, size, delay, palette]
     var ROSE_SPECS = [
-      [0.0, 0.3, 0.35, 0.4, 0.5, 0], [-0.5, -0.25, 0.32, 0.36, 1.0, 5], [0.52, -0.2, 0.32, 0.36, 1.4, 3],
-      [0.0, -0.8, 0.34, 0.34, 1.8, 2], [-0.05, 0.82, 0.3, 0.3, 2.2, 0]
+      [0.0, 0.34, 0.7, 0.36, 0.5, 0], [-0.55, -0.22, 0.68, 0.32, 0.9, 1], [0.57, -0.17, 0.68, 0.32, 1.3, 2],
+      [0.0, -0.7, 0.7, 0.32, 1.7, 3], [-0.05, 1.0, 0.66, 0.27, 2.1, 4], [-0.95, 0.52, 0.62, 0.26, 2.5, 3],
+      [1.0, 0.47, 0.62, 0.26, 2.9, 1], [-0.95, -0.66, 0.62, 0.26, 3.3, 2], [0.97, -0.66, 0.62, 0.26, 3.7, 0]
     ];
     var LILY_SPECS = [
       [-0.5, 0.5, 0.6, 0.62, 2.0], [0.56, 0.44, 0.56, 0.58, 2.5], [-1.0, -0.05, 0.54, 0.58, 3.0],
@@ -260,7 +260,7 @@
               var nx = A[0] - slope * rx, ny = A[1] - slope * ry, nz = A[2] - slope * rz;
               var dot = Math.abs(nx * LX + ny * LY + nz * LZ) / Math.sqrt(nx * nx + ny * ny + nz * nz);
               splat(C[0] + A[0] * h + rx * rho, C[1] + A[1] * h + ry * rho, C[2] + A[2] * h + rz * rho,
-                cr, cg, cb, (0.5 + 0.5 * dot) * (0.6 + 0.4 * smooth(0, 0.8, u)), 0, id);
+                cr, cg, cb, (0.68 + 0.32 * dot) * (0.8 + 0.2 * smooth(0, 0.8, u)), 0, id);
             }
           }
         }
@@ -505,8 +505,8 @@
             var j = q === 0 ? (x + 1 < cols ? i + 1 : -1) : q === 1 ? (x > 0 ? i - 1 : -1) : q === 2 ? (y + 1 < rows ? i + cols : -1) : (y > 0 ? i - cols : -1);
             if (j < 0) continue;
             var gap = depth[j] - d;
-            if (gap > 0.02 && who[j] && who[j] !== me) { edge = 0.35; break; }
-            if (gap > 0.08) edge = 0.55;
+            if (gap > 0.02 && who[j] && who[j] !== me) { edge = 0.5; break; }
+            if (gap > 0.08) edge = 0.65;
           }
           var s = lum[i], fog = 0.82 + 0.18 * clamp((d + 0.3) / 1.0, 0, 1);
           var light = (0.5 + 0.75 * s) * fog * edge, shine = s > 0.9 ? (s - 0.9) * 1.6 : 0;
