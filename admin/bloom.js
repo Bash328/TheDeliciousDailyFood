@@ -14,7 +14,7 @@
 
   var TAU = Math.PI * 2;
   var FPS = 30;
-  var SETTLE = 13; // seconds into the animation used for the static reduced-motion frame
+  var SETTLE = 14; // seconds into the animation used for the static reduced-motion frame
   var RAMP = ".:'-~+ilrxzYUJCLQ0OZmwqpdbkhao*#MW&8%B@$"; // light to dense
   var LINES = "|/\\_";
   var ALL = RAMP + LINES + "o";
@@ -101,12 +101,12 @@
       buildGlyphs();
       // bouquet spans about 2.9 wide by 3.5 tall in world units; leave room for the hint
       var usableH = H - 36 * dpr;
-      // on a tall phone screen the bouquet is drawn narrower and taller, so it can be bigger
+      // on a tall phone screen the bouquet is drawn narrower and taller, and sized to fill the width
       portrait = W / H < 0.8;
-      var span = portrait ? 3.8 : 3.7;
-      scale = Math.min(usableH / span, W * (portrait ? 0.4 : 0.27));
-      cx = W / 2; cy = (usableH - scale * span) / 2 + scale * 1.6;
-      buildModel();
+      var Ly = layout(), span = Ly.top - Ly.base;
+      scale = Math.min(usableH / span, W * (portrait ? 0.38 : 0.3));
+      cx = W / 2; cy = (usableH - scale * span) / 2 + scale * Ly.top;
+      buildModel(Ly);
     }
 
     // -------------------------------------------------------------- geometry
@@ -127,33 +127,41 @@
       depth[i] = z2; who[i] = id; colR[i] = r; colG[i] = g; colB[i] = b; lum[i] = s; over[i] = glyph;
     }
 
-    function disc(x, y, z, rad, col, s, id) {
+    function disc(x, y, z, rad, col, s, id, gl) {
       var n = clamp(Math.ceil(rad * scale / cellH * 2.2), 1, 12);
       for (var a = -n; a <= n; a++) for (var b = -n; b <= n; b++) {
         if (a * a + b * b > n * n) continue;
-        splat(x + a / n * rad, y + b / n * rad, z, col[0], col[1], col[2], s * (1 - 0.25 * Math.sqrt(a * a + b * b) / n), 0, id);
+        splat(x + a / n * rad, y + b / n * rad, z, col[0], col[1], col[2], s * (1 - 0.25 * Math.sqrt(a * a + b * b) / n), gl || 0, id);
       }
     }
 
-    // A few large flowers: one big rose in front, two stargazer lilies behind,
-    // two smaller roses low on the sides. [x, y, z, size, delay, palette]
+    // Big lilies lead, smaller roses fill between them. [x, y, z, size, delay, palette]
     var ROSE_SPECS = [
-      [0.0, 0.3, 0.45, 0.5, 0.5, 0], [-0.58, -0.15, 0.4, 0.42, 1.0, 5], [0.6, -0.1, 0.4, 0.42, 1.4, 3],
-      [-0.2, -0.72, 0.5, 0.4, 1.8, 2], [0.48, -0.8, 0.4, 0.36, 2.2, 0], [-0.98, -0.68, 0.25, 0.3, 2.6, 2]
+      [0.0, 0.3, 0.35, 0.4, 0.5, 0], [-0.5, -0.25, 0.32, 0.36, 1.0, 5], [0.52, -0.2, 0.32, 0.36, 1.4, 3],
+      [0.0, -0.8, 0.34, 0.34, 1.8, 2], [-0.05, 1.0, 0.3, 0.3, 2.2, 0]
     ];
-    var LILY_SPECS = [[-0.55, 0.86, 0.15, 0.52, 2.0], [0.6, 0.8, 0.15, 0.5, 2.6], [-1.1, 0.15, 0.12, 0.46, 3.2], [1.12, 0.1, 0.12, 0.44, 3.8]];
+    var LILY_SPECS = [
+      [-0.55, 0.95, 0.6, 0.62, 2.0], [0.62, 0.85, 0.56, 0.58, 2.5], [-1.0, -0.05, 0.54, 0.58, 3.0],
+      [1.05, -0.1, 0.58, 0.56, 3.5], [-0.45, -0.95, 0.52, 0.56, 4.0], [0.5, -1.0, 0.5, 0.54, 4.5]
+    ];
+
+    // On a phone the layout is squeezed sideways and stretched upward so it fills a tall screen.
+    function layout() {
+      var KX = portrait ? 0.72 : 1, KY = portrait ? 1.45 : 1, KS = portrait ? 0.88 : 1;
+      var fit = function (f) { var g = f.slice(); g[0] *= KX; g[1] *= KY; g[3] *= KS; return g; };
+      var roses = ROSE_SPECS.map(fit), lilies = LILY_SPECS.map(fit), top = -9, low = 9;
+      roses.concat(lilies).forEach(function (f) { top = Math.max(top, f[1] + f[3] * 1.2); low = Math.min(low, f[1] - f[3] * 1.2); });
+      return { roses: roses, lilies: lilies, top: top, base: low - 0.7, KX: KX, KY: KY };
+    }
 
     function frame3(x, y, k) {
       var A = norm([x * k, y * k, 1]), E1 = norm(cross(A, [0, 1, 0])), E2 = cross(A, E1);
       return [A, E1, E2];
     }
 
-    function buildModel() {
-      model = { roses: [], lilies: [], stems: [] };
-      var KX = portrait ? 0.62 : 1, KY = portrait ? 1.2 : 1, KS = portrait ? 0.85 : 1, base = portrait ? -2.2 : -1.95;
-      // [x, y, z, size, ...] after the portrait squeeze
-      var fit = function (f) { var g = f.slice(); g[0] *= KX; g[1] *= KY; g[3] *= KS; return g; };
-      var roseSpecs = ROSE_SPECS.map(fit), lilySpecs = LILY_SPECS.map(fit);
+    function buildModel(Ly) {
+      model = { roses: [], lilies: [], stems: [], breath: [], stock: [], euc: [] };
+      var base = Ly.base, roseSpecs = Ly.roses, lilySpecs = Ly.lilies;
       roseSpecs.forEach(function (f, i) {
         var fr = frame3(f[0], f[1], 0.15);
         model.roses.push({ C: [f[0], f[1], f[2]], A: fr[0], E1: fr[1], E2: fr[2], R: f[3], pal: ROSES[f[5]], rot: hash(i, 1, 1) * TAU, delay: f[4] });
@@ -210,6 +218,20 @@
         }
         model.stems.push({ n: n3, pts: pts, cnt: cnt, leaves: leaves, delay: 0.1 + n3 * 0.15 });
       });
+      // baby's breath and pink stock scattered through every gap, a few eucalyptus sprigs at the edge
+      var rx = 1.7 * Ly.KX, ry = 1.55 * Ly.KY, mid = (Ly.top + Ly.base) / 2 + 0.25, i;
+      for (i = 0; i < 30; i++) {
+        var a = hash(i, 21, 1) * TAU, rr = Math.sqrt(hash(i, 22, 2));
+        model.breath.push({ x: Math.cos(a) * rr * rx, y: mid + Math.sin(a) * rr * ry, z: 0.15 + 0.3 * hash(i, 23, 3), k: i });
+      }
+      for (i = 0; i < 14; i++) {
+        var a2 = hash(i, 31, 1) * TAU, r2 = 0.45 + 0.55 * Math.sqrt(hash(i, 32, 2));
+        model.stock.push({ x: Math.cos(a2) * r2 * rx, y: mid + Math.sin(a2) * r2 * ry, z: 0.2 + 0.2 * hash(i, 33, 3), k: i });
+      }
+      for (i = 0; i < 8; i++) {
+        var a3 = i * TAU / 8 + 0.3;
+        model.euc.push({ x: Math.cos(a3) * 0.9 * rx, y: mid + Math.sin(a3) * 0.9 * ry, ang: a3, k: i });
+      }
     }
 
     function drawRose(m, b) {
@@ -238,7 +260,7 @@
               var nx = A[0] - slope * rx, ny = A[1] - slope * ry, nz = A[2] - slope * rz;
               var dot = Math.abs(nx * LX + ny * LY + nz * LZ) / Math.sqrt(nx * nx + ny * ny + nz * nz);
               splat(C[0] + A[0] * h + rx * rho, C[1] + A[1] * h + ry * rho, C[2] + A[2] * h + rz * rho,
-                cr, cg, cb, (0.42 + 0.55 * dot) * (0.55 + 0.45 * smooth(0, 0.8, u)), 0, id);
+                cr, cg, cb, (0.5 + 0.5 * dot) * (0.6 + 0.4 * smooth(0, 0.8, u)), 0, id);
             }
           }
         }
@@ -302,6 +324,29 @@
       }
     }
 
+    function drawFiller(g) {
+      if (g <= 0) return;
+      var d, i;
+      model.breath.forEach(function (c) {
+        for (d = 0; d < 7; d++) {
+          var ang = d * 2.4 + c.k, rr = 0.2 * frac(d * 0.37 + c.k * 0.13) * g;
+          disc(c.x + Math.cos(ang) * rr, c.y + Math.sin(ang) * rr, c.z, 0.024 * g, [255, 250, 238], 0.95, 700 + c.k * 8 + d, I_PEARL);
+        }
+      });
+      model.stock.forEach(function (c) {
+        for (d = 0; d < 6; d++) {
+          var ang = d * 2.1 + c.k, rr = 0.1 * frac(d * 0.41 + c.k * 0.17) * g;
+          disc(c.x + Math.cos(ang) * rr, c.y + Math.sin(ang) * rr, c.z, 0.04 * g, d % 2 ? [226, 98, 178] : [246, 150, 206], 0.85, 1000 + c.k * 8 + d);
+        }
+      });
+      model.euc.forEach(function (e) {
+        for (i = 1; i <= 3; i++) for (var sd = -1; sd <= 1; sd += 2) {
+          var along = 0.07 * i * g, off = sd * 0.05 * g, cs = Math.cos(e.ang), sn = Math.sin(e.ang);
+          disc(e.x + cs * along - sn * off, e.y + sn * along + cs * off, 0.3, 0.06 * g, [150, 184, 150], 0.75, 1200 + e.k * 8 + i * 2 + (sd > 0 ? 1 : 0));
+        }
+      });
+    }
+
     function drawStem(st, g) {
       var end = Math.floor(st.cnt * g), p = st.pts;
       for (var i = 1; i < end; i++) {
@@ -355,6 +400,7 @@
       swayA = motion * Math.sin(clock * 0.8) * 0.03;
       cosY = Math.cos(yaw); sinY = Math.sin(yaw); cosP = Math.cos(pitch); sinP = Math.sin(pitch);
 
+      drawFiller(ease((T - 0.6) / 2.4));
       model.stems.forEach(function (st) {
         var g = ease((T - st.delay) / 2.2);
         drawStem(st, g);

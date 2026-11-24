@@ -437,7 +437,7 @@
     if (loading) return;
     loading = true;
     var tag = document.createElement("script");
-    tag.src = "/bloom.js?v=1";
+    tag.src = "/bloom.js?v=2";
     tag.onload = function () { loading = false; if (window.Bloom) window.Bloom.open(); };
     tag.onerror = function () { loading = false; armed = true; };
     document.head.appendChild(tag);
