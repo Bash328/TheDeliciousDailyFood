@@ -326,9 +326,9 @@
     "  }",
     "  [class*='SidebarHeading'] { display: none; }",
     /* One link per category now (Dinner, Lunch, Dessert, Breakfast, Soup, Submitted):
-       lay them out as a single row you can swipe, not a tall stack. */
-    "  [class*='SidebarNavList'] { display: flex !important; gap: 8px; overflow-x: auto; padding: 0 12px 4px !important; margin: 0 !important; scrollbar-width: none; }",
-    "  [class*='SidebarNavList']::-webkit-scrollbar { display: none; }",
+       lay them out as pills that wrap onto a second line, so every list is visible
+       without swiping, and keep a gap under the search box above them. */
+    "  [class*='SidebarNavList'] { display: flex !important; flex-wrap: wrap; gap: 8px; padding: 0 12px 4px !important; margin: 14px 0 0 !important; }",
     "  [class*='SidebarNavList'] li { flex: 0 0 auto; }",
     "  [class*='SidebarNavLink'] { white-space: nowrap; border: 1.5px solid " + EDGE + " !important; border-radius: 999px !important; padding: 0 16px !important; }",
     "  [class*='SidebarNavLink'] svg, [class*='SidebarNavLink'] [class*='Icon'] { display: none !important; }",

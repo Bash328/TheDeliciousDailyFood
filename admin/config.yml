@@ -189,7 +189,8 @@ collections:
       - *f_submitted
 
   - name: "submitted"
-    label: "Submitted (from the public form)"
+    label: "Submitted"
+    description: "Recipes sent in through the public form."
     folder: "_recipes"
     create: false
     slug: "{{slug}}"
