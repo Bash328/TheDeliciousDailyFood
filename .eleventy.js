@@ -64,6 +64,7 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy("sprinkles.js");
   eleventyConfig.addPassthroughCopy("app.js");
   eleventyConfig.addPassthroughCopy("kitchen.js");
+  eleventyConfig.addPassthroughCopy("search.js");
   eleventyConfig.addPassthroughCopy("manifest.webmanifest");
 
   // Those two are passthrough copies, so nothing was stripping their comments
@@ -73,7 +74,7 @@ module.exports = function (eleventyConfig) {
   // style.css wasn't (docs/PERFORMANCE-NOTES.md explains why not), because
   // terser is already in the tree for the HTML minifier above — no new
   // dependency, and the source keeps its comments either way.
-  const PASSTHROUGH_SCRIPTS = ["grocery-list.js", "sprinkles.js", "app.js", "kitchen.js"];
+  const PASSTHROUGH_SCRIPTS = ["grocery-list.js", "sprinkles.js", "app.js", "kitchen.js", "search.js"];
   eleventyConfig.on("eleventy.after", async ({ dir }) => {
     const { minify } = require("terser");
     await Promise.all(
@@ -288,6 +289,27 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addGlobalData("kitchen", () => kitchen.pageData());
   eleventyConfig.addFilter("kitchenLines", (recipe) =>
     JSON.stringify(kitchen.recipeKitchen((recipe.data.recipeContent || {}).ingredients))
+  );
+
+  // The homepage search (search.js) loads this once: one row per recipe,
+  // [title, url, "35 min · 4 servings", cuisine, category, ingredient names].
+  // Ingredient names come from the My Kitchen matcher, so "chicken" finds
+  // every chicken recipe without shipping 3,000 ingredient lines.
+  eleventyConfig.addFilter("searchIndex", (recipes) =>
+    JSON.stringify(
+      (recipes || []).map((r) => {
+        const c = r.data.recipeContent || {};
+        const total = (c.prepTimeMinutes || 0) + (c.cookTimeMinutes || 0);
+        const time = total ? (total < 60 ? `${total} min` : `${Math.floor(total / 60)} hr${total % 60 ? ` ${total % 60} min` : ""}`) : "";
+        const serves = c.servingsNumber ? `${c.servingsNumber} ${String(c.servingsUnit || "servings").toLowerCase()}` : "";
+        const k = kitchen.recipeKitchen(c.ingredients);
+        // salt, pepper, oil and water are in nearly everything, so they'd only add noise
+        const ings = [...new Set([...k.n, ...k.o].flat().map((id) => kitchen.INGREDIENTS[id].name))]
+          .filter((n) => !kitchen.STAPLES.includes(n))
+          .join(", ");
+        return [r.data.title, r.url, [time, serves].filter(Boolean).join(" · "), r.data.cuisine || "", r.data.category || "", ings];
+      })
+    )
   );
 
   // "/cuisine/thai/" when that cuisine has a page, otherwise "" (so the label stays plain text)

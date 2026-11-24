@@ -356,6 +356,12 @@ h1, h2, h3 { margin: 0; font-family: var(--serif); font-weight: 400; }
    card, so they are on the first screen instead of buried under 100+ recipes. */
 /* margins, not padding: the phone .wrap rule sets padding: 0 20px and would wipe out vertical padding here */
 .browse { margin-top: 38px; margin-bottom: 28px; }
+.home-search { margin-top: 32px; }
+.home-search .browse-label { display: block; }
+.home-search-status { margin: 10px 0 0; font-size: 0.9375rem; color: var(--ink-soft); }
+.home-search-status:empty { display: none; }
+.home-search-results { margin-top: 4px; }
+.home-search + .browse { margin-top: 28px; }
 .browse-row + .browse-row { margin-top: 8px; }
 .browse-label { margin: 0 0 12px; font: 400 0.75rem var(--sans); letter-spacing: 0.22em; text-transform: uppercase; color: var(--ink-soft); }
 
@@ -637,7 +643,8 @@ h1, h2, h3 { margin: 0; font-family: var(--serif); font-weight: 400; }
 .kitchen { max-width: 720px; padding-bottom: 96px; }
 .kitchen-search { position: relative; margin: 24px 0 8px; }
 .kitchen-label { display: block; margin-bottom: 8px; font-size: 0.75rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--ink-soft); }
-.kitchen-search input {
+.kitchen-search input,
+.home-search input {
   width: 100%;
   min-height: 52px;
   padding: 0 16px;
