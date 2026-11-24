@@ -126,9 +126,10 @@ What it requires:
 
 | | |
 |---|---|
-| Photo | **Required.** A real JPEG, PNG or WebP, under 4 MB. |
+| Photo | **Optional.** If one is sent it must be a real JPEG, PNG or WebP, under 4 MB. A recipe without one shows as a text-only card. |
 | Title | 3–120 characters, no links. |
 | Category | One of the site's five. |
+| Cuisine | **Optional.** A short name (letters, spaces, hyphens, apostrophes; 2-30 characters), tidied to Title Case. It is written to the recipe's `cuisine` field, and links the recipe to that cuisine's page once two recipes share it. |
 | Description | At least 20 characters and 4 words, no links, 280 max. |
 | Recipe | At least 120 characters, and no more than 6000. |
 | — ingredients | At least 3 lines carrying an amount ("2 cups flour", "1 tsp salt"). |
@@ -167,7 +168,7 @@ the recipe's author, with the site as publisher.
 
 ### Photos
 
-One photo of the finished dish is required with every submission.
+One photo of the finished dish is welcome with a submission but optional. Without one, the recipe is committed with an empty `image:` and shows as a text-only card until a photo is added in the CMS.
 
 - The visitor's browser shrinks it before sending — longest edge 1600px (the
   widest size the site's image pipeline builds), re-encoded as JPEG. A 9 MB

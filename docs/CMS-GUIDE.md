@@ -51,7 +51,7 @@ the live site on the next rebuild.
 | Tag | Optional short style word shown on the recipe page (e.g. "One Skillet", "Weeknight"). Leave blank if you don't want one. |
 | Cuisine | The recipe's cuisine (e.g. Italian, Thai, South African). It shows above the title and links to that cuisine's page, and the homepage's "By cuisine" strip lists every cuisine with two or more recipes. Use an existing spelling so recipes group together; leave it blank if no cuisine fits. |
 | Short description | Used as the card blurb on the homepage, the intro line on the recipe page, the browser/search description, and the Pinterest pin description. One or two sentences. |
-| Photo | Upload an image here — it's saved into the `images/` folder automatically and used everywhere the recipe's photo appears. Leave blank and the recipe shows a plain placeholder until you add one. |
+| Photo | Upload an image here — it's saved into the `images/` folder automatically and used everywhere the recipe's photo appears. Leave it blank and the recipe shows as a text-only card (title, time and a short description) until you add one. |
 | Recipe | Prep/cook time, servings, ingredients, and steps, all in one field — see **Quick Paste** below, it's the fast way to fill this in. |
 | Note | Optional tip shown in a highlighted box at the end of the method. Leave blank to omit it. |
 | Draft — keep off the live site | While this is on, the recipe stays off the homepage and out of the sitemap — its page still exists at its own URL, just unlinked and marked not-to-be-indexed. Useful while you're still working on one, and it's how recipes arrive from the public submission form. Switch it off when it's ready to go live. |

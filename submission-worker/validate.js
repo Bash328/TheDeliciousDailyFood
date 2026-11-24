@@ -30,6 +30,16 @@ var SUBMISSION_LIMITS = {
   maxLinksInRecipe: 2,
 };
 
+// The cuisine is optional free text ("Thai", "South African", "Tex-Mex"): a short name,
+// letters, spaces, hyphens and apostrophes only. Returns the tidied, title-cased name,
+// "" when it was left blank, or null when it isn't usable.
+function normalizeCuisine(value) {
+  var v = String(value == null ? "" : value).trim().replace(/\s+/g, " ");
+  if (!v) return "";
+  if (!/^[A-Za-z][A-Za-z' -]{1,29}$/.test(v)) return null;
+  return v.toLowerCase().replace(/(^|[ -])([a-z])/g, function (m, sep, ch) { return sep + ch.toUpperCase(); });
+}
+
 // A step usually opens with an instruction, optionally behind "1." or a
 // bullet. Matching on the opening word rather than "contains a cooking verb
 // somewhere" is what keeps "1 cup melted butter" out of the step count.
@@ -132,7 +142,8 @@ function contentBeyondTemplate(text) {
 // first problem found. Fields are checked in the order they appear on the
 // form, so the message always points at the earliest thing to fix.
 //
-// `submission` is { title, category, description, raw, hasImage }.
+// `submission` is { title, category, cuisine, description, raw, instagram }. A photo is welcome
+// but not needed: a recipe without one shows as a text-only card on the site.
 function validateSubmission(submission) {
   var title = (submission.title || "").trim();
   var category = (submission.category || "").trim();
@@ -151,6 +162,13 @@ function validateSubmission(submission) {
     return { field: "category", message: "Pick a category." };
   }
 
+  if (submission.cuisine && normalizeCuisine(submission.cuisine) === null) {
+    return {
+      field: "cuisine",
+      message: "Keep the cuisine to a short name like Thai or South African, or leave it blank.",
+    };
+  }
+
   if (description.length < L.descriptionMin || wordCount(description) < 4) {
     return {
       field: "description",
@@ -161,13 +179,6 @@ function validateSubmission(submission) {
     return {
       field: "description",
       message: "Keep the description to a sentence or two, with no links.",
-    };
-  }
-
-  if (!submission.hasImage) {
-    return {
-      field: "photo",
-      message: "A photo of the finished dish is required — add one to send this in.",
     };
   }
 
@@ -231,6 +242,7 @@ function validateSubmission(submission) {
 export {
   validateSubmission,
   normalizeInstagram,
+  normalizeCuisine,
   SUBMISSION_LIMITS,
   SUBMISSION_CATEGORIES,
 };

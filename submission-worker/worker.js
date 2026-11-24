@@ -20,7 +20,7 @@
 //
 // Full walkthrough: ../docs/SUBMISSION-FORM-SETUP.md
 
-import { validateSubmission, normalizeInstagram } from "./validate.js";
+import { validateSubmission, normalizeInstagram, normalizeCuisine } from "./validate.js";
 
 const GITHUB_API = "https://api.github.com";
 // Generous enough for a 1600px JPEG (the form shrinks photos before sending)
@@ -109,6 +109,7 @@ function buildRecipeFile({
   title,
   slug,
   category,
+  cuisine,
   description,
   imagePath,
   creditName,
@@ -121,7 +122,7 @@ function buildRecipeFile({
     `slug: ${yamlString(slug)}`,
     `date: ${date}`,
     `category: ${yamlString(category)}`,
-    `tag: ""`,
+    ...(cuisine ? [`cuisine: ${yamlString(cuisine)}`] : []),
     `description: ${yamlString(description)}`,
     `image: ${yamlString(imagePath || "")}`,
     "recipeContent:",
@@ -290,6 +291,8 @@ async function handleSubmit(request, env) {
   // capped here.
   const title = String(payload.title || "").trim();
   const category = String(payload.category || "").trim();
+  // null = given but not usable (validateSubmission explains it); "" = left blank.
+  const cuisine = normalizeCuisine(payload.cuisine);
   const description = String(payload.description || "").trim();
   const raw = String(payload.raw || "").trim();
   const submitterName = String(payload.submitterName || "")
@@ -302,9 +305,9 @@ async function handleSubmit(request, env) {
   // turns that into a message; "" just means they left it blank.
   const submitterInstagram = normalizeInstagram(payload.submitterInstagram);
 
-  // A photo is required, and it has to be an actual photo — the byte check
-  // runs before the rest of the rules so "has an image" means "has one that
-  // would really commit", not "sent something in the image field".
+  // A photo is optional, but if one is sent it has to be an actual photo: the
+  // byte check runs before the rest of the rules, so a file that isn't a real
+  // JPEG, PNG or WebP is refused rather than committed.
   let imageBase64 = null;
   let imageExt = null;
   if (payload.image && payload.image.data) {
@@ -337,10 +340,10 @@ async function handleSubmit(request, env) {
   const problem = validateSubmission({
     title,
     category,
+    cuisine: payload.cuisine,
     description,
     raw,
     instagram: payload.submitterInstagram,
-    hasImage: !!imageExt,
   });
   if (problem) {
     return json(
@@ -415,6 +418,7 @@ async function handleSubmit(request, env) {
             title,
             slug,
             category,
+            cuisine: cuisine || "",
             description,
             imagePath,
             creditName: submitterName,
@@ -432,6 +436,7 @@ async function handleSubmit(request, env) {
       `**From:** ${contact}`,
       "",
       `**Category:** ${category}`,
+      `**Cuisine:** ${cuisine ? codeSpan(cuisine) : "not given"}`,
       `**Description:** ${codeSpan(description)}`,
       `**Photo:** ${imagePath ? "attached, see below" : "none sent"}`,
       `**Public credit:** ${

@@ -22,14 +22,14 @@ permalink: submit-recipe/
   automatically — it arrives as a draft for review, and only goes live if it's
   picked up and edited in.</p>
   <ol class="steps-list">
-    <li><b>1</b><span>You send the recipe and a photo of the finished dish.</span></li>
+    <li><b>1</b><span>You send the recipe, and a photo of the finished dish if you have one.</span></li>
     <li><b>2</b><span>It's reviewed before anything goes live.</span></li>
     <li><b>3</b><span>If it's published, you're credited by name or Instagram handle — only if you give one.</span></li>
   </ol>
-  <p class="submit-hint" style="margin-top:24px">Two things are needed for a recipe to be considered: a
-  <strong>photo of the finished dish</strong>, and the <strong>full recipe</strong>
+  <p class="submit-hint" style="margin-top:24px">What's needed is the <strong>full recipe</strong>
   — ingredients with their amounts, and the steps to make it. Anything short of
-  that can't be sent.</p>
+  that can't be sent. A <strong>photo of the finished dish</strong> is welcome but
+  optional: a recipe without one is shown as a text card, and a photo can be added later.</p>
 </aside>
 <div class="submit-main">
 
@@ -54,6 +54,15 @@ permalink: submit-recipe/
     <label class="pill"><input type="radio" name="category" value="{{ choice }}"><span>{{ choice }}</span></label>
     {%- endfor %}
   </div>
+
+  <label for="cuisine">Cuisine (optional)</label>
+  <p class="submit-hint">Where the dish is from, like Thai, Italian or South African. Leave it blank if you're not sure.</p>
+  <input type="text" id="cuisine" name="cuisine" maxlength="30" list="cuisine-list" autocomplete="off" autocapitalize="words">
+  <datalist id="cuisine-list">
+    {%- for c in collections.cuisines %}
+    <option value="{{ c.name }}">
+    {%- endfor %}
+  </datalist>
 
   <label for="description">Short description *</label>
   <textarea id="description" name="description" rows="2" required maxlength="280" placeholder="One or two sentences — what it is and why it's worth making."></textarea>
@@ -86,13 +95,13 @@ Instructions:
 3.
 </textarea>
 
-  <label for="photo">A photo of the finished dish *</label>
-  <p class="submit-hint">Required — one photo of the dish as you made it, not a
+  <label for="photo">A photo of the finished dish (optional)</label>
+  <p class="submit-hint">One photo of the dish as you made it, not a
   picture from somewhere else. Landscape works best. Big files are fine: your
   browser shrinks the photo before it's sent, so nothing slow is uploaded.
   JPEG, PNG or WebP (if you're on an iPhone and it won't take the file, it's
   probably HEIC — save or share it as a JPEG first).</p>
-  <input type="file" id="photo" name="photo" accept="image/jpeg,image/png,image/webp,image/*" required>
+  <input type="file" id="photo" name="photo" accept="image/jpeg,image/png,image/webp,image/*">
   <div id="photo-preview" class="submit-photo-preview" hidden>
     <img id="photo-preview-img" alt="Preview of the photo you selected">
     <button type="button" id="photo-remove" class="btn btn-small submit-photo-remove">Remove photo</button>
@@ -121,7 +130,7 @@ Instructions:
 </form>
 
 <p class="submit-hint">By sending a recipe you're confirming it's yours to
-share, photo included. If you give a name or an Instagram handle they're shown
+share, and the photo too if you add one. If you give a name or an Instagram handle they're shown
 as your credit on the recipe when it's published. Nothing else about you is
 collected.</p>
 </div>
@@ -291,6 +300,7 @@ collected.</p>
     var payload = {
       title: form.title.value.trim(),
       category: form.category.value,
+      cuisine: form.cuisine.value.trim(),
       description: form.description.value.trim(),
       raw: form.raw.value.trim(),
       submitterName: form.submitterName.value.trim(),
@@ -307,10 +317,10 @@ collected.</p>
     var problem = validateSubmission({
       title: payload.title,
       category: payload.category,
+      cuisine: payload.cuisine,
       description: payload.description,
       raw: payload.raw,
-      instagram: payload.submitterInstagram,
-      hasImage: !!photo
+      instagram: payload.submitterInstagram
     });
     if (problem) {
       fail(problem.field, problem.message);

@@ -1,7 +1,7 @@
 // Run with: npm test
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { validateSubmission, normalizeInstagram } from "./validate.js";
+import { validateSubmission, normalizeInstagram, normalizeCuisine } from "./validate.js";
 import { codeSpan } from "./worker.js";
 
 const base = {
@@ -51,8 +51,22 @@ test("the untouched template is refused on the recipe field", () => {
   assert.match(problem.message, /blank outline/);
 });
 
-test("a photo is required", () => {
-  assert.equal(validateSubmission({ ...base, hasImage: false }).field, "photo");
+test("a photo is optional", () => {
+  assert.equal(validateSubmission({ ...base, hasImage: false }), null);
+  assert.equal(validateSubmission({ ...base, hasImage: true }), null);
+});
+
+test("the cuisine is optional, and tidied when given", () => {
+  assert.equal(validateSubmission({ ...base, cuisine: "" }), null);
+  assert.equal(validateSubmission({ ...base, cuisine: "South African" }), null);
+  assert.equal(normalizeCuisine("  south   african "), "South African");
+  assert.equal(normalizeCuisine("tex-mex"), "Tex-Mex");
+  assert.equal(normalizeCuisine(""), "");
+  assert.equal(normalizeCuisine(undefined), "");
+  assert.equal(normalizeCuisine("<script>"), null);
+  assert.equal(normalizeCuisine("a"), null);
+  assert.equal(normalizeCuisine("x".repeat(31)), null);
+  assert.equal(validateSubmission({ ...base, cuisine: "http://evil.example" }).field, "cuisine");
 });
 
 test("instagram handles are reduced to a bare handle or refused", () => {
