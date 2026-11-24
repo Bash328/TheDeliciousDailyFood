@@ -100,7 +100,7 @@
       pixels = new Uint32Array(image.data.buffer);
       buildGlyphs();
       // bouquet spans about 2.9 wide by 3.5 tall in world units; leave room for the hint
-      var usableH = H - 36 * dpr;
+      var usableH = H - 56 * dpr; // keeps the bow clear of the hint
       // on a tall phone screen the bouquet is drawn narrower and taller, and sized to fill the width
       portrait = W / H < 0.8;
       var Ly = layout(), span = Ly.top - Ly.base;
@@ -141,7 +141,7 @@
       [0.0, -0.8, 0.34, 0.34, 1.8, 2], [-0.05, 0.82, 0.3, 0.3, 2.2, 0]
     ];
     var LILY_SPECS = [
-      [-0.55, 0.74, 0.6, 0.62, 2.0], [0.62, 0.66, 0.56, 0.58, 2.5], [-1.0, -0.05, 0.54, 0.58, 3.0],
+      [-0.5, 0.5, 0.6, 0.62, 2.0], [0.56, 0.44, 0.56, 0.58, 2.5], [-1.0, -0.05, 0.54, 0.58, 3.0],
       [1.05, -0.1, 0.58, 0.56, 3.5], [-0.45, -0.95, 0.52, 0.56, 4.0], [0.5, -1.0, 0.5, 0.54, 4.5]
     ];
 
@@ -151,7 +151,7 @@
       var fit = function (f) { var g = f.slice(); g[0] *= KX; g[1] *= KY; g[3] *= KS; return g; };
       var roses = ROSE_SPECS.map(fit), lilies = LILY_SPECS.map(fit), top = -9, low = 9;
       roses.concat(lilies).forEach(function (f) { top = Math.max(top, f[1] + f[3] * 1.2); low = Math.min(low, f[1] - f[3] * 1.2); });
-      return { roses: roses, lilies: lilies, top: top, base: low - 0.7, KX: KX, KY: KY };
+      return { roses: roses, lilies: lilies, top: top, base: low - 1.1, KX: KX, KY: KY };
     }
 
     function frame3(x, y, k) {
@@ -160,7 +160,7 @@
     }
 
     function buildModel(Ly) {
-      model = { roses: [], lilies: [], stems: [], breath: [], stock: [], euc: [] };
+      model = { roses: [], lilies: [], stems: [], breath: [], stock: [], euc: [], Ly: Ly };
       var base = Ly.base, roseSpecs = Ly.roses, lilySpecs = Ly.lilies;
       roseSpecs.forEach(function (f, i) {
         var fr = frame3(f[0], f[1], 0.15);
@@ -324,6 +324,84 @@
       }
     }
 
+    // ---- the wrap: fanned pink sheets behind, a gathered cone round the stems, a satin bow
+
+    function drawSheets(g) {
+      if (g <= 0) return;
+      var Ly = model.Ly, oy = Ly.base + 0.6, len = (Ly.top - Ly.base) * 0.8 * g;
+      var spread = portrait ? 0.55 : 0.8, deep = [226, 112, 156], pale = [255, 212, 228];
+      for (var k = 0; k < 7; k++) {
+        var ang = (k - 3) / 3 * spread, sn = Math.sin(ang), cs = Math.cos(ang);
+        var wk = (portrait ? 0.5 : 0.56) * (1 - 0.14 * Math.abs(k - 3) / 3);
+        var nu = clamp(Math.ceil(len * scale / cellH * 1.15), 8, 170), nv = clamp(Math.ceil(wk * 2 * scale / cellW * 1.15), 6, 110);
+        var id = ++curId;
+        for (var i = 0; i < nu; i++) {
+          var u = (i + 0.5) / nu, w = wk * (0.15 + 0.85 * Math.pow(u, 0.8)), uS = smooth(0.2, 1, u);
+          for (var j = 0; j < nv; j++) {
+            var v = (j + 0.5) / nv * 2 - 1;
+            if (u > 1 - 0.06 * (1 + Math.cos(v * 6 + k))) continue; // scalloped far edge
+            var fold = 0.5 + 0.5 * Math.sin(v * 11 + k * 2 + u * 2), tt = uS * (0.6 + 0.4 * fold);
+            splat(sn * len * u + cs * w * v, oy + cs * len * u - sn * w * v, -0.12 - 0.03 * k + 0.06 * Math.sin(v * 5 + k * 1.7 + u * 3),
+              deep[0] + (pale[0] - deep[0]) * tt, deep[1] + (pale[1] - deep[1]) * tt, deep[2] + (pale[2] - deep[2]) * tt,
+              0.2 + 0.24 * fold * (0.6 + 0.4 * u), 0, id);
+          }
+        }
+      }
+    }
+
+    function drawCone(g) {
+      if (g <= 0) return;
+      var Ly = model.Ly, H = 1.25 * g, id = ++curId;
+      var nu = clamp(Math.ceil(H * scale / cellH * 1.5), 6, 120), nv = clamp(Math.ceil(2 * scale / cellW * 1.4), 8, 140);
+      var deep = [214, 96, 142], pale = [250, 190, 214];
+      for (var i = 0; i < nu; i++) {
+        var u = (i + 0.5) / nu, h = u * H, hw = 0.1 + 0.95 * Math.pow(u, 1.1), uS = smooth(0.2, 1, u);
+        for (var j = 0; j < nv; j++) {
+          var v = (j + 0.5) / nv * 2 - 1;
+          if (u > 1 - 0.07 * (1 + Math.cos(v * 8)) * (g > 0.99 ? 1 : 0.5)) continue; // frilled top edge
+          var fold = 0.5 + 0.5 * Math.cos(v * 9 + u * 1.5), tt = uS * (0.6 + 0.4 * fold);
+          splat(hw * v, Ly.base + h, 0.2 + 0.3 * Math.sqrt(Math.max(0, 1 - v * v)) * hw + 0.03 * Math.sin(v * 7),
+            deep[0] + (pale[0] - deep[0]) * tt, deep[1] + (pale[1] - deep[1]) * tt, deep[2] + (pale[2] - deep[2]) * tt,
+            0.35 + 0.35 * fold, 0, id);
+        }
+      }
+    }
+
+    function ribbon(cx0, cy0, z, rx, ry, rot, thick, grow, id) {
+      var cr = Math.cos(rot), sr = Math.sin(rot), n = clamp(Math.ceil(TAU * Math.max(rx, ry) * scale / cellH * 2.5), 24, 260);
+      var m = clamp(Math.ceil(thick * scale / cellW * 2.4), 2, 14);
+      for (var t = 0; t < n; t++) {
+        var a = t / n * TAU, ex = Math.cos(a) * rx * grow, ey = Math.sin(a) * ry * grow;
+        var nx = Math.cos(a) * ry, ny = Math.sin(a) * rx, nl = Math.sqrt(nx * nx + ny * ny) || 1;
+        for (var q = 0; q < m; q++) {
+          var o = ((q + 0.5) / m - 0.5) * thick * grow;
+          var lx = ex + nx / nl * o, ly = ey + ny / nl * o, shine = 0.5 + 0.5 * Math.sin(a * 2 + 1);
+          splat(cx0 + lx * cr - ly * sr, cy0 + lx * sr + ly * cr, z + 0.05 * Math.sin(a * 2),
+            lerp(240, 255, shine), lerp(140, 214, shine), lerp(184, 230, shine), 0.55 + 0.4 * shine, 0, id);
+        }
+      }
+    }
+
+    function drawBow(g) {
+      if (g <= 0) return;
+      var Ly = model.Ly, by = Ly.base + 0.5, id = ++curId;
+      ribbon(-0.42 * g, by + 0.1, 0.95, 0.4, 0.21, 0.35, 0.09, g, id);
+      ribbon(0.42 * g, by + 0.1, 0.95, 0.4, 0.21, -0.35, 0.09, g, ++curId);
+      // two tails hanging down from the knot
+      for (var sd = -1; sd <= 1; sd += 2) {
+        var tid = ++curId, n = clamp(Math.ceil(0.5 * scale / cellH * 3), 12, 120);
+        for (var i = 0; i < n; i++) {
+          var u = i / n, x = sd * (0.04 + 0.28 * u * u + 0.05 * Math.sin(u * 5)) * g, y = by - 0.05 - 0.45 * u * g;
+          var wd = 0.05 + 0.05 * u, m = clamp(Math.ceil(wd * 2 * scale / cellW * 2.4), 2, 14);
+          for (var q = 0; q < m; q++) {
+            var o = ((q + 0.5) / m - 0.5) * 2 * wd, shine = 0.5 + 0.5 * Math.sin(u * 9 + q);
+            splat(x + o, y, 0.98, lerp(240, 255, shine), lerp(140, 214, shine), lerp(184, 230, shine), 0.55 + 0.4 * shine, 0, tid);
+          }
+        }
+      }
+      disc(0, by + 0.08, 1.0, 0.11 * g, [214, 96, 146], 0.7, ++curId); // the knot
+    }
+
     function drawFiller(g) {
       if (g <= 0) return;
       var d, i;
@@ -400,12 +478,15 @@
       swayA = motion * Math.sin(clock * 0.8) * 0.03;
       cosY = Math.cos(yaw); sinY = Math.sin(yaw); cosP = Math.cos(pitch); sinP = Math.sin(pitch);
 
+      drawSheets(ease((T - 0.2) / 2.2));
       drawFiller(ease((T - 0.6) / 2.4));
       model.stems.forEach(function (st) {
         var g = ease((T - st.delay) / 2.2);
         drawStem(st, g);
         st.leaves.forEach(function (lf) { drawLeaf(lf, ease((g - lf.s * 0.9) / 0.34)); });
       });
+      drawCone(ease((T - 0.8) / 2));
+      drawBow(ease((T - 2.2) / 1.2));
       model.roses.forEach(function (m) { drawRose(m, ease((T - 0.8 - m.delay) / 3)); });
       model.lilies.forEach(function (m) {
         var size = ease((T - 1.8 - m.wait) / 1.4), b = ease((T - 3 - m.wait) / 3);
