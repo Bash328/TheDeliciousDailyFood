@@ -75,6 +75,10 @@
   }
 
   var timer;
+  var clearBtn = document.getElementById("recipe-search-clear");
+  function syncClear() { if (clearBtn) clearBtn.hidden = !input.value; }
+  if (clearBtn) clearBtn.addEventListener("click", function () { input.value = ""; syncClear(); show(); input.focus(); });
+  input.addEventListener("input", syncClear);
   // A small surprise: searching for "paulette" opens a bouquet (same one as in the admin).
   // bloom.js is only fetched at that moment, so the page weighs exactly what it did.
   var bloomArmed = true, bloomLoading = false;
@@ -98,7 +102,7 @@
   input.addEventListener("focus", load, { once: true });
   input.addEventListener("input", function () { clearTimeout(timer); timer = setTimeout(show, 120); });
   input.addEventListener("keydown", function (e) {
-    if (e.key === "Escape") { input.value = ""; show(); }
+    if (e.key === "Escape") { input.value = ""; syncClear(); show(); }
     // Enter opens the top result
     if (e.key === "Enter") {
       e.preventDefault();
@@ -107,5 +111,6 @@
     }
   });
   // coming Back to the homepage can restore the typed text; show its results again
+  syncClear();
   if (input.value.trim()) show();
 })();

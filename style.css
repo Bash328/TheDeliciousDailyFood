@@ -655,6 +655,16 @@ h1, h2, h3 { margin: 0; font-family: var(--serif); font-weight: 400; }
   font: inherit;
   font-size: 1.0625rem; /* iOS zooms the page on any field under 16px */
 }
+.home-search-field { position: relative; }
+.home-search-field input { padding-right: 52px; }
+.home-search input::-webkit-search-cancel-button { -webkit-appearance: none; appearance: none; display: none; }
+.home-search-clear {
+  position: absolute; top: 0; right: 0; width: 52px; height: 52px;
+  display: flex; align-items: center; justify-content: center;
+  background: none; border: 0; padding: 0; color: var(--ink-soft); cursor: pointer;
+}
+.home-search-clear[hidden] { display: none; }
+.home-search-clear:hover { color: var(--ink); }
 .kitchen-suggest {
   position: absolute; left: 0; right: 0; top: 100%; z-index: 30;
   max-height: 340px; overflow-y: auto;

@@ -45,6 +45,14 @@ else from that audit is done.
 - [ ] **Quick picks (done) follow-ups:** "30 minutes or less" does not count
       chilling or rising. If that misleads, add an optional "active time" field.
 
+- [ ] **Ratings / "I made this".** Signed-in users only (reuse the email
+      sign-in in `api-worker/`): a one-tap "I made this" plus an optional 1-5
+      star rating per recipe, stored in the worker's database. Show it on
+      recipe pages and cards only once a recipe has about 3 ratings; add a
+      "Most made" quick pick; add `aggregateRating` to the Recipe JSON-LD only
+      when real ratings exist. Counts load from the worker (cache them) so the
+      static pages stay fast. No photo uploads or comment threads (moderation).
+
 ## Small polish
 
 - [ ] "Save to Pinterest" link is 23px tall — passes WCAG 2.5.8 on spacing,

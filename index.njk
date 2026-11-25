@@ -61,7 +61,10 @@ permalink: index.html
 
 <section class="wrap home-search" role="search" aria-label="Recipes">
   <label for="recipe-search" class="browse-label">Search {{ collections.recipes.length }} + 1 recipes</label>
-  <input type="search" id="recipe-search" placeholder="Try chicken, pasta, Thai…" autocomplete="off" autocapitalize="off" spellcheck="false" aria-describedby="recipe-search-status">
+  <div class="home-search-field">
+    <input type="search" id="recipe-search" placeholder="Try chicken, pasta, Thai…" autocomplete="off" autocapitalize="off" spellcheck="false" aria-describedby="recipe-search-status">
+    <button type="button" id="recipe-search-clear" class="home-search-clear" aria-label="Clear search" hidden><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M3 3l10 10M13 3L3 13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button>
+  </div>
   <p id="recipe-search-status" class="home-search-status" role="status"></p>
   <div id="recipe-search-results" class="rows home-search-results" hidden></div>
 </section>
