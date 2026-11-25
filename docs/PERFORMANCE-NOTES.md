@@ -45,6 +45,15 @@ it gives you, and regenerate the kit rather than hand-editing anything:
 Latin subset only, which already covers the accents recipes use (sauté, crème,
 jalapeño). Add `latin-ext` too if a recipe ever needs Central European letters.
 
+## One file per font family
+
+Both typefaces are variable fonts, but the kit used to save the same file once per
+weight (three identical copies of each). A page that used two weights downloaded
+the same 37 KB font twice. Now `fonts/cormorant-garamond.woff2` and
+`fonts/jost.woff2` each cover 400-600 through one `@font-face` rule with a weight
+range, so the homepage fetches 3 font files (about 90 KB) instead of 4 (about 127 KB).
+If you regenerate the kit, keep it this way: one file, one rule, a weight range.
+
 ## Pinterest's script only loads where it's used
 
 `pinit.js` exists to turn the Pin button on a recipe page into a real save
