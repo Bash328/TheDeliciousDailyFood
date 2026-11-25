@@ -65,6 +65,8 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy("app.js");
   eleventyConfig.addPassthroughCopy("kitchen.js");
   eleventyConfig.addPassthroughCopy("search.js");
+  // The bouquet easter egg lives in admin/ (its own deploy); the public search box loads the same file.
+  eleventyConfig.addPassthroughCopy({ "admin/bloom.js": "bloom.js" });
   eleventyConfig.addPassthroughCopy("manifest.webmanifest");
 
   // Those two are passthrough copies, so nothing was stripping their comments

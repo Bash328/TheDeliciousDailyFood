@@ -75,6 +75,26 @@
   }
 
   var timer;
+  // A small surprise: searching for "paulette" opens a bouquet (same one as in the admin).
+  // bloom.js is only fetched at that moment, so the page weighs exactly what it did.
+  var bloomArmed = true, bloomLoading = false;
+  function bloom() {
+    if (window.Bloom) { window.Bloom.open(); return; }
+    if (bloomLoading) return;
+    bloomLoading = true;
+    var tag = document.createElement("script");
+    tag.src = "/bloom.js?v=6";
+    tag.onload = function () { bloomLoading = false; if (window.Bloom) window.Bloom.open(); };
+    tag.onerror = function () { bloomLoading = false; bloomArmed = true; };
+    document.head.appendChild(tag);
+  }
+  input.addEventListener("input", function () {
+    if (input.value.trim().toLowerCase() !== "paulette") { bloomArmed = true; return; }
+    if (!bloomArmed) return;
+    bloomArmed = false;
+    bloom();
+  });
+
   input.addEventListener("focus", load, { once: true });
   input.addEventListener("input", function () { clearTimeout(timer); timer = setTimeout(show, 120); });
   input.addEventListener("keydown", function (e) {
