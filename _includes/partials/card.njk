@@ -7,7 +7,7 @@
     row's title already names the recipe; renders nothing without a photo. -#}
 {%- macro thumb(recipe) -%}
   {%- if recipe.data.image | imageSrc -%}
-    <img class="thumb" src="{{ recipe.data.image | imageSrc }}" alt="" sizes="84px" loading="lazy">
+    <img class="thumb" src="{{ recipe.data.image | imageSrc }}" alt="" sizes="84px" eleventy:widths="168,252" loading="lazy">
   {%- endif -%}
 {%- endmacro -%}
 {#- "35 min · 4 servings", leaving out whichever half the recipe doesn't have yet
